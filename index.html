@@ -170,6 +170,9 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
 .st-rd{color:var(--st-rd);background:var(--st-rd-bg)} .st-rumor{color:var(--st-rd);background:transparent;border:1px dashed var(--line-strong)}
 .conf{font-size:10.5px;font-family:var(--mono);border-radius:4px;padding:0 5px;border:1px solid currentColor;white-space:nowrap}
 .conf.c-off{color:var(--conf-off)} .conf.c-rep{color:var(--conf-rep)} .conf.c-est{color:var(--conf-est)}
+.warn,.warn-i{color:var(--st-build);font-size:12px}
+.warn{margin-top:2px}
+.card > .warn{background:var(--st-build-bg);border-radius:6px;padding:4px 8px;margin-top:0}
 .card details{font-size:12.5px;color:var(--ink-2)}
 .card details summary{cursor:pointer;color:var(--accent);font-size:12px}
 .card details ul{margin:6px 0 0;padding-left:18px}
@@ -300,6 +303,10 @@ footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid va
           <li>模型加總：<b>2025Q4 約 1,390 千片／月</b>（年化約 1,670 萬片），官方數字為「逾 1,700 萬片」，誤差約 2–4%，主要來自成熟廠的估計；2023–24 年成熟產能的歷史數據較少，模型可能低估約 5%。</li>
           <li>「規劃中」但沒有公布節點與時程的基地（沙崙、龍潭三期、竹東、F22 P6/P8/P9、亞利桑那 P5 以後），只列在清單中，<b>不計入產能圖</b>。</li>
           <li>先進封裝產能以「CoWoS／SoIC 晶圓片數」計，和前段晶圓產能不相加。InFO、WMCM、CoPoS 只做文字標示。</li>
+          <li>A16 屬 2nm 家族（與 N2P 同為 2nm-class），本頁併入「N2 家族」計算。</li>
+          <li>不含轉投資公司：SSMC（持股 38.8%）、世界先進（27.6%）、采鈺（67%，非晶圓代工）。</li>
+          <li>官方（2026/7 Q2 法說會）：未來數年將在台灣興建 13 座先進製程與先進封裝廠；A14 2027 年預量產、2028 年量產；A13／A12 2029 年量產；2026 年資本支出 600–640 億美元。</li>
+          <li><span class="warn-i">⚠ 留意</span>：資料互相矛盾、時程曾大幅變動，或廠號未經官方確認的項目。</li>
         </ul>
       </div>
       <div class="panel note">
@@ -312,6 +319,8 @@ footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid va
           <li>嘉義 AP7 各期用途屢次調整（WMCM／SoIC／CoWoS／CoPoS）</li>
           <li>中科 F25 時程：官方為 2028 下半年；媒體報導最快 2027 年底試產</li>
           <li>亞利桑那 P3 以後的時程，以及美國 AP1 的 CoWoS 規模</li>
+          <li>南科特定區 A 的正式廠號（F22 P7 或 F18 P10）與座數</li>
+          <li>ESMC 爬坡速度（官方：依客戶需求）、熊本餘震風險</li>
         </ul>
       </div>
     </div>
@@ -341,8 +350,9 @@ footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid va
        conf: off 官方 | rep 報導 | est 推估
    BENCH: 報導的節點/封裝總量，作為圖上 ◆ 對照
    ===================================================================== */
-const META = { updated: '2026-09-23', checked: '2026-09-23', version: 'v1.0', nowQ: '2026Q3' };
+const META = { updated: '2026-09-23', checked: '2026-09-23', version: 'v1.1', nowQ: '2026Q3' };
 const CHANGELOG = [
+  { d: '2026-09-23', t: 'v1.1 全面查核：ESMC 進機時程更正為 2027H2（2026/9 上樑典禮）；JASM 持股更正為 72.6%（20-F），一廠節點更正為 28/22nm（原規劃的 16/12nm 未量產），並補上 7/28 熊本地震與復工；JASM 二廠 2025/10 動工；南京 2026/1/2 取得年度出口許可；F22 P7／F18 P10 廠號說明；AP7 各期用途說法分歧；8 吋移轉世界先進；沙崙廠數未證實；新增 Q2 法說會官方說法；各項「⚠ 留意」註記。' },
   { d: '2026-09-23', t: '初版建立：32 個廠區／基地、65 個 phase；納入 2026/9 最新 2nm、3nm、CoWoS 產能報導，以及 F25、AP7、AP8、白埔、沙崙的進度。' }
 ];
 
@@ -375,14 +385,27 @@ const SOURCES = {
   s26: ['Nomad Semi：TSMC CoWoS capacity（2024/9）', 'https://www.nomadsemi.com/p/tsmcs-cowos-capacity'],
   s27: ['科技新報：2026 先進封裝投資焦點（AP6/AP7/AP8 產能，2026/1/5）', 'https://technews.tw/2026/01/05/advanced-semiconductor-packaging-will-become-an-investment-focus-in-2026/'],
   s28: ['鉅亨號：台積電各 Fab 產能（引 TrendForce 2025Q1 估計）', 'https://hao.cnyes.com/post/173342'],
-  s29: ['聯合報：南京廠獲美商務部出口許可', 'https://udn.com/news/story/7240/9240843'],
+  s29: ['聯合報：南京廠獲美商務部年度出口許可（2026/1/2）', 'https://udn.com/news/story/7240/9240843'],
   s30: ['Motley Fool：TSMC Q2 2026 法說會逐字稿（2026/7/16）', 'https://www.fool.com/earnings/call-transcripts/2026/07/16/tsm-tsm-q2-2026-earnings-call-transcript/'],
   s31: ['科技島：2 奈米 2027 年中月產能 11 萬片（2026/9/15）', 'https://www.technice.com.tw/issues/semicon/291991/'],
   s32: ['Techritual：2 奈米單廠月產能達 2 萬片（2026/7/27）', 'https://www.techritual.com/2026/07/27/561273/'],
   s33: ['Wikipedia：TSMC Arizona', 'https://en.wikipedia.org/wiki/TSMC_Arizona'],
   s34: ['Wikipedia：List of semiconductor fabrication plants', 'https://en.wikipedia.org/wiki/List_of_semiconductor_fabrication_plants'],
   s35: ['udn：南科沙崙環評聚焦用電', 'https://udn.com/news/story/7240/9761789'],
-  s36: ['本機檔案：台積電全球晶圓廠總覽.xlsx（先前整理）', '']
+  s36: ['本機檔案：台積電全球晶圓廠總覽.xlsx（先前整理）', ''],
+  s37: ['Focus Taiwan：ESMC 德國廠建設如期（2026/9/15）', 'https://focustaiwan.tw/business/202609150007'],
+  s38: ['Taipei Times：TSMC’s Germany venture hits milestone（2026/9/16）', 'https://www.taipeitimes.com/News/biz/archives/2026/09/16/2003864322'],
+  s39: ['科技新報：熊本工廠生產恢復至地震前水準（2026/8/4）', 'https://technews.tw/2026/08/04/tsmc-kumamoto-plant-production-pre-earthquake-levels/'],
+  s40: ['DIGITIMES：熊本廠 JASM 首度單季轉盈（2026/5）', 'https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000755614_GEV50J332KDBJB39GZLR5'],
+  s41: ['經濟日報：台積電將多數 8 吋代工釋出給世界先進', 'https://money.udn.com/money/story/5612/9319737'],
+  s42: ['聯合報：台積南科 2 奈米擴廠 後年完工（2026/2/21）', 'https://udn.com/news/story/7240/9335875'],
+  s43: ['方格子：南科特定區 A 建廠案通過環評（暫定 F18P10）', 'https://vocus.cc/article/69c4e365fd89780001933a43'],
+  s44: ['中央社：台積電 171.4 億元購群創南科廠房（2024/8/15）', 'https://www.cna.com.tw/news/afe/202408150354.aspx'],
+  s45: ['TrendForce：N2P 2H26、A16 同屬 2nm 家族（2025/10/16）', 'https://www.trendforce.com/news/2025/10/16/news-tsmc-confirms-n2p-for-2h26-joins-a16-to-cement-2nm-class-as-major-long-lived-node/'],
+  s46: ['TrendForce：亞利桑那三廠傳提前至 2027（2025/9/30）', 'https://www.trendforce.com/news/2025/09/30/news-tsmc-reportedly-pulls-arizona-third-fab-to-2027-ahead-by-one-year-eyeing-2nm-and-a16/'],
+  s47: ['工商時報：台積電沙崙建廠爭議（2026/9/18）', 'https://www.ctee.com.tw/news/20260918700958-431401'],
+  s48: ['經濟日報：美撤南京廠 VEU（2025/9）', 'https://money.udn.com/money/story/5612/9228338'],
+  s49: ['壹蘋新聞網：美國廠 Q1 獲利 188 億超越去年全年、熊本轉盈（2026/5/16）', 'https://news.nextapple.com/finance/20260516/4B44FC44611BD7A998A257670E7FC0F0']
 };
 
 const SITES = [
@@ -392,7 +415,7 @@ const SITES = [
   phases:[{ id:'全廠', st:'exit', nodes:'0.45µm 以上 成熟／特殊製程', tech:['MAT'], mp:'1990 量產', ms:'2025/8 宣布兩年內退出 6 吋；報導指 2027 年底停產', full:'約 30（TrendForce 2025Q1）；另有估計 83–88', conf:'est',
     cap:[{t:'2023Q1',n:'MAT',v:30},{t:'2026Q4',n:'MAT',v:15},{t:'2027Q4',n:'MAT',v:0}] }] },
 { id:'F3', code:'Fab 3', name:'晶圓三廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1995', adv:'0.15µm', owner:'台積電',
-  desc:'8 吋成熟邏輯、混合訊號與特殊製程。列入 8 吋產能整併計畫，部分訂單移轉世界先進。', src:['s1','s28','s36'],
+  desc:'8 吋成熟邏輯、混合訊號與特殊製程。列入 8 吋產能整併計畫。', warn:'報導：台積電 8 吋年產能約 500 萬片，約 8 成將透過轉單、設備移轉、技術合作逐步交給世界先進；台積電未公布各廠時程。', src:['s1','s28','s36','s41'],
   phases:[{ id:'全廠', st:'op', nodes:'0.35–0.15µm', tech:['MAT'], mp:'1995 量產', ms:'8 吋整併中', full:'約 60（另估 85）', conf:'est',
     cap:[{t:'2023Q1',n:'MAT',v:60}] }] },
 { id:'F5', code:'Fab 5', name:'晶圓五廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1997', adv:'0.15µm', owner:'台積電',
@@ -400,11 +423,11 @@ const SITES = [
   phases:[{ id:'全廠', st:'exit', nodes:'0.25–0.15µm、GaN', tech:['MAT'], mp:'1997 量產', ms:'GaN 2027/7/31 退出；報導 2027 年底關廠', full:'約 41', conf:'est',
     cap:[{t:'2023Q1',n:'MAT',v:41},{t:'2026Q4',n:'MAT',v:30},{t:'2027Q4',n:'MAT',v:0}] }] },
 { id:'F8', code:'Fab 8', name:'晶圓八廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1998', adv:'0.11µm', owner:'台積電',
-  desc:'8 吋成熟邏輯、感測器與特殊製程。', src:['s1','s28'],
+  desc:'8 吋成熟邏輯、感測器與特殊製程。', warn:'報導：台積電 8 吋年產能約 500 萬片，約 8 成將透過轉單、設備移轉、技術合作逐步交給世界先進；台積電未公布各廠時程。', src:['s1','s28','s41'],
   phases:[{ id:'全廠', st:'op', nodes:'0.18µm 以上（最先進 0.11µm）', tech:['MAT'], mp:'1998 量產', ms:'8 吋整併中', full:'約 90–93', conf:'est',
     cap:[{t:'2023Q1',n:'MAT',v:93},{t:'2025Q4',n:'MAT',v:90}] }] },
 { id:'F12', code:'Fab 12', name:'晶圓十二廠（12A／12B）', kind:'fab', region:'N', loc:'新竹科學園區（總部）', wafer:12, since:'2001', adv:'40nm（20-F，2025 年底）', owner:'台積電',
-  desc:'第一座 GIGAFAB，與總部、全球研發中心相鄰。20-F 列出 Fab 12 最先進的量產節點為 40nm；12B 與 P8–P9 是 N2、A16、A14 以下的研發基地。', src:['s1','s2','s28','s36'],
+  desc:'台積電第一座 12 吋廠（2001），與總部、全球研發中心相鄰。12B 與 P8–P9 是 N2、A16、A14 以下的研發基地。', warn:'20-F（FY2024、FY2025）都列 Fab 12 最先進的量產節點為 40nm，先進製程已不在此量產。第三方估計的約 135k 產能全部以成熟製程計，可能包含研發線。', src:['s1','s2','s28','s36'],
   phases:[
     { id:'P1–P7', st:'op', nodes:'0.13µm–40nm 成熟／特殊製程（量產線）', tech:['MAT'], mp:'2001 起', ms:'部分產線轉為研發用途', full:'約 132–135（TrendForce 2025）', conf:'est',
       cap:[{t:'2023Q1',n:'MAT',v:135},{t:'2025Q4',n:'MAT',v:132}] },
@@ -417,7 +440,7 @@ const SITES = [
       cap:[{t:'2025Q4',n:'N2',v:25},{t:'2026Q2',n:'N2',v:30}] },
     { id:'P2', st:'ramp', nodes:'N2／N2P', tech:['N2'], mp:'2026 放量', ms:'裝機、試產中', full:'約 25–30', conf:'rep',
       cap:[{t:'2026Q2',n:'N2',v:10},{t:'2026Q4',n:'N2',v:20},{t:'2027Q2',n:'N2',v:25}] },
-    { id:'P3', st:'build', nodes:'A14（1.4nm）', tech:['A14'], mp:'2027Q4～2028 量產', ms:'2026/9–12 進機；2027Q1 試產', full:'約 25（F20 兩期合計 4–5 萬）', conf:'rep',
+    { id:'P3', st:'build', nodes:'A14（1.4nm）', tech:['A14'], mp:'官方：A14 2027 預量產、2028 量產；報導 F20 最快 2027Q4', ms:'2026/9–12 進機；報導 2027Q1 試產', full:'約 25（F20 兩期合計 4–5 萬）', conf:'rep',
       cap:[{t:'2028Q1',n:'A14',v:15},{t:'2028Q4',n:'A14',v:25}] },
     { id:'P4', st:'build', nodes:'A14', tech:['A14'], mp:'2028 下半年起', ms:'2027/4–7 進機', full:'約 25', conf:'est',
       cap:[{t:'2028Q3',n:'A14',v:10},{t:'2029Q1',n:'A14',v:25}] }
@@ -432,9 +455,9 @@ const SITES = [
       cap:[{t:'2023Q1',n:'N7',v:150}] }
   ]},
 { id:'F25', code:'Fab 25', name:'晶圓二十五廠（中科二期）', kind:'fab', region:'C', loc:'中部科學園區 台中園區二期', wafer:12, since:'建設中', adv:'—', owner:'台積電',
-  desc:'A14 主力基地，規劃 4 座廠，後續接續 A13／A12。官方時程為 2025 年動工、2028 下半年量產；媒體報導 P1 最快 2027/4 完工試產，四廠 2028Q2 全數完工，屆時月產能 12–16 萬片。首期投資約 490 億美元。', src:['s4','s5','s6','s7','s18','s19'],
+  desc:'A14 主力基地，規劃 4 座廠，後續接續 A13／A12。官方時程為 2025 年動工、2028 年量產（Q2 法說會：A14 2027 年預量產）。首期投資約 490 億美元（報導）。', warn:'完工時程說法分歧：工商時報稱四廠 2028Q2 全數完工、月產能 12–16 萬片，科技新報則估 F25 在 2028 年只有 2–3 萬片。12–16 萬片是四廠滿載的推估。', src:['s4','s5','s6','s7','s18','s19','s30'],
   phases:[
-    { id:'P1', st:'build', nodes:'A14', tech:['A14'], mp:'2028H2 量產（官方）', ms:'2025/10 申報開工；2027Q1–Q2 進機；2027 年底試產', full:'約 30', conf:'rep',
+    { id:'P1', st:'build', nodes:'A14', tech:['A14'], mp:'2028 量產（官方）', ms:'2025/10 申報開工；報導 2027Q1–Q2 進機、2027 年底試產', full:'約 30', conf:'rep',
       cap:[{t:'2028Q3',n:'A14',v:15},{t:'2029Q1',n:'A14',v:30}] },
     { id:'P2', st:'build', nodes:'A14／A13', tech:['A14'], mp:'2028 年底前後', ms:'2026/4/23 取得建照', full:'約 30', conf:'est',
       cap:[{t:'2028Q4',n:'A14',v:15},{t:'2029Q2',n:'A14',v:30}] },
@@ -445,11 +468,11 @@ const SITES = [
   ]},
 /* ---------------- 南台灣 ---------------- */
 { id:'F6', code:'Fab 6', name:'晶圓六廠', kind:'fab', region:'S', loc:'南部科學園區 台南', wafer:8, since:'2000', adv:'0.11µm', owner:'台積電',
-  desc:'8 吋電源管理與特殊製程。列入 8 吋產能整併計畫。', src:['s1','s28'],
+  desc:'8 吋電源管理與特殊製程。列入 8 吋產能整併計畫。', warn:'報導：台積電 8 吋年產能約 500 萬片，約 8 成將透過轉單、設備移轉、技術合作逐步交給世界先進；台積電未公布各廠時程。', src:['s1','s28','s41'],
   phases:[{ id:'全廠', st:'op', nodes:'0.18µm 以上（最先進 0.11µm）', tech:['MAT'], mp:'2000 量產', ms:'8 吋整併中', full:'約 100', conf:'est',
     cap:[{t:'2023Q1',n:'MAT',v:102},{t:'2025Q4',n:'MAT',v:99}] }] },
 { id:'F14', code:'Fab 14', name:'晶圓十四廠（14A／14B）', kind:'fab', region:'S', loc:'南部科學園區 台南', wafer:12, since:'2004', adv:'16nm', owner:'台積電',
-  desc:'產能最大的 12 吋 GIGAFAB，承接 16/12nm FinFET、28nm，以及 40–130nm 特殊製程（射頻、嵌入式記憶體、CIS 等）。各節點拆分為推估。', src:['s1','s28','s34'],
+  desc:'第三方估計為產能最大的 12 吋 GIGAFAB（台積電未公布逐廠產能），承接 16/12nm FinFET、28nm，以及 40–130nm 特殊製程（射頻、嵌入式記憶體、CIS 等）。各節點拆分為推估。', src:['s1','s28','s34'],
   phases:[
     { id:'P1–P7', st:'op', nodes:'16/12nm、28nm、40–130nm 特殊製程', tech:['N16','N28','MAT'], mp:'2004 起', ms:'部分產能逐季微降', full:'約 330–338（TrendForce 2025）', conf:'est',
       cap:[{t:'2023Q1',n:'N16',v:120},{t:'2023Q1',n:'N28',v:40},{t:'2023Q1',n:'MAT',v:210},{t:'2024Q4',n:'MAT',v:190},{t:'2025Q4',n:'MAT',v:170}] }
@@ -465,7 +488,7 @@ const SITES = [
       cap:[{t:'2027Q2',n:'N3',v:15},{t:'2027Q4',n:'N3',v:30}] }
   ]},
 { id:'F22', code:'Fab 22', name:'晶圓二十二廠（高雄＋南科特定區 A）', kind:'fab', region:'S', loc:'高雄楠梓園區／台南安定（特定區 A）', wafer:12, since:'2025', adv:'2nm', owner:'台積電',
-  desc:'2nm 家族主力。原先公告的 7nm／28nm 計畫已取消，改為全面 N2／A16。P1 在 2025Q4 量產；P3 起導入 A16（超級電軌背面供電）。2nm 月產能（F20＋F22）：2025 年底約 4.5–5 萬片，2026 年底約 9–10 萬片，2027 年中約 11 萬片，2027 年約 13–14 萬片。', src:['s1','s3','s4','s5','s7','s31','s36'],
+  desc:'2nm 家族主力。原先公告的 7nm／28nm 計畫已取消，改為全面 N2／A16。P1 在 2025Q4 量產；P3 起導入 A16（超級電軌背面供電）。2nm 月產能（F20＋F22）：2025 年底約 4.5–5 萬片，2026 年底約 9–10 萬片，2027 年中約 11 萬片，2027 年約 13–14 萬片。', src:['s1','s3','s4','s5','s7','s31','s36','s42','s43','s45'],
   phases:[
     { id:'P1', st:'op', nodes:'N2', tech:['N2'], mp:'2025Q4 量產', ms:'試產結果穩定', full:'約 30', conf:'rep',
       cap:[{t:'2025Q4',n:'N2',v:20},{t:'2026Q2',n:'N2',v:30}] },
@@ -478,45 +501,45 @@ const SITES = [
     { id:'P5', st:'build', nodes:'N2／A16（未定）', tech:['N2'], mp:'2029（推估）', ms:'結構工程中；變更設計新增 SUP 棟', full:'約 25', conf:'est',
       cap:[{t:'2029Q1',n:'N2',v:10},{t:'2029Q3',n:'N2',v:25}] },
     { id:'P6', st:'plan', nodes:'N2／A16 或以下（未定）', tech:['N2'], mp:'未定', ms:'二階環評中，最快 2027Q2 通過；另傳評估導入 A14', full:'未計入', conf:'rep', cap:[] },
-    { id:'P7（特定區 A）', st:'build', nodes:'N2 家族', tech:['N2'], mp:'2028 竣工，2029 量產（推估）', ms:'2026/3/26 環評通過、5/18 開工、7/1 取得 3 張建照；2027Q4 進機。部分報導將此廠編為 F18 P10', full:'約 25–30', conf:'est',
-      cap:[{t:'2029Q1',n:'N2',v:10},{t:'2029Q3',n:'N2',v:25}] },
+    { id:'P7（特定區 A）', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2028 竣工；報導 2028 年起具產能', ms:'基地約 15.46 公頃；2026/3 環評通過、5/18 開工、7/1 取得 CUP／FAB／OFFICE 建照；2027Q4 進機', full:'約 25–30', conf:'rep', warn:'廠號尚未經官方確認：環評書件暫定名為「F18P10」，2026/5 開工看板標示「F22P7」。另有報導指特定區 A 共規劃 3 座 12 吋廠。',
+      cap:[{t:'2028Q4',n:'N2',v:10},{t:'2029Q2',n:'N2',v:25}] },
     { id:'P8–P9（特定區 A 擴建）', st:'plan', nodes:'2nm 世代以下（未定）', tech:['N2'], mp:'未定', ms:'擴建 35.56 公頃，環評 2026/7–8 公開；推估 2029 年取得使照', full:'未計入', conf:'rep', cap:[] }
   ]},
 /* ---------------- 海外 ---------------- */
 { id:'F21', code:'Fab 21', name:'TSMC Arizona（鳳凰城）', kind:'fab', region:'US', loc:'美國亞利桑那州 鳳凰城', wafer:12, since:'2024', adv:'5nm 家族（N4）', owner:'TSMC Arizona（100%）',
-  desc:'美國累計投資承諾於 2026/7 由 1,650 億美元上修至 2,650 億美元，規劃 6 座晶圓廠、2 座先進封裝廠與 1 座研發中心，並「可能」再加 4 座 2nm 以下晶圓廠。全部完成後，約 30% 的 2nm 以下產能位於亞利桑那。', src:['s1','s13','s14','s24','s33','s5','s30'],
+  desc:'美國累計投資承諾於 2026/7 由 1,650 億美元上修至 2,650 億美元，規劃 6 座晶圓廠、2 座先進封裝廠與 1 座研發中心，並「可能」再加 4 座 2nm 以下晶圓廠。全部完成後，約 30% 的 2nm 以下產能位於亞利桑那。2026 年另購一塊土地（20-F）。', warn:'P3 以後的時程，官方只說「盡可能加速、視市場而定」；各方報導從 2027 到 2030 年都有。', src:['s1','s13','s14','s24','s33','s5','s30','s46','s49'],
   phases:[
-    { id:'P1', st:'op', nodes:'N4／N5', tech:['N5'], mp:'2024Q4 量產', ms:'良率與台灣相當；2025 年獲利', full:'約 24–30', conf:'rep',
+    { id:'P1', st:'op', nodes:'N4／N5', tech:['N5'], mp:'2024Q4 量產', ms:'良率與台灣相當；2025 年獲利 161 億元，2026Q1 單季獲利約 188 億元，超過 2025 全年', full:'約 24–30', conf:'rep',
       cap:[{t:'2024Q4',n:'N5',v:10},{t:'2025Q2',n:'N5',v:20},{t:'2026Q2',n:'N5',v:24},{t:'2026Q4',n:'N5',v:30}] },
-    { id:'P2', st:'build', nodes:'N3', tech:['N3'], mp:'2027H2 量產', ms:'2026/4 完工；2026Q3 起進機（較原訂 2028 提前）', full:'約 24–30', conf:'rep',
+    { id:'P2', st:'build', nodes:'N3', tech:['N3'], mp:'2027H2 量產（官方）', ms:'廠房完工（報導時點 2025/9–2026/4 不一）；2026Q3 起進機，較原訂 2028 提前', full:'約 24–30', conf:'rep',
       cap:[{t:'2027Q4',n:'N3',v:10},{t:'2028Q2',n:'N3',v:20},{t:'2028Q4',n:'N3',v:30}] },
-    { id:'P3', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2028–2029（推估）', ms:'2025/4 動土；2026/5 主體封頂', full:'約 25–30', conf:'est',
-      cap:[{t:'2029Q2',n:'N2',v:10},{t:'2029Q4',n:'N2',v:25}] },
+    { id:'P3', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2028–2029（推估；報導最早 2027）', ms:'2025/4 動土；2026/5 主體封頂', full:'約 25–30', conf:'est',
+      cap:[{t:'2028Q4',n:'N2',v:10},{t:'2029Q2',n:'N2',v:25}] },
     { id:'P4', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2030（推估）', ms:'2026 年初開始初期建設', full:'約 25–30', conf:'est',
       cap:[{t:'2030Q2',n:'N2',v:10},{t:'2030Q4',n:'N2',v:25}] },
     { id:'P5–P6', st:'plan', nodes:'A16／A14 以下', tech:['N2','A14'], mp:'2030 以後', ms:'許可申請中；P6 部分用地傳改作先進封裝', full:'未計入', conf:'rep', cap:[] },
     { id:'後續 4 座', st:'plan', nodes:'2nm 以下', tech:['N2','A14'], mp:'未定', ms:'2026/7 Q2 法說會宣布「可能」再建 4 座', full:'未計入', conf:'off', cap:[] },
     { id:'研發中心', st:'rd', nodes:'製程研發', tech:[], mp:'—', ms:'規劃中', full:'非量產產能', conf:'off', cap:[] }
   ]},
-{ id:'F23', code:'Fab 23', name:'JASM（熊本）', kind:'fab', region:'JP', loc:'日本熊本縣 菊陽町', wafer:12, since:'2024', adv:'28nm（20-F，2025 年底）', owner:'JASM（台積電約 73%，Sony／DENSO／Toyota 參股）',
-  desc:'一廠在 2024/12 量產 22/28nm，12/16nm 接續導入，40nm 開發中。二廠在 2026/2 宣布由 6/7nm 升級為 3nm，月產能 1.5 萬片，總投資約 170 億美元，2028 年裝機並投產。', src:['s1','s11','s18','s19','s22','s36'],
+{ id:'F23', code:'Fab 23', name:'JASM（熊本）', kind:'fab', region:'JP', loc:'日本熊本縣 菊陽町', wafer:12, since:'2024', adv:'28nm（20-F，2025 年底）', owner:'JASM（台積電約 72.6%，20-F 截至 2026/2；Sony／DENSO／Toyota 參股）',
+  desc:'一廠在 2024/12 量產 28/22nm，40nm 開發中；原規劃的 16/12nm 尚未量產。二廠在 2025/10 動工，2026/2 宣布由 6/7nm 升級為 3nm，月產能 1.5 萬片，總投資約 170 億美元（報導），2028 年裝機並投產。', warn:'2026/7/28 熊本發生規模 7.1 地震（廠區震度 5 強）。一廠停機檢查校正，8/3 宣布恢復至震前生產水準，估計影響台積電 Q3 營收約 0.03%；二廠工地 7/29 復工。', src:['s1','s11','s18','s19','s22','s36','s39','s40'],
   phases:[
-    { id:'P1', st:'op', nodes:'28/22nm、16/12nm（40nm 開發中）', tech:['N28','N16'], mp:'2024/12 量產', ms:'2026 年 28/22nm 產出為 2025 年的 20 倍；2026Q1 首度獲利', full:'55（官方設計）', conf:'off',
-      cap:[{t:'2024Q4',n:'N28',v:45},{t:'2024Q4',n:'N16',v:10}] },
-    { id:'P2', st:'build', nodes:'N3（原 6/7nm）', tech:['N3'], mp:'2028', ms:'台灣經濟部 2026/4 核准；2028 裝機與量產', full:'15', conf:'off',
+    { id:'P1', st:'op', nodes:'28/22nm（40nm 開發中；原規劃 16/12nm）', tech:['N28','MAT'], mp:'2024/12 量產', ms:'2026 年 28/22nm 產出為 2025 年的 20 倍；2026Q1 首度單季獲利（淨利 9.5 億元）', full:'55（官方設計）；報導實際約 4–5 萬', conf:'off',
+      cap:[{t:'2024Q4',n:'N28',v:55}] },
+    { id:'P2', st:'build', nodes:'N3（原 6/7nm）', tech:['N3'], mp:'2028', ms:'2025/10 動工（20-F）；2026/2 宣布升級 3nm；台灣經濟部 2026/4 核准；2028 裝機與量產', full:'15', conf:'off',
       cap:[{t:'2028Q4',n:'N3',v:5},{t:'2029Q2',n:'N3',v:15}] },
     { id:'三廠', st:'rumor', nodes:'未定', tech:[], mp:'未定', ms:'業界評估 2030 年後可能擴建，公司未宣布', full:'未計入', conf:'rep', cap:[] }
   ]},
 { id:'F24', code:'Fab 24', name:'ESMC（德勒斯登）', kind:'fab', region:'DE', loc:'德國 德勒斯登', wafer:12, since:'建設中', adv:'—', owner:'ESMC（台積電 70%，Bosch／Infineon／NXP 各 10%）',
-  desc:'歐洲首座廠，主攻車用與工業，採 28/22nm 平面 CMOS 與 16/12nm FinFET，月產能 4 萬片。總投資逾 100 億歐元，德國補助 50 億歐元。', src:['s1','s12','s16','s5'],
+  desc:'歐洲首座廠，主攻車用與工業，採 28/22nm 平面 CMOS 與 16/12nm FinFET，月產能 4 萬片（年產能 48 萬片）。總投資逾 100 億歐元，德國補助 50 億歐元。', warn:'2025 年底報導原本是 2026H2 進機；2026/9 上樑典禮時更新為 2027H2 首批製程設備進機，2027 年底初步營運，量產爬坡依客戶與市場需求而定。', src:['s1','s12','s16','s5','s37','s38'],
   phases:[
-    { id:'P1', st:'build', nodes:'28/22nm、16/12nm FinFET', tech:['N28','N16'], mp:'2027 年底量產', ms:'2024/8 動土；主體結構 2025 年底完成、2026/1 封頂典禮；2026H2 進機', full:'40（官方）', conf:'off',
-      cap:[{t:'2027Q4',n:'N28',v:5},{t:'2028Q2',n:'N28',v:15},{t:'2028Q2',n:'N16',v:5},{t:'2028Q4',n:'N28',v:25},{t:'2028Q4',n:'N16',v:15}] }
+    { id:'P1', st:'build', nodes:'28/22nm、16/12nm FinFET', tech:['N28','N16'], mp:'2027 年底初步營運（官方）', ms:'2024/8 動土；2026/1 中央建物最後一根鋼樑；2026/9/14 上樑典禮；2027H2 首批製程設備進機', full:'40（官方）', conf:'off',
+      cap:[{t:'2028Q2',n:'N28',v:5},{t:'2028Q4',n:'N28',v:15},{t:'2028Q4',n:'N16',v:5},{t:'2029Q2',n:'N28',v:25},{t:'2029Q2',n:'N16',v:10},{t:'2029Q4',n:'N16',v:15}] }
   ]},
 { id:'F16', code:'Fab 16', name:'台積電南京廠', kind:'fab', region:'CN', loc:'中國江蘇 南京浦口', wafer:12, since:'2018', adv:'16nm', owner:'TSMC Nanjing（100%）',
-  desc:'16/12nm 與 28nm。美方撤銷 VEU 授權，自 2025/12/31 生效，改為逐案或年度出口許可，2026 年已取得年度許可。依美國晶片法規定，產能擴充受限。', src:['s1','s29','s36'],
+  desc:'16/12nm 與 28nm，2018/4 開始商業生產（20-F）。美方撤銷 VEU 授權，自 2025/12/31 生效；台積電在 2026/1/2 宣布取得美國商務部的年度出口許可，營運不中斷。依美國晶片法規定，產能擴充受限。', src:['s1','s29','s36','s48'],
   phases:[
-    { id:'P1', st:'op', nodes:'16/12nm FinFET', tech:['N16'], mp:'2018 量產', ms:'年度設備出口許可', full:'約 20–25', conf:'est',
+    { id:'P1', st:'op', nodes:'16/12nm FinFET', tech:['N16'], mp:'2018 量產', ms:'2026/1/2 取得年度出口許可', full:'約 20–25', conf:'est',
       cap:[{t:'2023Q1',n:'N16',v:20}] },
     { id:'28nm 擴建', st:'op', nodes:'28nm', tech:['N28'], mp:'2022H2 起爬坡', ms:'原規劃 4 萬片，實際擴產受出口管制影響', full:'約 20（原規劃 40）', conf:'est',
       cap:[{t:'2023Q1',n:'N28',v:20}] }
@@ -529,7 +552,7 @@ const SITES = [
   phases:[{ id:'全廠', st:'op', nodes:'0.25–0.15µm', tech:['MAT'], mp:'1998 量產', ms:'—', full:'約 35–38', conf:'est', cap:[{t:'2023Q1',n:'MAT',v:38}] }] },
 /* ---------------- 新基地（未編廠號） ---------------- */
 { id:'L-SL', code:'沙崙', name:'南科四期 沙崙園區', kind:'land', region:'S', loc:'台南 歸仁／沙崙', wafer:12, since:'規劃中', adv:'—', owner:'台積電（需求用地）',
-  desc:'A10 或更先進製程基地，規劃約 12 座廠，新增用電約 2.7GW。', src:['s5','s35'],
+  desc:'1nm（A10）或更先進製程基地。園區 506.9 公頃，長期用電需求 2.7GW，預估年產值 2.2 兆元。', warn:'廠數未經官方證實：方格子整理稱約 12 座，較早的報導則說可容納 6 座 12 吋廠。環團關注用電量與草鴞棲地，二階環評仍在審查。', src:['s5','s35','s47'],
   phases:[{ id:'全區', st:'plan', nodes:'A10 或更先進', tech:['A14'], mp:'2030 以後', ms:'2026/5/27 一階環評通過；9/18 二階範疇界定；預計 2027Q3 環評通過、2027Q4 交地', full:'未計入', conf:'rep', cap:[] }] },
 { id:'L-LT', code:'龍潭三期', name:'竹科龍潭園區三期', kind:'land', region:'N', loc:'桃園 龍潭', wafer:12, since:'規劃中', adv:'—', owner:'政府開發（台積電需求）',
   desc:'2023 年因用地爭議退出後由政府重啟。規劃 3 座廠，製程為 A14 以下（埃米級），報導投資 5,000–6,000 億元。', src:['s5','s25'],
@@ -565,7 +588,7 @@ const SITES = [
     { id:'AP6B／C', st:'op', nodes:'SoIC／CoWoS 擴建', tech:['SoIC','CoWoS'], mp:'2025 起', ms:'AP6B 2024/12 取得使照，2026/4 變更設計再擴建；第三期已取得使照', full:'併入 AP6A 數字', conf:'rep', cap:[] }
   ]},
 { id:'AP7', code:'AP7', name:'先進封測七廠（嘉義）', kind:'ap', region:'S', loc:'南科嘉義園區（一期、二期）', wafer:null, since:'2026', adv:'—', owner:'台積電',
-  desc:'將成為台積電最大的先進封裝基地，規劃多達 8 期，整合 WMCM、SoIC、CoWoS 與 CoPoS。各期用途歷經多次調整：P1 為 Apple 專用 WMCM；P2 原本主打 SoIC，報導指因 CoWoS 需求改為以 CoWoS 為主（另一說 P2 仍含約 1.2 萬片 SoIC）；二期 P3、P4 以 SoIC 為主。CoPoS 試產線的機台在 2026/2 起進駐，量產目標 2028–29 年。', src:['s5','s8','s9','s10','s20','s27','s36'],
+  desc:'將成為台積電最大的先進封裝基地，規劃多達 8 期，整合 WMCM、SoIC、CoWoS 與 CoPoS。各期用途歷經多次調整：P1 為 Apple 專用 WMCM；P2 原本主打 SoIC，報導指因 CoWoS 需求改為以 CoWoS 為主（另一說 P2 仍含約 1.2 萬片 SoIC）；二期 P3、P4 以 SoIC 為主。CoPoS 試產線的機台在 2026/2 起進駐，量產目標 2028–29 年。', warn:'各期編號與用途報導不一：2025 年底工商時報與 TrendForce 稱 P2 為 Apple WMCM、P1 以 SoIC 為主；2026 年的報導改稱 P1 為 WMCM、P2 由 SoIC 改以 CoWoS 為主。本頁採 2026 年的說法。', src:['s5','s8','s9','s10','s20','s27','s36'],
   phases:[
     { id:'P1', st:'ramp', nodes:'WMCM（Apple）', tech:['WMCM'], mp:'2026 投產', ms:'已裝機試營運', full:'未公布（非 CoWoS）', conf:'rep', cap:[] },
     { id:'P2', st:'build', nodes:'CoWoS＋SoIC', tech:['CoWoS','SoIC'], mp:'2026 年底起', ms:'2026/6 進機', full:'CoWoS 約 30、SoIC 約 12（推估）', conf:'est',
@@ -578,7 +601,7 @@ const SITES = [
     { id:'P5–P8', st:'plan', nodes:'SoIC／CoWoS／CoPoS', tech:['SoIC','CoWoS','CoPoS'], mp:'未定', ms:'P5 規劃中；另規劃嘉義二期約 6 座 3D 封裝廠', full:'未計入', conf:'rep', cap:[] }
   ]},
 { id:'AP8', code:'AP8', name:'先進封測八廠（台南）', kind:'ap', region:'S', loc:'南科台南園區（原群創廠房＋三期）', wafer:null, since:'2025', adv:'—', owner:'台積電',
-  desc:'2024/8 以 171.4 億元買下群創 5.5 代廠後改建，樓地板面積約為 AP6 的 9 倍，主攻 CoWoS-L。P1 到 2026 年底月產能逾 4 萬片；P2、P3 位於南科三期。', src:['s5','s8','s26','s27','s36'],
+  desc:'2024/8/15 以 171.4 億元買下群創南科 4 廠（5.5 代 LCD 廠，建物面積約 31.7 萬平方公尺）後改建，樓地板面積約為 AP6 的 9 倍，主攻 CoWoS-L。P1 到 2026 年底月產能逾 4 萬片；P2、P3 位於南科三期。', src:['s5','s8','s26','s27','s36','s44'],
   phases:[
     { id:'P1', st:'ramp', nodes:'CoWoS-L', tech:['CoWoS'], mp:'2025H2 投產', ms:'2026 年底月產能逾 4 萬片', full:'約 40–45', conf:'rep',
       cap:[{t:'2025Q3',k:'CoWoS',v:3},{t:'2025Q4',k:'CoWoS',v:10},{t:'2026Q2',k:'CoWoS',v:25},{t:'2026Q4',k:'CoWoS',v:45}] },
@@ -611,7 +634,7 @@ const BENCH = {
   N3:  [['2025Q4',150,'逾 15 萬'],['2026Q4',180,'約 18 萬'],['2027Q2',210,'21 萬'],['2028Q4',300,'逾 30 萬']],
   N5:  [['2025Q4',165,'16–17 萬'],['2026Q4',140,'減 2–3 萬']],
   A14: [['2028Q4',65,'6–7 萬（F20＋F25 初期）']],
-  CoWoS: [[2023,13,'1.3 萬'],[2024,32.5,'3–3.5 萬'],[2025,75,'7–8 萬'],[2026,127.5,'12.5–13 萬'],[2027,200,'至少 20 萬'],[2028,260,'26 萬']],
+  CoWoS: [[2023,13,'1.3 萬'],[2024,32.5,'3–3.5 萬'],[2025,75,'7–8 萬'],[2026,127.5,'12.5–13 萬（另有 14 萬之說）'],[2027,200,'至少 20 萬（另有 17 萬、24–26 萬）'],[2028,260,'26 萬']],
   SoIC:  [[2024,4,'4 千'],[2025,8,'8 千'],[2026,12.5,'1–1.5 萬'],[2027,50,'上修至 5 萬']]
 };
 const OFFICIAL_TOTAL = [['2024','約 1,700 萬片／年'],['2025','逾 1,700 萬片／年']];
@@ -855,7 +878,7 @@ function renderKPIs(){
 }
 
 /* ---------- filters ---------- */
-function phaseText(s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],...(p.tech||[]).map(t=>TECH_L[t]+' '+t)].join(' ').toLowerCase(); }
+function phaseText(s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,s.warn||'',p.warn||'',p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],...(p.tech||[]).map(t=>TECH_L[t]+' '+t)].join(' ').toLowerCase(); }
 function phaseMatch(s,p){
   if (state.kind.size && !state.kind.has(s.kind)) return false;
   if (state.region.size && !state.region.has(s.region)) return false;
@@ -919,10 +942,11 @@ function renderList(){
         <div class="card-h"><div><div class="code">${esc(s.code)}</div><div class="cname">${esc(s.name)}</div></div>
           <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end"><span class="tag">${KINDS[s.kind]}</span><span class="tag">${REGIONS.find(r=>r.k===s.region).s}</span></div></div>
         <div class="meta"><span>📍 ${esc(s.loc)}</span>${s.wafer?`<span>${s.wafer} 吋</span>`:''}<span>投產 ${esc(s.since)}</span>${s.adv&&s.adv!=='—'?`<span>最先進量產：${esc(s.adv)}</span>`:''}</div>
+        ${s.warn?`<div class="warn">⚠ ${esc(s.warn)}</div>`:''}
         <div class="capline">${capHTML}<div style="margin-left:auto;text-align:right"><div class="lbl">${qlab(i)}</div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${Object.keys(stc).map(k=>`<span class="pill st-${k}">${STATUS[k].l}${stc[k]>1?' ×'+stc[k]:''}</span>`).join('')}</div></div></div>
         <div class="phases">${s.phases.map((p,pi)=>`<div class="ph${m[pi]?'':' dim'}">
             <div class="pn">${esc(p.id)}<div style="margin-top:3px">${pill(p.st)}</div></div>
-            <div class="pd"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'・'+esc(p.ms):''}</div><div class="when">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div></div>
+            <div class="pd"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'・'+esc(p.ms):''}</div><div class="when">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div>${p.warn?`<div class="warn">⚠ ${esc(p.warn)}</div>`:''}</div>
             <div class="pc">${capCell(s,p,i)}</div></div>`).join('')}</div>
         <details><summary>廠區說明與來源</summary><p style="margin:6px 0 0">${esc(s.desc)}</p><div class="meta" style="margin-top:6px"><span>持有：${esc(s.owner)}</span></div><div class="srcs">來源：${srcLinks(s.src)}</div></details>
       </article>`;
@@ -932,7 +956,7 @@ function renderList(){
     vis.forEach(({s,m})=>s.phases.forEach((p,pi)=>{ if(!m[pi]) return;
       const now = capAt(p,i); const nowV = Object.entries(now).reduce((a,[k,v])=>a+v,0);
       const mx = phaseMax(p); const mxV = Object.values(mx).reduce((a,b)=>a+b,0);
-      rows.push({ site:s.code, name:s.name, ph:p.id, kind:KINDS[s.kind], region:REGIONS.find(r=>r.k===s.region).s, loc:s.loc, wafer:s.wafer?s.wafer+'"':'封裝', nodes:p.nodes, st:p.st, mp:p.mp, ms:p.ms, now:nowV, max:mxV, full:p.full, conf:p.conf, s });
+      rows.push({ site:s.code, name:s.name, ph:p.id, kind:KINDS[s.kind], region:REGIONS.find(r=>r.k===s.region).s, loc:s.loc, wafer:s.wafer?s.wafer+'"':'封裝', nodes:p.nodes, st:p.st, mp:p.mp, ms:[p.ms, p.warn&&('⚠ '+p.warn), s.warn&&('⚠ '+s.warn)].filter(Boolean).join('　'), now:nowV, max:mxV, full:p.full, conf:p.conf, s });
     }));
     const cols = [['site','廠區'],['ph','Phase'],['kind','類型'],['region','地區'],['wafer','尺寸'],['nodes','製程／技術'],['st','狀態'],['mp','量產時間'],['now',qlab(i)+' 產能',1],['max','模型滿載',1],['conf','可信度'],['ms','進度／備註']];
     if (state.sort.k){ const k = state.sort.k, d = state.sort.dir; rows.sort((a,b)=> (typeof a[k]==='number' ? (a[k]-b[k]) : String(a[k]).localeCompare(String(b[k]),'zh-Hant')) * d); }
