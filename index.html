@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YSTEFHDCGG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YSTEFHDCGG');
+</script>
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+</style>
+<title>台積電產能版圖</title>
+<meta name="description" content="台積電全球晶圓廠與先進封裝廠逐廠、逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa; --line:#dde3ea; --line-strong:#c4ced9;
+  --ink:#111a24; --ink-2:#44525f; --ink-3:#6b7885;
+  --accent:#0d5c70; --accent-soft:#e1eef2; --accent-ink:#ffffff;
+  --st-op:#1d7a45; --st-op-bg:#e3f3e9;
+  --st-ramp:#0b6b8a; --st-ramp-bg:#e0f0f6;
+  --st-build:#9a5b00; --st-build-bg:#fbefd9;
+  --st-plan:#4a5a78; --st-plan-bg:#e8ecf4;
+  --st-conv:#6b3fa0; --st-conv-bg:#efe7f8;
+  --st-exit:#b42318; --st-exit-bg:#fbe7e5;
+  --st-rd:#5b6570; --st-rd-bg:#eceff2;
+  --conf-off:#1d7a45; --conf-rep:#0b6b8a; --conf-est:#9a5b00;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
+  --grid:rgba(17,26,36,.08); --shadow:0 1px 2px rgba(17,26,36,.06),0 4px 16px rgba(17,26,36,.05);
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0c1117; --surface:#141b23; --surface-2:#19222c; --line:#253140; --line-strong:#34424f;
+    --ink:#e6edf3; --ink-2:#aab6c2; --ink-3:#7f8c98;
+    --accent:#5cb8cf; --accent-soft:#16303a; --accent-ink:#06151a;
+    --st-op:#5fcf8c; --st-op-bg:#15301f; --st-ramp:#5cc2e0; --st-ramp-bg:#10303b;
+    --st-build:#f0b44c; --st-build-bg:#35270e; --st-plan:#a9b8d6; --st-plan-bg:#222b3b;
+    --st-conv:#c3a0f0; --st-conv-bg:#2c2140; --st-exit:#f28b82; --st-exit-bg:#3a1a18;
+    --st-rd:#aab4be; --st-rd-bg:#242b33;
+    --conf-off:#5fcf8c; --conf-rep:#5cc2e0; --conf-est:#f0b44c;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+    --grid:rgba(230,237,243,.08); --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0c1117; --surface:#141b23; --surface-2:#19222c; --line:#253140; --line-strong:#34424f;
+  --ink:#e6edf3; --ink-2:#aab6c2; --ink-3:#7f8c98;
+  --accent:#5cb8cf; --accent-soft:#16303a; --accent-ink:#06151a;
+  --st-op:#5fcf8c; --st-op-bg:#15301f; --st-ramp:#5cc2e0; --st-ramp-bg:#10303b;
+  --st-build:#f0b44c; --st-build-bg:#35270e; --st-plan:#a9b8d6; --st-plan-bg:#222b3b;
+  --st-conv:#c3a0f0; --st-conv-bg:#2c2140; --st-exit:#f28b82; --st-exit-bg:#3a1a18;
+  --st-rd:#aab4be; --st-rd-bg:#242b33;
+  --conf-off:#5fcf8c; --conf-rep:#5cc2e0; --conf-est:#f0b44c;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --grid:rgba(230,237,243,.08); --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1320px;margin:0 auto}
+a{color:var(--accent)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+header.top{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-block:28px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,4vw,40px);line-height:1.15;margin:4px 0 6px;text-wrap:balance;letter-spacing:.02em}
+.lede{color:var(--ink-2);max-width:68ch;margin:0}
+.asof{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:300px;box-shadow:var(--shadow)}
+.asof label{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-3)}
+.asof .q{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink)}
+.asof input[type=range]{width:100%;accent-color:var(--accent)}
+.asof .hint{font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between}
+.asof .reset{border:0;background:none;color:var(--accent);cursor:pointer;padding:0;font-size:12px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-block:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .k{font-size:12px;color:var(--ink-3)}
+.kpi .v{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1.2;margin-top:2px}
+.kpi .v small{font-size:13px;font-weight:400;color:var(--ink-3);margin-left:4px}
+.kpi .s{font-size:12px;color:var(--ink-2);margin-top:4px}
+
+/* disclaimer */
+.disclaimer{margin-top:16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;background:var(--st-build-bg);color:var(--ink);border:1px solid var(--st-build);border-radius:10px;padding:10px 14px;font-size:13px}
+.disclaimer > b:first-child{font-size:11px;font-family:var(--mono);letter-spacing:.06em;color:var(--st-build);border:1px solid var(--st-build);border-radius:4px;padding:0 6px}
+
+/* sections */
+section{margin-top:28px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:12px}
+h2{font-size:18px;margin:0;font-weight:700}
+.sec-h p{margin:0;color:var(--ink-3);font-size:13px}
+.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.panel.wide{grid-column:1/-1}
+.panel h3{margin:0;font-size:15px}
+.panel .sub{font-size:12px;color:var(--ink-3);margin:2px 0 10px}
+.panel-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:flex-start}
+.cbox{position:relative;height:320px}
+.cbox.tall{height:380px}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:5px 12px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend i.dia{width:9px;height:9px;border-radius:1px;transform:rotate(45deg);background:transparent!important;border:2px solid var(--ink)}
+details.datatable{margin-top:10px;font-size:12px}
+details.datatable summary{cursor:pointer;color:var(--accent)}
+.tscroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--ink-3);font-weight:500;white-space:nowrap;background:var(--surface-2);position:sticky;top:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* filters */
+.filters{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:var(--shadow)}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.frow .fl{font-size:12px;color:var(--ink-3);width:64px;flex:none}
+.search{flex:1 1 260px;display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px;background:var(--surface-2)}
+.search input{border:0;background:transparent;outline:none;flex:1;min-width:0}
+.chip{border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:3px 11px;font-size:12px;cursor:pointer;color:var(--ink-2);white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:500}
+.chip .n{font-family:var(--mono);color:var(--ink-3);margin-left:4px}
+.fcount{font-size:12px;color:var(--ink-3);margin-left:auto}
+.clear{border:0;background:none;color:var(--accent);cursor:pointer;font-size:12px}
+.collapse-f{display:none}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.code{font-family:var(--mono);font-weight:600;font-size:20px;line-height:1.1}
+.cname{font-size:13px;color:var(--ink-2)}
+.tag{font-size:11px;border:1px solid var(--line-strong);border-radius:6px;padding:1px 7px;color:var(--ink-2);white-space:nowrap}
+.meta{font-size:12px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:4px 12px}
+.capline{display:flex;gap:18px;align-items:baseline;border-block:1px dashed var(--line);padding-block:8px}
+.capline .big{font-family:var(--mono);font-size:22px;font-weight:600}
+.capline .lbl{font-size:11px;color:var(--ink-3)}
+.phases{display:flex;flex-direction:column}
+.ph{display:grid;grid-template-columns:78px 1fr auto;gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line);align-items:start}
+.ph:last-child{border-bottom:0}
+.ph.dim{opacity:.35}
+.ph .pn{font-family:var(--mono);font-size:12px;font-weight:600}
+.ph .pd{font-size:12.5px;min-width:0}
+.ph .pd .nodes{font-weight:500}
+.ph .pd .when{color:var(--ink-3);font-size:12px}
+.ph .pc{text-align:right;font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.ph .pc small{display:block;color:var(--ink-3);font-size:11px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;border-radius:999px;padding:0 8px;line-height:19px;white-space:nowrap;font-weight:500}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-op{color:var(--st-op);background:var(--st-op-bg)} .st-ramp{color:var(--st-ramp);background:var(--st-ramp-bg)}
+.st-build{color:var(--st-build);background:var(--st-build-bg)} .st-plan{color:var(--st-plan);background:var(--st-plan-bg)}
+.st-conv{color:var(--st-conv);background:var(--st-conv-bg)} .st-exit{color:var(--st-exit);background:var(--st-exit-bg)}
+.st-rd{color:var(--st-rd);background:var(--st-rd-bg)} .st-rumor{color:var(--st-rd);background:transparent;border:1px dashed var(--line-strong)}
+.conf{font-size:10.5px;font-family:var(--mono);border-radius:4px;padding:0 5px;border:1px solid currentColor;white-space:nowrap}
+.conf.c-off{color:var(--conf-off)} .conf.c-rep{color:var(--conf-rep)} .conf.c-est{color:var(--conf-est)}
+.card details{font-size:12.5px;color:var(--ink-2)}
+.card details summary{cursor:pointer;color:var(--accent);font-size:12px}
+.card details ul{margin:6px 0 0;padding-left:18px}
+.srcs{font-size:11.5px;margin-top:6px;color:var(--ink-3)}
+.srcs a{margin-right:8px}
+.empty{padding:40px;text-align:center;color:var(--ink-3);background:var(--surface);border:1px dashed var(--line-strong);border-radius:12px;margin-top:14px}
+
+/* table view */
+#tableView{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+#tableView .tscroll{max-height:70vh}
+#tableView th{cursor:pointer;user-select:none}
+#tableView th[aria-sort]::after{content:" ▾";color:var(--accent)}
+#tableView th[aria-sort=ascending]::after{content:" ▴"}
+#tableView td{font-size:12.5px}
+
+/* notes */
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+.note{font-size:13px;color:var(--ink-2)}
+.note ol,.note ul{padding-left:20px;margin:6px 0}
+.note li{margin-bottom:4px}
+.srclist{font-size:12px;columns:2;column-gap:28px}
+.srclist li{break-inside:avoid;margin-bottom:4px}
+footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px}
+
+@media (max-width:1000px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .charts,.two{grid-template-columns:1fr}
+  .srclist{columns:1}
+}
+@media (max-width:640px){
+  header.top{grid-template-columns:1fr}
+  .asof{min-width:0}
+  .kpi .v{font-size:22px}
+  .grid{grid-template-columns:1fr}
+  .cbox{height:280px}
+  .frow .fl{width:100%}
+  .filters{position:static}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">TSMC Capacity Atlas · 晶圓廠 × 先進封裝 · 逐廠逐期</div>
+      <h1>台積電產能版圖</h1>
+      <p class="lede">涵蓋台積電全球所有晶圓廠（已量產、建設中、規劃中）與先進封裝廠，逐一列出每個 phase 的製程節點、產能與量產時程。產能單位為<b>千片／月</b>；合計一律換算成 12 吋約當（8 吋 ÷2.25、6 吋 ÷4）。拖動右側時間軸，可以查看任一季的產能狀況。</p>
+    </div>
+    <div class="asof">
+      <label for="asof"><span>檢視時間點（季末）</span><span id="asofTag"></span></label>
+      <div class="q" id="asofLabel">2026Q3</div>
+      <input type="range" id="asof" min="0" max="31" step="1" value="14" aria-label="檢視時間點">
+      <div class="hint"><span class="mono">2023Q1</span><button class="reset" id="asofReset" type="button">回到本季</button><span class="mono">2030Q4</span></div>
+    </div>
+  </header>
+
+  <div class="disclaimer" role="note"><b>AI 自動收集資料</b>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表台積電（TSMC）官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section id="charts">
+    <div class="sec-h"><h2>產能演進</h2><p>實線／面積＝本頁逐期模型加總；◆＝公司或媒體報導的節點總量，用來對照校準。虛線右側為預估。</p></div>
+    <div class="charts">
+      <div class="panel wide">
+        <div class="panel-h">
+          <div><h3>晶圓產能合計（12 吋約當，千片／月）</h3><div class="sub">前段晶圓製程，不含封裝。堆疊依製程節點或地區分組</div></div>
+          <div class="seg" role="group" aria-label="分組方式"><button type="button" data-g="node" aria-pressed="true">依節點</button><button type="button" data-g="region" aria-pressed="false">依地區</button><button type="button" data-g="adv" aria-pressed="false">只看 ≤7nm</button></div>
+        </div>
+        <div class="cbox tall"><canvas id="cTotal" aria-label="晶圓產能合計堆疊面積圖"></canvas></div>
+        <div class="legend" id="lgTotal"></div>
+      </div>
+      <div class="panel">
+        <h3>先進節點產能（千片／月）</h3><div class="sub">N5/N4、N3、N2 家族（含 N2P／A16）、A14；◆為報導值</div>
+        <div class="cbox"><canvas id="cAdv" aria-label="先進節點產能折線圖"></canvas></div>
+        <div class="legend" id="lgAdv"></div>
+      </div>
+      <div class="panel">
+        <h3>各廠區產能分布（<span class="asofTxt">2026Q3</span>，12 吋約當）</h3><div class="sub">晶圓廠，依選定時間點</div>
+        <div class="cbox"><canvas id="cSite" aria-label="各廠區產能長條圖"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>CoWoS 產能（年底，千片／月）</h3><div class="sub">依封裝廠堆疊；◆為報導的全公司總量</div>
+        <div class="cbox"><canvas id="cCowos" aria-label="CoWoS 產能堆疊長條圖"></canvas></div>
+        <div class="legend" id="lgCowos"></div>
+      </div>
+      <div class="panel">
+        <h3>SoIC 產能（年底，千片／月）</h3><div class="sub">依封裝廠堆疊；◆為報導的全公司目標</div>
+        <div class="cbox"><canvas id="cSoic" aria-label="SoIC 產能堆疊長條圖"></canvas></div>
+        <div class="legend" id="lgSoic"></div>
+      </div>
+      <div class="panel wide">
+        <details class="datatable" open>
+          <summary>年底產能彙總表（千片／月）</summary>
+          <div class="tscroll"><table id="yeTable"></table></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="list">
+    <div class="sec-h"><h2>廠區與各期明細</h2>
+      <div class="seg" role="group" aria-label="檢視方式"><button type="button" data-v="cards" aria-pressed="true">卡片</button><button type="button" data-v="table" aria-pressed="false">表格</button></div>
+    </div>
+    <div class="filters" id="filters">
+      <div class="frow">
+        <label class="search" for="q"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）"></label>
+        <span class="fcount" id="fcount"></span><button class="clear" id="fclear" type="button">清除篩選</button>
+      </div>
+      <div class="frow" id="fKind"><span class="fl">類型</span></div>
+      <div class="frow" id="fRegion"><span class="fl">地區</span></div>
+      <div class="frow" id="fStatus"><span class="fl">狀態</span></div>
+      <div class="frow" id="fTech"><span class="fl">製程／封裝</span></div>
+    </div>
+    <div class="grid" id="cards"></div>
+    <div id="tableView" hidden><div class="tscroll"><table id="phTable"></table></div></div>
+    <div class="empty" id="empty" hidden>沒有符合條件的廠區，請調整篩選或搜尋字詞。</div>
+  </section>
+
+  <section id="method">
+    <div class="two">
+      <div class="panel note">
+        <h3>資料說明與可信度</h3>
+        <ul>
+          <li><span class="conf c-off">官方</span> 取自台積電 20-F（2025 年報，截至 2026/2/28）、官網、法說會或技術論壇。廠號、量產年份、最先進量產節點都以 20-F 為準。</li>
+          <li><span class="conf c-rep">報導</span> 取自工商時報、經濟日報、DIGITIMES、TrendForce、科技新報等媒體或法人報告。</li>
+          <li><span class="conf c-est">推估</span> 台積電<b>不公布逐廠產能</b>。各期產能是依第三方逐廠估計（TrendForce 2025），再用官方總量「2025 年逾 1,700 萬片 12 吋約當」以及各節點的報導總量回推校準。</li>
+          <li>模型加總：<b>2025Q4 約 1,390 千片／月</b>（年化約 1,670 萬片），官方數字為「逾 1,700 萬片」，誤差約 2–4%，主要來自成熟廠的估計；2023–24 年成熟產能的歷史數據較少，模型可能低估約 5%。</li>
+          <li>「規劃中」但沒有公布節點與時程的基地（沙崙、龍潭三期、竹東、F22 P6/P8/P9、亞利桑那 P5 以後），只列在清單中，<b>不計入產能圖</b>。</li>
+          <li>先進封裝產能以「CoWoS／SoIC 晶圓片數」計，和前段晶圓產能不相加。InFO、WMCM、CoPoS 只做文字標示。</li>
+        </ul>
+      </div>
+      <div class="panel note">
+        <h3>更新紀錄</h3>
+        <ul id="changelog"></ul>
+        <h3 style="margin-top:14px">值得持續追蹤</h3>
+        <ul>
+          <li>CoWoS 2027 年底目標：各方說法從 17 萬、20 萬到 24–26 萬片不等</li>
+          <li>SoIC 2027 年目標由 2 萬上修至 5 萬片，但廠區分配尚未明朗</li>
+          <li>嘉義 AP7 各期用途屢次調整（WMCM／SoIC／CoWoS／CoPoS）</li>
+          <li>中科 F25 時程：官方為 2028 下半年；媒體報導最快 2027 年底試產</li>
+          <li>亞利桑那 P3 以後的時程，以及美國 AP1 的 CoWoS 規模</li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel note" style="margin-top:14px">
+      <h3>資料來源</h3>
+      <ol class="srclist" id="srclist"></ol>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+/* =====================================================================
+   DATA — 更新時只改這個區塊
+   ---------------------------------------------------------------------
+   SITES[]: 一個廠區（Fab / AP / 新基地）
+     kind: 'fab' | 'ap' | 'land'   region: N C S US JP DE CN
+     wafer: 12 | 8 | 6 | null(封裝)   src: 來源 id 陣列
+     phases[]: 各期
+       st:  op 量產 | ramp 爬坡 | build 建設/裝機 | plan 規劃 | conv 轉換 | exit 淘汰 | rd 研發/非產能 | rumor 評估/傳聞
+       tech: 篩選用標籤（A14 N2 N3 N5 N7 N16 N28 MAT CoWoS SoIC InFO WMCM CoPoS Test）
+       cap: 產能時間點（原生晶圓尺寸，千片/月）。自該季起生效，直到同 key 下一筆。
+            晶圓廠 {t:'2026Q4', n:'N2', v:30}；封裝 {t:'2026Q4', k:'CoWoS', v:40}
+            轉換 = 同一季同時寫舊節點降值、新節點升值；關廠 = v:0
+       conf: off 官方 | rep 報導 | est 推估
+   BENCH: 報導的節點/封裝總量，作為圖上 ◆ 對照
+   ===================================================================== */
+const META = { updated: '2026-09-23', checked: '2026-09-23', version: 'v1.0', nowQ: '2026Q3' };
+const CHANGELOG = [
+  { d: '2026-09-23', t: '初版建立：32 個廠區／基地、65 個 phase；納入 2026/9 最新 2nm、3nm、CoWoS 產能報導，以及 F25、AP7、AP8、白埔、沙崙的進度。' }
+];
+
+const SOURCES = {
+  s1: ['台積電 Form 20-F FY2025（2026/4）', 'https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm'],
+  s2: ['TSMC 官網：GIGAFAB Facilities', 'https://www.tsmc.com/english/dedicatedFoundry/manufacturing/gigafab'],
+  s3: ['TrendForce：2nm/3nm 至 2027 年中擴產、CoWoS 2028 倍增（2026/9/14）', 'https://www.trendforce.com/news/2026/09/14/news-tsmc-reportedly-targets-22-2nm-16-3nm-capacity-boost-by-mid-2027-cowos-to-double-by-2028'],
+  s4: ['科技新報：傳 A14 明年 Q1 試產、2/3 奈米產能續升（2026/9/18）', 'https://technews.tw/2026/09/18/tsmc-a14-rumored-q1-trial-production-next-year-2-3nm-capacity-continues-rise/'],
+  s5: ['方格子：台積電全國建廠大盤點（持續更新，2026/9/19）', 'https://vocus.cc/article/69958cfffd8978000145f44d'],
+  s6: ['工商時報：A14 四座廠估 2028Q2 完工（2026/9/19）', 'https://www.ctee.com.tw/news/20260919700014-430201'],
+  s7: ['TrendForce：台灣 2026 年多達 10 座廠建設中（2026/2/23）', 'https://www.trendforce.com/news/2026/02/23/news-tsmc-speeds-up-expansion-in-taiwan-up-to-10-fabs-reportedly-under-construction-or-starting-in-2026/'],
+  s8: ['DIGITIMES：傳 2027 年 CoWoS 月產能至少 20 萬片（2026/7/10）', 'https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000758962_JM8LNQ2Y5FVI793XXKPAW'],
+  s9: ['工商時報：嘉義 AP7 進機、2026 先進封裝布局（2025/11/29）', 'https://www.ctee.com.tw/news/20251129700046-439901'],
+  s10: ['TrendForce：AP7 2026 出貨、亞利桑那 P6 轉封裝（2025/12/4）', 'https://www.trendforce.com/news/2025/12/04/news-tsmc-speeds-advanced-packaging-ap7-targets-2026-output-arizona-p6-eyed-for-u-s-packaging-hub/'],
+  s11: ['Taipei Times：熊本二廠升級 3nm 獲准（2026/4/1）', 'https://www.taipeitimes.com/News/biz/archives/2026/04/01/2003854797'],
+  s12: ['Evertiq：ESMC 德勒斯登廠封頂（2026/1/28）', 'https://evertiq.com/design/2026-01-28-esmc-holds-topping-out-ceremony-at-dresden-fab-site'],
+  s13: ['TechTimes：亞利桑那投資增至 2,650 億美元（2026/7/17）', 'https://www.techtimes.com/articles/320841/20260717/tsmc-lifts-arizona-265-billion-after-record-quarter-four-fabs-target-ai-packaging-bottleneck.htm'],
+  s14: ['azfamily：TSMC 追加 1,000 億美元（2026/7/27）', 'https://www.azfamily.com/2026/07/27/tsmc-adds-100b-arizona-plans-leaders-call-it-chipmaking-gold-rush/'],
+  s15: ['TrendForce：Fab 2、Fab 5 於 2027 年前關閉（2025/8/13）', 'https://www.trendforce.com/news/2025/08/13/news-tsmc-reportedly-phases-out-legacy-production-closing-6-inch-fab-2-and-8-inch-fab-5-by-2027/'],
+  s16: ['經濟日報：中科 15A 廠擬轉 4 奈米（2026/5/6）', 'https://money.udn.com/money/story/5612/9484129'],
+  s17: ['Global Semi Research：3nm 擴產路線（2026/1/13）', 'https://gtoai.substack.com/p/decoding-tsmcs-advanced-process-roadmap'],
+  s18: ['台積電 2026 技術論壇重點整理（2026/5）', 'https://vocus.cc/article/6a0730edfd89780001e7ca95'],
+  s19: ['科技新報：2026 年在台新建四座晶圓廠、兩座封裝廠（2026/5/14）', 'https://technews.tw/2026/05/14/taiwan-will-build-four-new-wafer-fabs-and-two-advanced-packaging-plants-by-2026/'],
+  s20: ['TrendForce：CoPoS 試產線（2026/4/13）', 'https://www.trendforce.com/news/2026/04/13/news-tsmc-advances-panel-level-packaging-copos-pilot-line-reportedly-set-for-june-completion-2028-29-ramp-eyed/'],
+  s21: ['中央社：台積電進駐高雄白埔園區（2026/9/1）', 'https://www.cna.com.tw/news/afe/202609010303.aspx'],
+  s22: ['Wikipedia：Japan Advanced Semiconductor Manufacturing', 'https://en.wikipedia.org/wiki/Japan_Advanced_Semiconductor_Manufacturing'],
+  s23: ['TSMC 新聞稿：先進封測六廠啟用（2023/6）', 'https://pr.tsmc.com/english/news/3033'],
+  s24: ['TrendForce：亞利桑那二廠 2H27 3nm 量產（2026/3/24）', 'https://www.trendforce.com/news/2026/03/24/news-tsmc-reportedly-eyes-2h27-3nm-mass-production-at-arizona-fab-2-four-u-s-fabs-said-to-be-fully-booked/'],
+  s25: ['Taipei Times：龍潭園區擴建（2026/5/4）', 'https://www.taipeitimes.com/News/biz/archives/2026/05/04/2003856743'],
+  s26: ['Nomad Semi：TSMC CoWoS capacity（2024/9）', 'https://www.nomadsemi.com/p/tsmcs-cowos-capacity'],
+  s27: ['科技新報：2026 先進封裝投資焦點（AP6/AP7/AP8 產能，2026/1/5）', 'https://technews.tw/2026/01/05/advanced-semiconductor-packaging-will-become-an-investment-focus-in-2026/'],
+  s28: ['鉅亨號：台積電各 Fab 產能（引 TrendForce 2025Q1 估計）', 'https://hao.cnyes.com/post/173342'],
+  s29: ['聯合報：南京廠獲美商務部出口許可', 'https://udn.com/news/story/7240/9240843'],
+  s30: ['Motley Fool：TSMC Q2 2026 法說會逐字稿（2026/7/16）', 'https://www.fool.com/earnings/call-transcripts/2026/07/16/tsm-tsm-q2-2026-earnings-call-transcript/'],
+  s31: ['科技島：2 奈米 2027 年中月產能 11 萬片（2026/9/15）', 'https://www.technice.com.tw/issues/semicon/291991/'],
+  s32: ['Techritual：2 奈米單廠月產能達 2 萬片（2026/7/27）', 'https://www.techritual.com/2026/07/27/561273/'],
+  s33: ['Wikipedia：TSMC Arizona', 'https://en.wikipedia.org/wiki/TSMC_Arizona'],
+  s34: ['Wikipedia：List of semiconductor fabrication plants', 'https://en.wikipedia.org/wiki/List_of_semiconductor_fabrication_plants'],
+  s35: ['udn：南科沙崙環評聚焦用電', 'https://udn.com/news/story/7240/9761789'],
+  s36: ['本機檔案：台積電全球晶圓廠總覽.xlsx（先前整理）', '']
+};
+
+const SITES = [
+/* ---------------- 新竹／北台灣 ---------------- */
+{ id:'F2', code:'Fab 2', name:'晶圓二廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:6, since:'1990', adv:'0.45µm', owner:'台積電',
+  desc:'台積電唯一的 6 吋廠，生產電源管理與分離式元件等特殊製品。2025/8 宣布兩年內退出 6 吋業務。', src:['s1','s15','s28'],
+  phases:[{ id:'全廠', st:'exit', nodes:'0.45µm 以上 成熟／特殊製程', tech:['MAT'], mp:'1990 量產', ms:'2025/8 宣布兩年內退出 6 吋；報導指 2027 年底停產', full:'約 30（TrendForce 2025Q1）；另有估計 83–88', conf:'est',
+    cap:[{t:'2023Q1',n:'MAT',v:30},{t:'2026Q4',n:'MAT',v:15},{t:'2027Q4',n:'MAT',v:0}] }] },
+{ id:'F3', code:'Fab 3', name:'晶圓三廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1995', adv:'0.15µm', owner:'台積電',
+  desc:'8 吋成熟邏輯、混合訊號與特殊製程。列入 8 吋產能整併計畫，部分訂單移轉世界先進。', src:['s1','s28','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'0.35–0.15µm', tech:['MAT'], mp:'1995 量產', ms:'8 吋整併中', full:'約 60（另估 85）', conf:'est',
+    cap:[{t:'2023Q1',n:'MAT',v:60}] }] },
+{ id:'F5', code:'Fab 5', name:'晶圓五廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1997', adv:'0.15µm', owner:'台積電',
+  desc:'8 吋成熟與特殊製程，包含 GaN 代工。GaN 代工服務將在 2027/7/31 結束，報導指全廠 2027 年底前停產。', src:['s1','s15','s28'],
+  phases:[{ id:'全廠', st:'exit', nodes:'0.25–0.15µm、GaN', tech:['MAT'], mp:'1997 量產', ms:'GaN 2027/7/31 退出；報導 2027 年底關廠', full:'約 41', conf:'est',
+    cap:[{t:'2023Q1',n:'MAT',v:41},{t:'2026Q4',n:'MAT',v:30},{t:'2027Q4',n:'MAT',v:0}] }] },
+{ id:'F8', code:'Fab 8', name:'晶圓八廠', kind:'fab', region:'N', loc:'新竹科學園區', wafer:8, since:'1998', adv:'0.11µm', owner:'台積電',
+  desc:'8 吋成熟邏輯、感測器與特殊製程。', src:['s1','s28'],
+  phases:[{ id:'全廠', st:'op', nodes:'0.18µm 以上（最先進 0.11µm）', tech:['MAT'], mp:'1998 量產', ms:'8 吋整併中', full:'約 90–93', conf:'est',
+    cap:[{t:'2023Q1',n:'MAT',v:93},{t:'2025Q4',n:'MAT',v:90}] }] },
+{ id:'F12', code:'Fab 12', name:'晶圓十二廠（12A／12B）', kind:'fab', region:'N', loc:'新竹科學園區（總部）', wafer:12, since:'2001', adv:'40nm（20-F，2025 年底）', owner:'台積電',
+  desc:'第一座 GIGAFAB，與總部、全球研發中心相鄰。20-F 列出 Fab 12 最先進的量產節點為 40nm；12B 與 P8–P9 是 N2、A16、A14 以下的研發基地。', src:['s1','s2','s28','s36'],
+  phases:[
+    { id:'P1–P7', st:'op', nodes:'0.13µm–40nm 成熟／特殊製程（量產線）', tech:['MAT'], mp:'2001 起', ms:'部分產線轉為研發用途', full:'約 132–135（TrendForce 2025）', conf:'est',
+      cap:[{t:'2023Q1',n:'MAT',v:135},{t:'2025Q4',n:'MAT',v:132}] },
+    { id:'P8–P9／研發', st:'rd', nodes:'N2／A16／A14／A13 製程研發', tech:['N2','A14'], mp:'—', ms:'全球研發中心 2023/7 啟用；12B 負責 2nm 以下研發', full:'研發產線，不計量產產能', conf:'off', cap:[] }
+  ]},
+{ id:'F20', code:'Fab 20', name:'晶圓二十廠（寶山）', kind:'fab', region:'N', loc:'新竹科學園區 寶山', wafer:12, since:'2025', adv:'2nm', owner:'台積電',
+  desc:'2nm（N2）首發基地之一，共 4 期。P1、P2 為 N2；P3、P4 由原先的 N2 改為 A14（1.4nm）。A14 最快 2027Q1 試產、2027Q4 量產，2028 年月產能約 4–5 萬片。', src:['s1','s4','s5','s7','s32','s36'],
+  phases:[
+    { id:'P1', st:'op', nodes:'N2（GAA 奈米片）', tech:['N2'], mp:'2025Q4 量產', ms:'2026/5 單廠月產能達 2 萬片', full:'約 30', conf:'rep',
+      cap:[{t:'2025Q4',n:'N2',v:25},{t:'2026Q2',n:'N2',v:30}] },
+    { id:'P2', st:'ramp', nodes:'N2／N2P', tech:['N2'], mp:'2026 放量', ms:'裝機、試產中', full:'約 25–30', conf:'rep',
+      cap:[{t:'2026Q2',n:'N2',v:10},{t:'2026Q4',n:'N2',v:20},{t:'2027Q2',n:'N2',v:25}] },
+    { id:'P3', st:'build', nodes:'A14（1.4nm）', tech:['A14'], mp:'2027Q4～2028 量產', ms:'2026/9–12 進機；2027Q1 試產', full:'約 25（F20 兩期合計 4–5 萬）', conf:'rep',
+      cap:[{t:'2028Q1',n:'A14',v:15},{t:'2028Q4',n:'A14',v:25}] },
+    { id:'P4', st:'build', nodes:'A14', tech:['A14'], mp:'2028 下半年起', ms:'2027/4–7 進機', full:'約 25', conf:'est',
+      cap:[{t:'2028Q3',n:'A14',v:10},{t:'2029Q1',n:'A14',v:25}] }
+  ]},
+/* ---------------- 中台灣 ---------------- */
+{ id:'F15', code:'Fab 15', name:'晶圓十五廠（15A／15B）', kind:'fab', region:'C', loc:'中部科學園區 台中', wafer:12, since:'2012', adv:'7nm', owner:'台積電',
+  desc:'N7／N6 主力廠。2026/5 報導指 15A 的 28/22nm 將升級為 4nm，投資逾新台幣千億元，替換下來的機台移往德國 ESMC；15B 暫時維持 7nm。', src:['s1','s16','s28','s17'],
+  phases:[
+    { id:'15A', st:'conv', nodes:'28/22nm → 升級 N4', tech:['N28','N5'], mp:'N4 轉換時程未公布', ms:'2026/5 啟動升級；舊機台移往德勒斯登', full:'28nm 約 135 → 轉換後規模未公布', conf:'est',
+      cap:[{t:'2023Q1',n:'N28',v:135},{t:'2026Q4',n:'N28',v:110},{t:'2027Q2',n:'N28',v:80},{t:'2027Q2',n:'N5',v:10},{t:'2027Q4',n:'N28',v:60},{t:'2027Q4',n:'N5',v:30},{t:'2028Q2',n:'N28',v:50},{t:'2028Q2',n:'N5',v:40}] },
+    { id:'15B', st:'op', nodes:'N7／N6', tech:['N7'], mp:'2018 起（N7）', ms:'2026 年初曾傳部分轉 N3，5 月報導改為維持 7nm', full:'約 150', conf:'est',
+      cap:[{t:'2023Q1',n:'N7',v:150}] }
+  ]},
+{ id:'F25', code:'Fab 25', name:'晶圓二十五廠（中科二期）', kind:'fab', region:'C', loc:'中部科學園區 台中園區二期', wafer:12, since:'建設中', adv:'—', owner:'台積電',
+  desc:'A14 主力基地，規劃 4 座廠，後續接續 A13／A12。官方時程為 2025 年動工、2028 下半年量產；媒體報導 P1 最快 2027/4 完工試產，四廠 2028Q2 全數完工，屆時月產能 12–16 萬片。首期投資約 490 億美元。', src:['s4','s5','s6','s7','s18','s19'],
+  phases:[
+    { id:'P1', st:'build', nodes:'A14', tech:['A14'], mp:'2028H2 量產（官方）', ms:'2025/10 申報開工；2027Q1–Q2 進機；2027 年底試產', full:'約 30', conf:'rep',
+      cap:[{t:'2028Q3',n:'A14',v:15},{t:'2029Q1',n:'A14',v:30}] },
+    { id:'P2', st:'build', nodes:'A14／A13', tech:['A14'], mp:'2028 年底前後', ms:'2026/4/23 取得建照', full:'約 30', conf:'est',
+      cap:[{t:'2028Q4',n:'A14',v:15},{t:'2029Q2',n:'A14',v:30}] },
+    { id:'P3', st:'build', nodes:'A14／A13／A12', tech:['A14'], mp:'2029（推估）', ms:'2026/8/20 取得建照', full:'約 30', conf:'est',
+      cap:[{t:'2029Q2',n:'A14',v:15},{t:'2029Q4',n:'A14',v:30}] },
+    { id:'P4', st:'build', nodes:'A14／A12', tech:['A14'], mp:'2029–2030（推估）', ms:'雜項執照與基礎工程階段', full:'約 30', conf:'est',
+      cap:[{t:'2029Q4',n:'A14',v:15},{t:'2030Q2',n:'A14',v:30}] }
+  ]},
+/* ---------------- 南台灣 ---------------- */
+{ id:'F6', code:'Fab 6', name:'晶圓六廠', kind:'fab', region:'S', loc:'南部科學園區 台南', wafer:8, since:'2000', adv:'0.11µm', owner:'台積電',
+  desc:'8 吋電源管理與特殊製程。列入 8 吋產能整併計畫。', src:['s1','s28'],
+  phases:[{ id:'全廠', st:'op', nodes:'0.18µm 以上（最先進 0.11µm）', tech:['MAT'], mp:'2000 量產', ms:'8 吋整併中', full:'約 100', conf:'est',
+    cap:[{t:'2023Q1',n:'MAT',v:102},{t:'2025Q4',n:'MAT',v:99}] }] },
+{ id:'F14', code:'Fab 14', name:'晶圓十四廠（14A／14B）', kind:'fab', region:'S', loc:'南部科學園區 台南', wafer:12, since:'2004', adv:'16nm', owner:'台積電',
+  desc:'產能最大的 12 吋 GIGAFAB，承接 16/12nm FinFET、28nm，以及 40–130nm 特殊製程（射頻、嵌入式記憶體、CIS 等）。各節點拆分為推估。', src:['s1','s28','s34'],
+  phases:[
+    { id:'P1–P7', st:'op', nodes:'16/12nm、28nm、40–130nm 特殊製程', tech:['N16','N28','MAT'], mp:'2004 起', ms:'部分產能逐季微降', full:'約 330–338（TrendForce 2025）', conf:'est',
+      cap:[{t:'2023Q1',n:'N16',v:120},{t:'2023Q1',n:'N28',v:40},{t:'2023Q1',n:'MAT',v:210},{t:'2024Q4',n:'MAT',v:190},{t:'2025Q4',n:'MAT',v:170}] }
+  ]},
+{ id:'F18', code:'Fab 18', name:'晶圓十八廠（18A／18B）', kind:'fab', region:'S', loc:'南部科學園區 台南', wafer:12, since:'2020', adv:'3nm', owner:'台積電',
+  desc:'N5／N4 與 N3 的主力廠。18A（P1–P3）以 N5／N4 為主，18B（P4–P8）以 N3 為主；P9 為 N3 擴建。3nm 月產能 2025 年底逾 15 萬片、2026 年底約 18 萬片、2027 年中約 21 萬片，成長主要來自 5nm 轉換與 P9。', src:['s1','s3','s4','s5','s17','s31','s36'],
+  phases:[
+    { id:'P1–P3', st:'conv', nodes:'N5／N4 → 部分轉 N3', tech:['N5','N3'], mp:'2020 起（N5）', ms:'2026 年起 5nm 產能陸續轉 3nm（5nm 年減 2–3 萬片）', full:'合計約 135', conf:'est',
+      cap:[{t:'2023Q1',n:'N5',v:135},{t:'2026Q3',n:'N5',v:105},{t:'2026Q3',n:'N3',v:30},{t:'2027Q2',n:'N5',v:90},{t:'2027Q2',n:'N3',v:45}] },
+    { id:'P4–P8', st:'op', nodes:'N3（N3E／N3P／N3X）', tech:['N3'], mp:'2022Q4 起', ms:'每期約 2.5–3 萬片；P8 於 2025 年底到位', full:'約 150', conf:'est',
+      cap:[{t:'2023Q1',n:'N3',v:40},{t:'2023Q4',n:'N3',v:80},{t:'2024Q4',n:'N3',v:120},{t:'2025Q4',n:'N3',v:150}] },
+    { id:'P9', st:'build', nodes:'N3', tech:['N3'], mp:'2027 量產', ms:'CUP 結構近完工、FAB 結構施工中；2027Q1 進機', full:'約 30', conf:'rep',
+      cap:[{t:'2027Q2',n:'N3',v:15},{t:'2027Q4',n:'N3',v:30}] }
+  ]},
+{ id:'F22', code:'Fab 22', name:'晶圓二十二廠（高雄＋南科特定區 A）', kind:'fab', region:'S', loc:'高雄楠梓園區／台南安定（特定區 A）', wafer:12, since:'2025', adv:'2nm', owner:'台積電',
+  desc:'2nm 家族主力。原先公告的 7nm／28nm 計畫已取消，改為全面 N2／A16。P1 在 2025Q4 量產；P3 起導入 A16（超級電軌背面供電）。2nm 月產能（F20＋F22）：2025 年底約 4.5–5 萬片，2026 年底約 9–10 萬片，2027 年中約 11 萬片，2027 年約 13–14 萬片。', src:['s1','s3','s4','s5','s7','s31','s36'],
+  phases:[
+    { id:'P1', st:'op', nodes:'N2', tech:['N2'], mp:'2025Q4 量產', ms:'試產結果穩定', full:'約 30', conf:'rep',
+      cap:[{t:'2025Q4',n:'N2',v:20},{t:'2026Q2',n:'N2',v:30}] },
+    { id:'P2', st:'ramp', nodes:'N2／N2P', tech:['N2'], mp:'2026Q4 量產爬坡', ms:'裝機完成、試產中', full:'約 25–30', conf:'rep',
+      cap:[{t:'2026Q4',n:'N2',v:10},{t:'2027Q2',n:'N2',v:25}] },
+    { id:'P3', st:'build', nodes:'A16（1.6nm，超級電軌）', tech:['N2'], mp:'2026H2 起量產（A16）', ms:'2026/3 啟動進機', full:'約 25', conf:'rep',
+      cap:[{t:'2026Q4',n:'N2',v:5},{t:'2027Q2',n:'N2',v:15},{t:'2027Q4',n:'N2',v:25}] },
+    { id:'P4', st:'build', nodes:'A16', tech:['N2'], mp:'2028（推估）', ms:'結構工程中，預計 2027 年完工', full:'約 25', conf:'est',
+      cap:[{t:'2028Q2',n:'N2',v:10},{t:'2028Q4',n:'N2',v:25}] },
+    { id:'P5', st:'build', nodes:'N2／A16（未定）', tech:['N2'], mp:'2029（推估）', ms:'結構工程中；變更設計新增 SUP 棟', full:'約 25', conf:'est',
+      cap:[{t:'2029Q1',n:'N2',v:10},{t:'2029Q3',n:'N2',v:25}] },
+    { id:'P6', st:'plan', nodes:'N2／A16 或以下（未定）', tech:['N2'], mp:'未定', ms:'二階環評中，最快 2027Q2 通過；另傳評估導入 A14', full:'未計入', conf:'rep', cap:[] },
+    { id:'P7（特定區 A）', st:'build', nodes:'N2 家族', tech:['N2'], mp:'2028 竣工，2029 量產（推估）', ms:'2026/3/26 環評通過、5/18 開工、7/1 取得 3 張建照；2027Q4 進機。部分報導將此廠編為 F18 P10', full:'約 25–30', conf:'est',
+      cap:[{t:'2029Q1',n:'N2',v:10},{t:'2029Q3',n:'N2',v:25}] },
+    { id:'P8–P9（特定區 A 擴建）', st:'plan', nodes:'2nm 世代以下（未定）', tech:['N2'], mp:'未定', ms:'擴建 35.56 公頃，環評 2026/7–8 公開；推估 2029 年取得使照', full:'未計入', conf:'rep', cap:[] }
+  ]},
+/* ---------------- 海外 ---------------- */
+{ id:'F21', code:'Fab 21', name:'TSMC Arizona（鳳凰城）', kind:'fab', region:'US', loc:'美國亞利桑那州 鳳凰城', wafer:12, since:'2024', adv:'5nm 家族（N4）', owner:'TSMC Arizona（100%）',
+  desc:'美國累計投資承諾於 2026/7 由 1,650 億美元上修至 2,650 億美元，規劃 6 座晶圓廠、2 座先進封裝廠與 1 座研發中心，並「可能」再加 4 座 2nm 以下晶圓廠。全部完成後，約 30% 的 2nm 以下產能位於亞利桑那。', src:['s1','s13','s14','s24','s33','s5','s30'],
+  phases:[
+    { id:'P1', st:'op', nodes:'N4／N5', tech:['N5'], mp:'2024Q4 量產', ms:'良率與台灣相當；2025 年獲利', full:'約 24–30', conf:'rep',
+      cap:[{t:'2024Q4',n:'N5',v:10},{t:'2025Q2',n:'N5',v:20},{t:'2026Q2',n:'N5',v:24},{t:'2026Q4',n:'N5',v:30}] },
+    { id:'P2', st:'build', nodes:'N3', tech:['N3'], mp:'2027H2 量產', ms:'2026/4 完工；2026Q3 起進機（較原訂 2028 提前）', full:'約 24–30', conf:'rep',
+      cap:[{t:'2027Q4',n:'N3',v:10},{t:'2028Q2',n:'N3',v:20},{t:'2028Q4',n:'N3',v:30}] },
+    { id:'P3', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2028–2029（推估）', ms:'2025/4 動土；2026/5 主體封頂', full:'約 25–30', conf:'est',
+      cap:[{t:'2029Q2',n:'N2',v:10},{t:'2029Q4',n:'N2',v:25}] },
+    { id:'P4', st:'build', nodes:'N2／A16', tech:['N2'], mp:'2030（推估）', ms:'2026 年初開始初期建設', full:'約 25–30', conf:'est',
+      cap:[{t:'2030Q2',n:'N2',v:10},{t:'2030Q4',n:'N2',v:25}] },
+    { id:'P5–P6', st:'plan', nodes:'A16／A14 以下', tech:['N2','A14'], mp:'2030 以後', ms:'許可申請中；P6 部分用地傳改作先進封裝', full:'未計入', conf:'rep', cap:[] },
+    { id:'後續 4 座', st:'plan', nodes:'2nm 以下', tech:['N2','A14'], mp:'未定', ms:'2026/7 Q2 法說會宣布「可能」再建 4 座', full:'未計入', conf:'off', cap:[] },
+    { id:'研發中心', st:'rd', nodes:'製程研發', tech:[], mp:'—', ms:'規劃中', full:'非量產產能', conf:'off', cap:[] }
+  ]},
+{ id:'F23', code:'Fab 23', name:'JASM（熊本）', kind:'fab', region:'JP', loc:'日本熊本縣 菊陽町', wafer:12, since:'2024', adv:'28nm（20-F，2025 年底）', owner:'JASM（台積電約 73%，Sony／DENSO／Toyota 參股）',
+  desc:'一廠在 2024/12 量產 22/28nm，12/16nm 接續導入，40nm 開發中。二廠在 2026/2 宣布由 6/7nm 升級為 3nm，月產能 1.5 萬片，總投資約 170 億美元，2028 年裝機並投產。', src:['s1','s11','s18','s19','s22','s36'],
+  phases:[
+    { id:'P1', st:'op', nodes:'28/22nm、16/12nm（40nm 開發中）', tech:['N28','N16'], mp:'2024/12 量產', ms:'2026 年 28/22nm 產出為 2025 年的 20 倍；2026Q1 首度獲利', full:'55（官方設計）', conf:'off',
+      cap:[{t:'2024Q4',n:'N28',v:45},{t:'2024Q4',n:'N16',v:10}] },
+    { id:'P2', st:'build', nodes:'N3（原 6/7nm）', tech:['N3'], mp:'2028', ms:'台灣經濟部 2026/4 核准；2028 裝機與量產', full:'15', conf:'off',
+      cap:[{t:'2028Q4',n:'N3',v:5},{t:'2029Q2',n:'N3',v:15}] },
+    { id:'三廠', st:'rumor', nodes:'未定', tech:[], mp:'未定', ms:'業界評估 2030 年後可能擴建，公司未宣布', full:'未計入', conf:'rep', cap:[] }
+  ]},
+{ id:'F24', code:'Fab 24', name:'ESMC（德勒斯登）', kind:'fab', region:'DE', loc:'德國 德勒斯登', wafer:12, since:'建設中', adv:'—', owner:'ESMC（台積電 70%，Bosch／Infineon／NXP 各 10%）',
+  desc:'歐洲首座廠，主攻車用與工業，採 28/22nm 平面 CMOS 與 16/12nm FinFET，月產能 4 萬片。總投資逾 100 億歐元，德國補助 50 億歐元。', src:['s1','s12','s16','s5'],
+  phases:[
+    { id:'P1', st:'build', nodes:'28/22nm、16/12nm FinFET', tech:['N28','N16'], mp:'2027 年底量產', ms:'2024/8 動土；主體結構 2025 年底完成、2026/1 封頂典禮；2026H2 進機', full:'40（官方）', conf:'off',
+      cap:[{t:'2027Q4',n:'N28',v:5},{t:'2028Q2',n:'N28',v:15},{t:'2028Q2',n:'N16',v:5},{t:'2028Q4',n:'N28',v:25},{t:'2028Q4',n:'N16',v:15}] }
+  ]},
+{ id:'F16', code:'Fab 16', name:'台積電南京廠', kind:'fab', region:'CN', loc:'中國江蘇 南京浦口', wafer:12, since:'2018', adv:'16nm', owner:'TSMC Nanjing（100%）',
+  desc:'16/12nm 與 28nm。美方撤銷 VEU 授權，自 2025/12/31 生效，改為逐案或年度出口許可，2026 年已取得年度許可。依美國晶片法規定，產能擴充受限。', src:['s1','s29','s36'],
+  phases:[
+    { id:'P1', st:'op', nodes:'16/12nm FinFET', tech:['N16'], mp:'2018 量產', ms:'年度設備出口許可', full:'約 20–25', conf:'est',
+      cap:[{t:'2023Q1',n:'N16',v:20}] },
+    { id:'28nm 擴建', st:'op', nodes:'28nm', tech:['N28'], mp:'2022H2 起爬坡', ms:'原規劃 4 萬片，實際擴產受出口管制影響', full:'約 20（原規劃 40）', conf:'est',
+      cap:[{t:'2023Q1',n:'N28',v:20}] }
+  ]},
+{ id:'F10', code:'Fab 10', name:'台積電（中國）上海廠', kind:'fab', region:'CN', loc:'中國上海 松江', wafer:8, since:'2004', adv:'0.15µm', owner:'TSMC China（100%）',
+  desc:'8 吋成熟邏輯與電源管理，受 8 吋整併策略影響。', src:['s1','s28','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'0.35–0.11µm', tech:['MAT'], mp:'2004 量產', ms:'—', full:'約 85–105', conf:'est', cap:[{t:'2023Q1',n:'MAT',v:100}] }] },
+{ id:'F11', code:'Fab 11', name:'TSMC Washington（WaferTech）', kind:'fab', region:'US', loc:'美國華盛頓州 Camas', wafer:8, since:'1998', adv:'0.15µm', owner:'TSMC Washington（100%）',
+  desc:'台積電最早的海外據點，生產 8 吋成熟特殊製程。', src:['s1','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'0.25–0.15µm', tech:['MAT'], mp:'1998 量產', ms:'—', full:'約 35–38', conf:'est', cap:[{t:'2023Q1',n:'MAT',v:38}] }] },
+/* ---------------- 新基地（未編廠號） ---------------- */
+{ id:'L-SL', code:'沙崙', name:'南科四期 沙崙園區', kind:'land', region:'S', loc:'台南 歸仁／沙崙', wafer:12, since:'規劃中', adv:'—', owner:'台積電（需求用地）',
+  desc:'A10 或更先進製程基地，規劃約 12 座廠，新增用電約 2.7GW。', src:['s5','s35'],
+  phases:[{ id:'全區', st:'plan', nodes:'A10 或更先進', tech:['A14'], mp:'2030 以後', ms:'2026/5/27 一階環評通過；9/18 二階範疇界定；預計 2027Q3 環評通過、2027Q4 交地', full:'未計入', conf:'rep', cap:[] }] },
+{ id:'L-LT', code:'龍潭三期', name:'竹科龍潭園區三期', kind:'land', region:'N', loc:'桃園 龍潭', wafer:12, since:'規劃中', adv:'—', owner:'政府開發（台積電需求）',
+  desc:'2023 年因用地爭議退出後由政府重啟。規劃 3 座廠，製程為 A14 以下（埃米級），報導投資 5,000–6,000 億元。', src:['s5','s25'],
+  phases:[{ id:'全區', st:'plan', nodes:'A14 以下', tech:['A14'], mp:'2030 以後', ms:'2026/9/17 國發會通過擴建計畫；預計 2028 年底前完成環評、2030 年底前交地', full:'未計入', conf:'rep', cap:[] }] },
+{ id:'L-ZD', code:'竹東', name:'竹科三期（竹東）', kind:'land', region:'N', loc:'新竹 竹東', wafer:12, since:'規劃中', adv:'—', owner:'政府開發（台積電為潛在需求）',
+  desc:'產專用地 92 公頃，用途尚未公布。', src:['s5','s36'],
+  phases:[{ id:'全區', st:'plan', nodes:'先進製程（未定）', tech:[], mp:'未定', ms:'2025/8 公益性審查通過；2026/4 都委會專案小組通過', full:'未計入', conf:'rep', cap:[] }] },
+/* ---------------- 先進封裝 ---------------- */
+{ id:'AP1', code:'AP1', name:'先進封測一廠', kind:'ap', region:'N', loc:'新竹科學園區', wafer:null, since:'營運中', adv:'—', owner:'台積電',
+  desc:'凸塊、測試，支援新竹、台中 2nm 世代的封裝需求；另有報導指將轉型為研發廠。', src:['s20','s26','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'Bumping／Test', tech:['Test'], mp:'營運中', ms:'—', full:'未公布', conf:'rep', cap:[] }] },
+{ id:'AP2', code:'AP2', name:'先進封測二廠', kind:'ap', region:'S', loc:'南部科學園區 台南', wafer:null, since:'營運中', adv:'—', owner:'台積電',
+  desc:'微凸塊、測試，另有少量 CoWoS。', src:['s26','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'Micro-bump／Test／少量 CoWoS', tech:['CoWoS','Test'], mp:'營運中', ms:'—', full:'CoWoS 約 3–5', conf:'est',
+    cap:[{t:'2023Q1',k:'CoWoS',v:3},{t:'2024Q4',k:'CoWoS',v:5}] }] },
+{ id:'AP3', code:'AP3', name:'先進封測三廠', kind:'ap', region:'N', loc:'桃園 龍潭科學園區', wafer:null, since:'營運中', adv:'—', owner:'台積電',
+  desc:'InFO 與 WMCM 主力，主要客戶是 Apple 高階處理器。', src:['s20','s26','s36'],
+  phases:[{ id:'全廠', st:'op', nodes:'InFO／WMCM', tech:['InFO','WMCM'], mp:'營運中', ms:'—', full:'未公布（非 CoWoS）', conf:'rep', cap:[] }] },
+{ id:'AP5', code:'AP5', name:'先進封測五廠（台中）', kind:'ap', region:'C', loc:'中部科學園區 台中', wafer:null, since:'營運中', adv:'—', owner:'台積電',
+  desc:'CoWoS 主力廠之一。AP5B 在 2026/5 取得使照、完工，未來也支援 F25 的封裝需求。', src:['s5','s7','s26','s27','s36'],
+  phases:[
+    { id:'AP5A', st:'op', nodes:'CoWoS-S／L', tech:['CoWoS'], mp:'2023 起', ms:'—', full:'約 22（推估）', conf:'est',
+      cap:[{t:'2023Q1',k:'CoWoS',v:3},{t:'2023Q4',k:'CoWoS',v:5},{t:'2024Q4',k:'CoWoS',v:12},{t:'2025Q4',k:'CoWoS',v:22}] },
+    { id:'AP5B', st:'ramp', nodes:'CoWoS', tech:['CoWoS'], mp:'2026H2 投產', ms:'CUP／FAB／OFFICE 均已取得使照（2026/5）', full:'約 15–20（推估）', conf:'est',
+      cap:[{t:'2026Q4',k:'CoWoS',v:8},{t:'2027Q2',k:'CoWoS',v:15},{t:'2028Q2',k:'CoWoS',v:20}] }
+  ]},
+{ id:'AP6', code:'AP6', name:'先進封測六廠（竹南）', kind:'ap', region:'N', loc:'苗栗 竹南（竹科竹南園區）', wafer:null, since:'2023', adv:'—', owner:'台積電',
+  desc:'2023/6 啟用，是台積電第一座整合 SoIC、InFO、CoWoS 與先進測試的一站式 3DFabric 廠，年產能逾 100 萬片 12 吋約當（官方）。SoIC 月產能在 2026Q3 接近 1 萬片。', src:['s23','s27','s8','s5'],
+  phases:[
+    { id:'AP6A', st:'op', nodes:'SoIC／CoWoS／InFO／Test', tech:['SoIC','CoWoS','InFO','Test'], mp:'2023/6 啟用', ms:'—', full:'CoWoS 約 40、SoIC 約 10（推估）', conf:'est',
+      cap:[{t:'2023Q3',k:'CoWoS',v:3},{t:'2023Q4',k:'CoWoS',v:5},{t:'2024Q4',k:'CoWoS',v:18},{t:'2025Q4',k:'CoWoS',v:38},{t:'2026Q4',k:'CoWoS',v:40},{t:'2027Q4',k:'CoWoS',v:45},
+           {t:'2023Q4',k:'SoIC',v:2},{t:'2024Q4',k:'SoIC',v:4},{t:'2025Q4',k:'SoIC',v:8},{t:'2026Q3',k:'SoIC',v:10},{t:'2027Q2',k:'SoIC',v:12}] },
+    { id:'AP6B／C', st:'op', nodes:'SoIC／CoWoS 擴建', tech:['SoIC','CoWoS'], mp:'2025 起', ms:'AP6B 2024/12 取得使照，2026/4 變更設計再擴建；第三期已取得使照', full:'併入 AP6A 數字', conf:'rep', cap:[] }
+  ]},
+{ id:'AP7', code:'AP7', name:'先進封測七廠（嘉義）', kind:'ap', region:'S', loc:'南科嘉義園區（一期、二期）', wafer:null, since:'2026', adv:'—', owner:'台積電',
+  desc:'將成為台積電最大的先進封裝基地，規劃多達 8 期，整合 WMCM、SoIC、CoWoS 與 CoPoS。各期用途歷經多次調整：P1 為 Apple 專用 WMCM；P2 原本主打 SoIC，報導指因 CoWoS 需求改為以 CoWoS 為主（另一說 P2 仍含約 1.2 萬片 SoIC）；二期 P3、P4 以 SoIC 為主。CoPoS 試產線的機台在 2026/2 起進駐，量產目標 2028–29 年。', src:['s5','s8','s9','s10','s20','s27','s36'],
+  phases:[
+    { id:'P1', st:'ramp', nodes:'WMCM（Apple）', tech:['WMCM'], mp:'2026 投產', ms:'已裝機試營運', full:'未公布（非 CoWoS）', conf:'rep', cap:[] },
+    { id:'P2', st:'build', nodes:'CoWoS＋SoIC', tech:['CoWoS','SoIC'], mp:'2026 年底起', ms:'2026/6 進機', full:'CoWoS 約 30、SoIC 約 12（推估）', conf:'est',
+      cap:[{t:'2026Q4',k:'CoWoS',v:5},{t:'2027Q2',k:'CoWoS',v:12},{t:'2027Q4',k:'CoWoS',v:20},{t:'2028Q4',k:'CoWoS',v:30},
+           {t:'2026Q4',k:'SoIC',v:4},{t:'2027Q2',k:'SoIC',v:8},{t:'2027Q4',k:'SoIC',v:12}] },
+    { id:'P3（二期）', st:'build', nodes:'SoIC', tech:['SoIC'], mp:'2028（推估）', ms:'二期環評 2026/2 通過；P3 建照 2026/6/1 核發', full:'約 20–25（推估）', conf:'est',
+      cap:[{t:'2028Q2',k:'SoIC',v:10},{t:'2028Q4',k:'SoIC',v:20},{t:'2029Q2',k:'SoIC',v:25}] },
+    { id:'P4（二期）', st:'plan', nodes:'SoIC（CoPoS 另有規劃）', tech:['SoIC','CoPoS'], mp:'2029（推估）', ms:'FAB／CUP 建照 2026/7–9 核發；另有報導指 P4 用於 CoPoS，2028 年底出貨', full:'約 20（推估）', conf:'est',
+      cap:[{t:'2029Q1',k:'SoIC',v:10},{t:'2029Q3',k:'SoIC',v:20}] },
+    { id:'P5–P8', st:'plan', nodes:'SoIC／CoWoS／CoPoS', tech:['SoIC','CoWoS','CoPoS'], mp:'未定', ms:'P5 規劃中；另規劃嘉義二期約 6 座 3D 封裝廠', full:'未計入', conf:'rep', cap:[] }
+  ]},
+{ id:'AP8', code:'AP8', name:'先進封測八廠（台南）', kind:'ap', region:'S', loc:'南科台南園區（原群創廠房＋三期）', wafer:null, since:'2025', adv:'—', owner:'台積電',
+  desc:'2024/8 以 171.4 億元買下群創 5.5 代廠後改建，樓地板面積約為 AP6 的 9 倍，主攻 CoWoS-L。P1 到 2026 年底月產能逾 4 萬片；P2、P3 位於南科三期。', src:['s5','s8','s26','s27','s36'],
+  phases:[
+    { id:'P1', st:'ramp', nodes:'CoWoS-L', tech:['CoWoS'], mp:'2025H2 投產', ms:'2026 年底月產能逾 4 萬片', full:'約 40–45', conf:'rep',
+      cap:[{t:'2025Q3',k:'CoWoS',v:3},{t:'2025Q4',k:'CoWoS',v:10},{t:'2026Q2',k:'CoWoS',v:25},{t:'2026Q4',k:'CoWoS',v:45}] },
+    { id:'P2', st:'build', nodes:'CoWoS', tech:['CoWoS'], mp:'2027', ms:'建照已取得（4–5 月變更設計），趕工中', full:'約 30–40（推估）', conf:'est',
+      cap:[{t:'2027Q2',k:'CoWoS',v:15},{t:'2027Q4',k:'CoWoS',v:40}] },
+    { id:'P3', st:'build', nodes:'CoWoS', tech:['CoWoS'], mp:'2028（推估）', ms:'2026/6/17 建照變更設計；已列入擴產藍圖', full:'約 30–35（推估）', conf:'est',
+      cap:[{t:'2028Q2',k:'CoWoS',v:15},{t:'2028Q4',k:'CoWoS',v:35}] }
+  ]},
+{ id:'AZAP', code:'AZ AP', name:'TSMC Arizona 先進封裝', kind:'ap', region:'US', loc:'美國亞利桑那州 鳳凰城', wafer:null, since:'建設中', adv:'—', owner:'TSMC Arizona',
+  desc:'美國第一座先進封裝廠（AP1，CoWoS 與 3D-IC），與 P4 同步在 2026 年初進入初期建設，報導目標 2028 年量產；AP2 預計 2029–30 年。P6 原規劃用地據報部分改作封裝。另與 Amkor（Peoria）合作後段。', src:['s10','s13','s20','s5','s33'],
+  phases:[
+    { id:'AP1', st:'build', nodes:'CoWoS／SoIC（3D-IC）', tech:['CoWoS','SoIC'], mp:'2028（報導）', ms:'2026 年初動工', full:'未公布；圖中以 10 推估', conf:'est',
+      cap:[{t:'2028Q4',k:'CoWoS',v:10},{t:'2029Q4',k:'CoWoS',v:20}] },
+    { id:'AP2', st:'plan', nodes:'CoWoS 等', tech:['CoWoS'], mp:'2029–2030', ms:'許可申請中', full:'未計入', conf:'rep', cap:[] }
+  ]},
+{ id:'L-BP', code:'白埔', name:'高雄白埔 先進封裝驗證基地', kind:'ap', region:'S', loc:'高雄 岡山／橋頭（白埔產業園區）', wafer:null, since:'2026 動工', adv:'—', owner:'台積電進駐 25 公頃',
+  desc:'全台首創的先進封裝「Mini-Loop 實體驗證產線」，用於設備與材料協同驗證，並帶動 20 多家供應商進駐。總統於 2026/9/21 出席動土。', src:['s21','s5'],
+  phases:[{ id:'全區', st:'build', nodes:'先進封裝設備／材料驗證線', tech:['Test'], mp:'—', ms:'2026/9/21 動土', full:'驗證用，非量產', conf:'off', cap:[] }] },
+{ id:'L-HF', code:'海豐', name:'屏東海豐 先進封測（報導）', kind:'ap', region:'S', loc:'屏東 海豐產業園區', wafer:null, since:'規劃中', adv:'—', owner:'報導指台積電需求',
+  desc:'園區 89.59 公頃，環說書列先進封裝及測試用途，用電 330MW。台積電尚未證實。', src:['s5','s36'],
+  phases:[{ id:'全區', st:'plan', nodes:'先進封裝及測試', tech:['CoWoS'], mp:'未定', ms:'2026/3/31 環說書公開會議', full:'未計入', conf:'rep', cap:[] }] },
+{ id:'L-EL', code:'二林', name:'中科二林 封測廠（傳聞）', kind:'ap', region:'C', loc:'彰化 中科二林園區', wafer:null, since:'評估中', adv:'—', owner:'台積電集團（報導）',
+  desc:'2026 年媒體報導將投資封測新廠，初估數百億元，細節未定。', src:['s36'],
+  phases:[{ id:'全區', st:'rumor', nodes:'先進封裝／測試', tech:[], mp:'未定', ms:'報導將提投資申請', full:'未計入', conf:'rep', cap:[] }] }
+];
+
+/* 報導的節點／封裝總量（◆ 對照點） */
+const BENCH = {
+  N2:  [['2025Q4',47.5,'4.5–5 萬'],['2026Q4',95,'9–10 萬'],['2027Q2',110,'11 萬'],['2027Q4',135,'13–14 萬']],
+  N3:  [['2025Q4',150,'逾 15 萬'],['2026Q4',180,'約 18 萬'],['2027Q2',210,'21 萬'],['2028Q4',300,'逾 30 萬']],
+  N5:  [['2025Q4',165,'16–17 萬'],['2026Q4',140,'減 2–3 萬']],
+  A14: [['2028Q4',65,'6–7 萬（F20＋F25 初期）']],
+  CoWoS: [[2023,13,'1.3 萬'],[2024,32.5,'3–3.5 萬'],[2025,75,'7–8 萬'],[2026,127.5,'12.5–13 萬'],[2027,200,'至少 20 萬'],[2028,260,'26 萬']],
+  SoIC:  [[2024,4,'4 千'],[2025,8,'8 千'],[2026,12.5,'1–1.5 萬'],[2027,50,'上修至 5 萬']]
+};
+const OFFICIAL_TOTAL = [['2024','約 1,700 萬片／年'],['2025','逾 1,700 萬片／年']];
+/* ===================== END DATA ===================== */
+
+const NODES = [
+  { k:'MAT', l:'≥40nm 成熟（含 8／6 吋）', c:'--s1' },
+  { k:'N28', l:'28／22nm', c:'--s2' },
+  { k:'N16', l:'16／12nm', c:'--s3' },
+  { k:'N7',  l:'N7／N6', c:'--s4' },
+  { k:'N5',  l:'N5／N4', c:'--s5' },
+  { k:'N3',  l:'N3', c:'--s6' },
+  { k:'N2',  l:'N2 家族（N2／N2P／A16）', c:'--s7' },
+  { k:'A14', l:'A14（1.4nm）以下', c:'--s8' }
+];
+const REGIONS = [
+  { k:'N', l:'北台灣（新竹／竹南／龍潭）', s:'北台灣', c:'--s1' },
+  { k:'C', l:'中台灣（台中）', s:'中台灣', c:'--s2' },
+  { k:'S', l:'南台灣（台南／高雄／嘉義）', s:'南台灣', c:'--s3' },
+  { k:'US', l:'美國', s:'美國', c:'--s4' },
+  { k:'JP', l:'日本', s:'日本', c:'--s5' },
+  { k:'DE', l:'德國', s:'德國', c:'--s6' },
+  { k:'CN', l:'中國', s:'中國', c:'--s7' }
+];
+const STATUS = {
+  op:{l:'量產中'}, ramp:{l:'爬坡中'}, build:{l:'建設／裝機'}, conv:{l:'製程轉換'},
+  plan:{l:'規劃中'}, exit:{l:'淘汰中'}, rd:{l:'研發／非產能'}, rumor:{l:'評估／傳聞'}
+};
+const KINDS = { fab:'晶圓廠', ap:'先進封裝', land:'新基地（未編號）' };
+const TECHS = ['A14','N2','N3','N5','N7','N16','N28','MAT','CoWoS','SoIC','InFO','WMCM','CoPoS','Test'];
+const TECH_L = { A14:'A14↓', N2:'N2/A16', N3:'N3', N5:'N5/N4', N7:'N7/N6', N16:'16/12', N28:'28/22', MAT:'≥40nm', CoWoS:'CoWoS', SoIC:'SoIC', InFO:'InFO', WMCM:'WMCM', CoPoS:'CoPoS', Test:'凸塊／測試' };
+const CONF_L = { off:'官方', rep:'報導', est:'推估' };
+const AP_SITES = [ ['AP2','--s1'],['AP5','--s2'],['AP6','--s3'],['AP7','--s4'],['AP8','--s5'],['AZAP','--s6'] ];
+
+/* ---------- time helpers ---------- */
+const Y0 = 2023, Y1 = 2030;
+const qi = s => { const [y,q] = s.split('Q'); return (+y)*4 + (+q) - 1; };
+const I0 = qi(Y0+'Q1'), IN = qi(Y1+'Q4');
+const qlab = i => Math.floor(i/4) + 'Q' + (i%4 + 1);
+const QUARTERS = []; for (let i=I0;i<=IN;i++) QUARTERS.push(i);
+const NOW_I = qi(META.nowQ);
+const factor = s => s.wafer===8 ? 1/2.25 : s.wafer===6 ? 1/4 : 1;
+const fmt = (v,d=0) => v==null||isNaN(v) ? '—' : v.toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d});
+
+function capAt(ph, i){
+  const m = {};
+  for (const p of (ph.cap||[])) { if (qi(p.t) <= i) m[p.n||p.k] = p.v; }
+  return m;
+}
+function waferBy(i, keyFn){
+  const out = {};
+  for (const s of SITES) { if (s.kind==='ap') continue;
+    const f = factor(s);
+    for (const ph of s.phases) { const m = capAt(ph,i);
+      for (const n in m) { const k = keyFn(s,n); out[k] = (out[k]||0) + m[n]*f; } } }
+  return out;
+}
+function apBy(i, kind){
+  const out = {};
+  for (const s of SITES) { if (s.kind!=='ap') continue;
+    for (const ph of s.phases) { const v = capAt(ph,i)[kind]; if (v) out[s.id] = (out[s.id]||0) + v; } }
+  return out;
+}
+const sum = o => Object.values(o).reduce((a,b)=>a+b,0);
+function siteNow(s, i){
+  let w = 0, cw = 0, so = 0;
+  for (const ph of s.phases){ const m = capAt(ph,i);
+    for (const k in m){ if (k==='CoWoS') cw+=m[k]; else if (k==='SoIC') so+=m[k]; else w+=m[k]; } }
+  return { w, cw, so };
+}
+function phaseMax(ph){
+  const last = {}; for (const p of (ph.cap||[])) last[p.n||p.k] = p.v;
+  return last;
+}
+
+/* ---------- theme ---------- */
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function rgba(hex, a){ const h = hex.replace('#',''); const n = parseInt(h.length===3? h.split('').map(c=>c+c).join('') : h,16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+
+/* ---------- state ---------- */
+const state = { asof: NOW_I, group:'node', view:'cards', q:'', kind:new Set(), region:new Set(), status:new Set(), tech:new Set(), sort:{k:null,dir:1} };
+try { const v = localStorage.getItem('tsmc-view'); if (v==='table'||v==='cards') state.view = v; } catch(e){}
+
+/* ---------- charts ---------- */
+const charts = {};
+const nowLine = {
+  id:'nowLine',
+  afterDatasetsDraw(chart, args, opt){
+    if (opt == null || opt.index == null) return;
+    const x = chart.scales.x; const {top,bottom} = chart.chartArea;
+    const draw = (idx, color, dash, label, align) => {
+      if (idx < 0 || idx >= chart.data.labels.length) return;
+      const px = x.getPixelForValue(idx);
+      const c = chart.ctx; c.save(); c.strokeStyle = color; c.setLineDash(dash); c.lineWidth = 1;
+      c.beginPath(); c.moveTo(px, top); c.lineTo(px, bottom); c.stroke();
+      if (label){ c.setLineDash([]); c.fillStyle = color; c.font = '11px "IBM Plex Mono", monospace'; c.textAlign = align; c.fillText(label, px + (align==='left'?4:-4), top + 11); }
+      c.restore();
+    };
+    draw(opt.today, opt.muted, [4,4], '今天', 'right');
+    if (opt.index !== opt.today) draw(opt.index, opt.accent, [], chart.data.labels[opt.index], 'left');
+  }
+};
+Chart.register(nowLine);
+
+function baseOpts(){
+  const ink2 = css('--ink-2'), grid = css('--grid');
+  Chart.defaults.font.family = css('--font').replace(/"/g,'');
+  Chart.defaults.color = ink2;
+  return {
+    responsive:true, maintainAspectRatio:false, animation:{duration:250},
+    interaction:{ mode:'index', intersect:false },
+    plugins:{ legend:{display:false},
+      tooltip:{ backgroundColor: css('--surface'), titleColor: css('--ink'), bodyColor: css('--ink-2'), borderColor: css('--line-strong'), borderWidth:1, padding:10, boxPadding:4, usePointStyle:true,
+        titleFont:{family:'IBM Plex Mono'}, bodyFont:{family:'IBM Plex Mono'} } },
+    scales:{
+      x:{ grid:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, maxRotation:0, autoSkip:true }, border:{color:css('--line-strong')} },
+      y:{ grid:{color:grid}, border:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, callback:v=>fmt(v) }, beginAtZero:true }
+    }
+  };
+}
+function legendHTML(el, items, diamond){
+  el.innerHTML = items.map(it=>`<span><i style="background:${it.color}"></i>${it.label}</span>`).join('') + (diamond?`<span><i class="dia"></i>報導值</span>`:'');
+}
+
+function buildTotal(){
+  const labels = QUARTERS.map(qlab);
+  let groups, keyFn;
+  if (state.group==='region'){ groups = REGIONS.map(r=>({k:r.k,l:r.s,c:r.c})); keyFn = (s)=>s.region; }
+  else if (state.group==='adv'){ groups = NODES.filter(n=>['N7','N5','N3','N2','A14'].includes(n.k)); keyFn = (s,n)=>n; }
+  else { groups = NODES; keyFn = (s,n)=>n; }
+  const series = QUARTERS.map(i=>waferBy(i,keyFn));
+  const datasets = groups.map((g,gi)=>{
+    const col = css(g.c);
+    return { label:g.l, data: series.map(o=>+(o[g.k]||0).toFixed(1)), borderColor:col, backgroundColor:rgba(col,.78), fill: gi===0?'origin':'-1', pointRadius:0, pointHitRadius:8, borderWidth:1, tension:0, stepped:false };
+  });
+  const o = baseOpts();
+  o.scales.y.stacked = true;
+  o.plugins.nowLine = { index: state.asof - I0, today: NOW_I - I0, accent: css('--accent'), muted: css('--ink-3') };
+  o.plugins.tooltip.callbacks = {
+    label: c => ` ${c.dataset.label}：${fmt(c.parsed.y)}`,
+    footer: items => '合計：' + fmt(items.reduce((a,b)=>a+b.parsed.y,0)) + ' 千片／月'
+  };
+  o.plugins.tooltip.itemSort = (a,b)=>b.datasetIndex-a.datasetIndex;
+  o.onClick = (e, els, chart) => { const idx = chart.scales.x.getValueForPixel(e.x); if (idx!=null) setAsof(I0 + Math.max(0, Math.min(QUARTERS.length-1, Math.round(idx)))); };
+  if (charts.total) charts.total.destroy();
+  charts.total = new Chart(document.getElementById('cTotal'), { type:'line', data:{labels, datasets}, options:o });
+  legendHTML(document.getElementById('lgTotal'), groups.map(g=>({label:g.l,color:css(g.c)})).reverse(), false);
+}
+
+function buildAdv(){
+  const labels = QUARTERS.map(qlab);
+  const keys = ['N5','N3','N2','A14'];
+  const series = QUARTERS.map(i=>waferBy(i,(s,n)=>n));
+  const datasets = [];
+  keys.forEach(k=>{
+    const nd = NODES.find(n=>n.k===k); const col = css(nd.c);
+    datasets.push({ label:nd.l, data: series.map(o=>o[k]? +o[k].toFixed(1) : 0), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHitRadius:8, tension:0 });
+    const bm = labels.map(()=>null); const notes = {};
+    (BENCH[k]||[]).forEach(([t,v,txt])=>{ const idx = qi(t)-I0; if (idx>=0 && idx<labels.length){ bm[idx]=v; notes[idx]=txt; } });
+    datasets.push({ label:nd.l+'（報導）', data:bm, showLine:false, pointStyle:'rectRot', pointRadius:6, pointHoverRadius:7, pointBorderWidth:2, pointBackgroundColor:css('--surface'), borderColor:col, backgroundColor:col, _notes:notes, _bench:true });
+  });
+  const o = baseOpts();
+  o.plugins.nowLine = { index: state.asof - I0, today: NOW_I - I0, accent: css('--accent'), muted: css('--ink-3') };
+  o.plugins.tooltip.filter = it => it.parsed.y != null && !(it.dataset._bench==null && it.parsed.y===0);
+  o.plugins.tooltip.callbacks = { label: c => c.dataset._bench ? ` ◆ ${c.dataset.label}：${c.dataset._notes[c.dataIndex]}` : ` ${c.dataset.label}：${fmt(c.parsed.y)}` };
+  if (charts.adv) charts.adv.destroy();
+  charts.adv = new Chart(document.getElementById('cAdv'), { type:'line', data:{labels, datasets}, options:o });
+  legendHTML(document.getElementById('lgAdv'), keys.map(k=>{const n=NODES.find(x=>x.k===k); return {label:n.l,color:css(n.c)};}), true);
+}
+
+function buildSite(){
+  const i = state.asof;
+  const rows = SITES.filter(s=>s.kind!=='ap').map(s=>{ const n = siteNow(s,i); return { s, v: n.w*factor(s) }; }).filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
+  const regionColor = k => css(REGIONS.find(r=>r.k===k).c);
+  const o = baseOpts();
+  o.indexAxis = 'y';
+  o.interaction = { mode:'nearest', intersect:true, axis:'y' };
+  o.scales.x = { grid:{color:css('--grid')}, border:{display:false}, ticks:{font:{family:'IBM Plex Mono',size:11}}, beginAtZero:true };
+  o.scales.y = { grid:{display:false}, ticks:{font:{family:'IBM Plex Mono',size:11}, autoSkip:false}, border:{color:css('--line-strong')} };
+  o.plugins.tooltip.callbacks = { label: c => { const r = rows[c.dataIndex]; return ` ${r.s.name}：${fmt(c.parsed.x)} 千片／月（12 吋約當）` + (r.s.wafer!==12?`；原生 ${r.s.wafer} 吋 ${fmt(siteNow(r.s,i).w)}`:''); } };
+  if (charts.site) charts.site.destroy();
+  charts.site = new Chart(document.getElementById('cSite'), { type:'bar',
+    data:{ labels: rows.map(r=>r.s.code), datasets:[{ data: rows.map(r=>+r.v.toFixed(1)), backgroundColor: rows.map(r=>regionColor(r.s.region)), borderRadius:4, barThickness:12, borderSkipped:false }] }, options:o });
+}
+
+function buildAP(kind, canvasId, legendId, key){
+  const years = []; for (let y=Y0;y<=Y1;y++) years.push(y);
+  const series = years.map(y=>apBy(y*4+3, kind));
+  const present = AP_SITES.filter(([id])=>series.some(o=>o[id]));
+  const datasets = present.map(([id,c])=>{ const col = css(c); const s = SITES.find(x=>x.id===id);
+    return { type:'bar', label:s.code + ' ' + s.loc.split(/[（ ]/)[0], data: series.map(o=>o[id]||0), backgroundColor:col, borderColor:css('--surface'), borderWidth:{top:2,bottom:0,left:0,right:0}, borderRadius:{topLeft:3,topRight:3}, borderSkipped:'bottom', stack:'a', maxBarThickness:42 }; });
+  const bm = years.map(()=>null), notes = {};
+  (BENCH[key]||[]).forEach(([y,v,t])=>{ const idx = years.indexOf(y); if (idx>=0){ bm[idx]=v; notes[idx]=t; } });
+  datasets.push({ type:'line', label:'報導總量', data:bm, showLine:false, pointStyle:'rectRot', pointRadius:7, pointHoverRadius:8, pointBorderWidth:2, pointBackgroundColor:css('--surface'), borderColor:css('--ink'), backgroundColor:css('--ink'), stack:'bm', _notes:notes, _bench:true });
+  const o = baseOpts();
+  o.scales.x.stacked = true; o.scales.y.stacked = true;
+  o.scales.x.ticks.callback = function(v){ return years[v] + '底'; };
+  o.plugins.tooltip.filter = it => it.parsed.y != null && (it.dataset._bench || it.parsed.y>0);
+  o.plugins.tooltip.callbacks = {
+    label: c => c.dataset._bench ? ` ◆ 報導：${c.dataset._notes[c.dataIndex]}` : ` ${c.dataset.label}：${fmt(c.parsed.y)}`,
+    footer: items => '模型合計：' + fmt(items.filter(x=>!x.dataset._bench).reduce((a,b)=>a+b.parsed.y,0)) + ' 千片／月'
+  };
+  const nowIdx = years.indexOf(Math.floor(state.asof/4));
+  o.plugins.nowLine = null;
+  if (charts[kind]) charts[kind].destroy();
+  charts[kind] = new Chart(document.getElementById(canvasId), { type:'bar', data:{ labels: years.map(String), datasets }, options:o });
+  legendHTML(document.getElementById(legendId), present.map(([id,c])=>{ const s = SITES.find(x=>x.id===id); return {label:s.code+'（'+s.loc.split(/[（ ]/)[0]+'）', color:css(c)}; }), true);
+}
+
+function buildYeTable(){
+  const years = []; for (let y=Y0;y<=Y1;y++) years.push(y);
+  const rowsDef = [
+    ...NODES.slice().reverse().map(n=>({ l:n.l, f:i=>waferBy(i,(s,x)=>x)[n.k]||0 })),
+    { l:'<b>晶圓合計（12 吋約當）</b>', f:i=>sum(waferBy(i,(s,x)=>x)), b:true },
+    { l:'CoWoS', f:i=>sum(apBy(i,'CoWoS')) },
+    { l:'SoIC', f:i=>sum(apBy(i,'SoIC')) }
+  ];
+  let h = '<thead><tr><th>千片／月（年底）</th>' + years.map(y=>`<th class="num">${y}</th>`).join('') + '</tr></thead><tbody>';
+  rowsDef.forEach(r=>{ h += `<tr><td>${r.l}</td>` + years.map(y=>`<td class="num">${r.b?'<b>':''}${fmt(r.f(y*4+3))}${r.b?'</b>':''}</td>`).join('') + '</tr>'; });
+  document.getElementById('yeTable').innerHTML = h + '</tbody>';
+}
+
+/* ---------- KPIs ---------- */
+function renderKPIs(){
+  const i = state.asof;
+  const byNode = waferBy(i,(s,n)=>n);
+  const tot = sum(byNode);
+  const adv = ['N7','N5','N3','N2','A14'].reduce((a,k)=>a+(byNode[k]||0),0);
+  const cw = sum(apBy(i,'CoWoS')), so = sum(apBy(i,'SoIC'));
+  let nOp=0,nBuild=0,nPlan=0;
+  SITES.forEach(s=>s.phases.forEach(p=>{ if(['op','ramp','conv','exit'].includes(p.st)) nOp++; else if(p.st==='build') nBuild++; else if(['plan','rumor'].includes(p.st)) nPlan++; }));
+  const k = [
+    { k:'晶圓產能（12 吋約當）', v:fmt(tot), u:'千片／月', s:`年化約 ${fmt(tot*12/1000,1)} 百萬片；官方 2025 年：逾 17 百萬片` },
+    { k:'先進製程（≤7nm）', v:fmt(adv), u:'千片／月', s:`占晶圓產能 ${fmt(tot?adv/tot*100:0,0)}%` },
+    { k:'N2 家族（含 A16）', v:fmt(byNode.N2||0), u:'千片／月', s:(byNode.A14?`A14：${fmt(byNode.A14)} 千片`:'A14 尚未量產') },
+    { k:'CoWoS ／ SoIC', v:`${fmt(cw)}<small>/</small>${fmt(so)}`, u:'千片／月', s:'先進封裝晶圓片數' },
+    { k:'追蹤的廠期數', v:String(nOp+nBuild+nPlan), u:'個 phase', s:`營運 ${nOp}・建設 ${nBuild}・規劃／傳聞 ${nPlan}` }
+  ];
+  document.getElementById('kpis').innerHTML = k.map(x=>`<div class="kpi"><div class="k">${x.k}（${qlab(i)}）</div><div class="v">${x.v}<small>${x.u}</small></div><div class="s">${x.s}</div></div>`).join('');
+}
+
+/* ---------- filters ---------- */
+function phaseText(s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],...(p.tech||[]).map(t=>TECH_L[t]+' '+t)].join(' ').toLowerCase(); }
+function phaseMatch(s,p){
+  if (state.kind.size && !state.kind.has(s.kind)) return false;
+  if (state.region.size && !state.region.has(s.region)) return false;
+  if (state.status.size && !state.status.has(p.st)) return false;
+  if (state.tech.size && !(p.tech||[]).some(t=>state.tech.has(t))) return false;
+  if (state.q){ const t = phaseText(s,p); if (!state.q.split(/\s+/).every(w=>t.includes(w))) return false; }
+  return true;
+}
+function chipRow(elId, entries, set){
+  const el = document.getElementById(elId);
+  el.querySelectorAll('.chip').forEach(c=>c.remove());
+  entries.forEach(([k,l,n])=>{
+    const b = document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('aria-pressed', set.has(k));
+    b.innerHTML = `${l}<span class="n">${n}</span>`;
+    b.onclick = ()=>{ set.has(k)?set.delete(k):set.add(k); renderList(); renderFilters(); };
+    el.appendChild(b);
+  });
+}
+function renderFilters(){
+  const all = []; SITES.forEach(s=>s.phases.forEach(p=>all.push([s,p])));
+  const cnt = fn => all.filter(([s,p])=>fn(s,p)).length;
+  chipRow('fKind', Object.entries(KINDS).map(([k,l])=>[k,l,cnt(s=>s.kind===k)]), state.kind);
+  chipRow('fRegion', REGIONS.map(r=>[r.k,r.s,cnt(s=>s.region===r.k)]), state.region);
+  chipRow('fStatus', Object.entries(STATUS).map(([k,v])=>[k,v.l,cnt((s,p)=>p.st===k)]).filter(e=>e[2]), state.status);
+  chipRow('fTech', TECHS.map(t=>[t,TECH_L[t],cnt((s,p)=>(p.tech||[]).includes(t))]).filter(e=>e[2]), state.tech);
+}
+
+/* ---------- list rendering ---------- */
+const pill = st => `<span class="pill st-${st}">${STATUS[st].l}</span>`;
+const conf = c => `<span class="conf c-${c}" title="資料可信度">${CONF_L[c]}</span>`;
+function capCell(s, p, i){
+  const m = capAt(p,i); const keys = Object.keys(m).filter(k=>m[k]>0);
+  if (!keys.length){
+    const future = (p.cap||[]).find(x=>qi(x.t)>i);
+    return future ? `<span style="color:var(--ink-3)">—</span><small>${future.t} 起</small>` : `<span style="color:var(--ink-3)">—</span>`;
+  }
+  const unit = s.kind==='ap' ? '' : (s.wafer!==12 ? `（${s.wafer}吋）` : '');
+  return keys.map(k=>`${fmt(m[k])}<small>${s.kind==='ap'?k:(TECH_L[k]||k)}${unit}</small>`).join('');
+}
+function esc(t){ return String(t).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function srcLinks(ids){ return ids.map(id=>{ const s = SOURCES[id]; if(!s) return ''; const n = Object.keys(SOURCES).indexOf(id)+1;
+  return s[1] ? `<a href="${s[1]}" target="_blank" rel="noopener" title="${esc(s[0])}">[${n}]</a>` : `<span title="${esc(s[0])}">[${n}]</span>`; }).join(''); }
+
+function renderList(){
+  const i = state.asof;
+  const vis = SITES.map(s=>({ s, m: s.phases.map(p=>phaseMatch(s,p)) })).filter(x=>x.m.some(Boolean));
+  const nPh = vis.reduce((a,x)=>a+x.m.filter(Boolean).length,0);
+  document.getElementById('fcount').textContent = `${vis.length} 個廠區・${nPh} 個 phase`;
+  document.getElementById('empty').hidden = vis.length>0;
+  const cardsEl = document.getElementById('cards'), tv = document.getElementById('tableView');
+  cardsEl.hidden = state.view!=='cards' || !vis.length; tv.hidden = state.view!=='table' || !vis.length;
+
+  if (state.view==='cards'){
+    cardsEl.innerHTML = vis.map(({s,m})=>{
+      const n = siteNow(s,i); const f = factor(s);
+      let capHTML;
+      if (s.kind==='ap') capHTML = `<div><div class="big">${fmt(n.cw)}</div><div class="lbl">CoWoS 千片／月</div></div><div><div class="big">${fmt(n.so)}</div><div class="lbl">SoIC 千片／月</div></div>`;
+      else capHTML = `<div><div class="big">${fmt(n.w)}</div><div class="lbl">${s.wafer?s.wafer+' 吋':''} 千片／月</div></div>` + (f!==1?`<div><div class="big">${fmt(n.w*f)}</div><div class="lbl">12 吋約當</div></div>`:'');
+      const stc = {}; s.phases.forEach(p=>stc[p.st]=(stc[p.st]||0)+1);
+      return `<article class="card">
+        <div class="card-h"><div><div class="code">${esc(s.code)}</div><div class="cname">${esc(s.name)}</div></div>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end"><span class="tag">${KINDS[s.kind]}</span><span class="tag">${REGIONS.find(r=>r.k===s.region).s}</span></div></div>
+        <div class="meta"><span>📍 ${esc(s.loc)}</span>${s.wafer?`<span>${s.wafer} 吋</span>`:''}<span>投產 ${esc(s.since)}</span>${s.adv&&s.adv!=='—'?`<span>最先進量產：${esc(s.adv)}</span>`:''}</div>
+        <div class="capline">${capHTML}<div style="margin-left:auto;text-align:right"><div class="lbl">${qlab(i)}</div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${Object.keys(stc).map(k=>`<span class="pill st-${k}">${STATUS[k].l}${stc[k]>1?' ×'+stc[k]:''}</span>`).join('')}</div></div></div>
+        <div class="phases">${s.phases.map((p,pi)=>`<div class="ph${m[pi]?'':' dim'}">
+            <div class="pn">${esc(p.id)}<div style="margin-top:3px">${pill(p.st)}</div></div>
+            <div class="pd"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'・'+esc(p.ms):''}</div><div class="when">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div></div>
+            <div class="pc">${capCell(s,p,i)}</div></div>`).join('')}</div>
+        <details><summary>廠區說明與來源</summary><p style="margin:6px 0 0">${esc(s.desc)}</p><div class="meta" style="margin-top:6px"><span>持有：${esc(s.owner)}</span></div><div class="srcs">來源：${srcLinks(s.src)}</div></details>
+      </article>`;
+    }).join('');
+  } else {
+    const rows = [];
+    vis.forEach(({s,m})=>s.phases.forEach((p,pi)=>{ if(!m[pi]) return;
+      const now = capAt(p,i); const nowV = Object.entries(now).reduce((a,[k,v])=>a+v,0);
+      const mx = phaseMax(p); const mxV = Object.values(mx).reduce((a,b)=>a+b,0);
+      rows.push({ site:s.code, name:s.name, ph:p.id, kind:KINDS[s.kind], region:REGIONS.find(r=>r.k===s.region).s, loc:s.loc, wafer:s.wafer?s.wafer+'"':'封裝', nodes:p.nodes, st:p.st, mp:p.mp, ms:p.ms, now:nowV, max:mxV, full:p.full, conf:p.conf, s });
+    }));
+    const cols = [['site','廠區'],['ph','Phase'],['kind','類型'],['region','地區'],['wafer','尺寸'],['nodes','製程／技術'],['st','狀態'],['mp','量產時間'],['now',qlab(i)+' 產能',1],['max','模型滿載',1],['conf','可信度'],['ms','進度／備註']];
+    if (state.sort.k){ const k = state.sort.k, d = state.sort.dir; rows.sort((a,b)=> (typeof a[k]==='number' ? (a[k]-b[k]) : String(a[k]).localeCompare(String(b[k]),'zh-Hant')) * d); }
+    let h = '<thead><tr>' + cols.map(([k,l,num])=>`<th class="${num?'num':''}" data-k="${k}" ${state.sort.k===k?`aria-sort="${state.sort.dir>0?'ascending':'descending'}"`:''}>${l}</th>`).join('') + '</tr></thead><tbody>';
+    rows.forEach(r=>{ h += `<tr><td class="mono"><b>${esc(r.site)}</b></td><td class="mono">${esc(r.ph)}</td><td>${r.kind}</td><td>${r.region}</td><td class="mono">${r.wafer}</td><td>${esc(r.nodes)}</td><td>${pill(r.st)}</td><td>${esc(r.mp)}</td><td class="num">${r.now?fmt(r.now):'—'}</td><td class="num">${r.max?fmt(r.max):'—'}</td><td>${conf(r.conf)}</td><td style="min-width:260px;color:var(--ink-2)">${esc(r.ms)}</td></tr>`; });
+    const t = document.getElementById('phTable'); t.innerHTML = h + '</tbody>';
+    t.querySelectorAll('th').forEach(th=>th.onclick=()=>{ const k = th.dataset.k; state.sort = { k, dir: state.sort.k===k ? -state.sort.dir : 1 }; renderList(); });
+  }
+}
+
+/* ---------- misc render ---------- */
+function renderStatic(){
+  document.getElementById('changelog').innerHTML = CHANGELOG.map(c=>`<li><span class="mono">${c.d}</span>：${esc(c.t)}</li>`).join('');
+  document.getElementById('srclist').innerHTML = Object.values(SOURCES).map(([t,u])=> u?`<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>`:`<li>${esc(t)}</li>`).join('');
+  document.getElementById('checkedAt').textContent = META.checked;
+  document.getElementById('foot').innerHTML = `資料版本 ${META.version}・資料更新於 <span class="mono">${META.updated}</span>・最近自動檢查 <span class="mono">${META.checked}</span>・官方總產能：${OFFICIAL_TOTAL.map(o=>o[0]+' 年 '+o[1]).join('；')}。<br><b>本網站為 AI 自動收集資料，不代表台積電官方實際資料</b>；推估值僅供參考，非投資建議。`;
+}
+function setAsof(i){
+  state.asof = Math.max(I0, Math.min(IN, i));
+  document.getElementById('asof').value = state.asof - I0;
+  document.getElementById('asofLabel').textContent = qlab(state.asof);
+  document.querySelectorAll('.asofTxt').forEach(e=>e.textContent = qlab(state.asof));
+  const tag = state.asof < NOW_I ? '歷史' : state.asof === NOW_I ? '本季' : '預估';
+  document.getElementById('asofTag').textContent = tag;
+  renderKPIs(); renderList(); buildSite();
+  ['total','adv'].forEach(k=>{ if(charts[k]){ charts[k].options.plugins.nowLine.index = state.asof - I0; charts[k].update('none'); } });
+}
+function buildAll(){ buildTotal(); buildAdv(); buildSite(); buildAP('CoWoS','cCowos','lgCowos','CoWoS'); buildAP('SoIC','cSoic','lgSoic','SoIC'); }
+
+/* ---------- wire ---------- */
+const slider = document.getElementById('asof'); slider.max = QUARTERS.length-1;
+slider.addEventListener('input', e=>setAsof(I0 + +e.target.value));
+document.getElementById('asofReset').onclick = ()=>setAsof(NOW_I);
+document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ state.group=b.dataset.g; document.querySelectorAll('[data-g]').forEach(x=>x.setAttribute('aria-pressed', x===b)); buildTotal(); });
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ state.view=b.dataset.v; try{localStorage.setItem('tsmc-view',state.view);}catch(e){} document.querySelectorAll('[data-v]').forEach(x=>x.setAttribute('aria-pressed', x===b)); renderList(); });
+document.querySelectorAll('[data-v]').forEach(x=>x.setAttribute('aria-pressed', x.dataset.v===state.view));
+let qt; document.getElementById('q').addEventListener('input', e=>{ clearTimeout(qt); qt = setTimeout(()=>{ state.q = e.target.value.trim().toLowerCase(); renderList(); }, 120); });
+document.getElementById('fclear').onclick = ()=>{ state.q=''; document.getElementById('q').value=''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); renderFilters(); renderList(); };
+
+renderStatic(); renderFilters(); buildAll(); buildYeTable(); setAsof(NOW_I);
+let rt; const rebuild = ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ buildAll(); setAsof(state.asof); }, 60); };
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild); } catch(e){}
+new MutationObserver(rebuild).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+</script>
+</body>
+</html>
