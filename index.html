@@ -19,353 +19,651 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 <meta name="description" content="台積電、聯電、世界先進、力積電四家晶圓代工廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Chivo+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
+/* ---------- tokens ---------- */
 :root{
   color-scheme: light;
-  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa; --line:#dde3ea; --line-strong:#c4ced9;
-  --ink:#111a24; --ink-2:#44525f; --ink-3:#6b7885;
-  --accent:#0d5c70; --accent-soft:#e1eef2; --accent-ink:#ffffff;
-  --st-op:#1d7a45; --st-op-bg:#e3f3e9;
-  --st-ramp:#0b6b8a; --st-ramp-bg:#e0f0f6;
-  --st-build:#9a5b00; --st-build-bg:#fbefd9;
-  --st-plan:#4a5a78; --st-plan-bg:#e8ecf4;
-  --st-conv:#6b3fa0; --st-conv-bg:#efe7f8;
-  --st-exit:#b42318; --st-exit-bg:#fbe7e5;
-  --st-rd:#5b6570; --st-rd-bg:#eceff2;
-  --conf-off:#1d7a45; --conf-rep:#0b6b8a; --conf-est:#9a5b00;
+  --gutter: clamp(16px, 3.2vw, 40px);
+  --rail-h: 98px;
+  --bg:#ECEFF1; --surface:#FFFFFF; --surface-2:#F4F6F7; --surface-3:#E6EAED;
+  --line:#DCE1E5; --line-strong:#C2CAD1; --grid:#E9EDF0;
+  --ink:#0E151D; --ink-2:#45505C; --ink-3:#6A7682;
+  --accent:#F0A202; --accent-ink:#1B1400; --accent-text:#8A5800; --accent-soft:#FFF1D1;
+  --rail-bg:rgba(236,239,241,.88);
+  --wafer:#D3DAE0; --die-idle:#C3CCD4; --sheen-1:#C5D0F4; --sheen-2:#F3DDC4; --sheen-3:#C6EADC;
+  --st-op:#1F8A4C; --st-ramp:#0B7A96; --st-build:#B26B00; --st-plan:#5B6B82; --st-conv:#7A4DB3; --st-exit:#C0392B; --st-rd:#6B7580;
+  --conf-off:#1F7A45; --conf-rep:#0B6B8A; --conf-est:#9A5B00;
+  --warn:#C2410C; --warn-bg:#FDF0E7;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
-  --grid:rgba(17,26,36,.08); --shadow:0 1px 2px rgba(17,26,36,.06),0 4px 16px rgba(17,26,36,.05);
+  --hatch:rgba(14,21,29,.13);
+  --shadow:0 1px 0 rgba(14,21,29,.04),0 12px 30px -16px rgba(14,21,29,.28);
+  --nq:32; --qx:45.3%; --fw:50%;
+  --gaps:repeating-linear-gradient(90deg,transparent 0 calc(100% / var(--nq) - 1px),var(--surface) calc(100% / var(--nq) - 1px) calc(100% / var(--nq)));
   --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
-  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --display:"Archivo","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  --mono:"Chivo Mono",ui-monospace,"SFMono-Regular",Consolas,"Noto Sans TC",monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme: dark;
-    --bg:#0c1117; --surface:#141b23; --surface-2:#19222c; --line:#253140; --line-strong:#34424f;
-    --ink:#e6edf3; --ink-2:#aab6c2; --ink-3:#7f8c98;
-    --accent:#5cb8cf; --accent-soft:#16303a; --accent-ink:#06151a;
-    --st-op:#5fcf8c; --st-op-bg:#15301f; --st-ramp:#5cc2e0; --st-ramp-bg:#10303b;
-    --st-build:#f0b44c; --st-build-bg:#35270e; --st-plan:#a9b8d6; --st-plan-bg:#222b3b;
-    --st-conv:#c3a0f0; --st-conv-bg:#2c2140; --st-exit:#f28b82; --st-exit-bg:#3a1a18;
-    --st-rd:#aab4be; --st-rd-bg:#242b33;
-    --conf-off:#5fcf8c; --conf-rep:#5cc2e0; --conf-est:#f0b44c;
+    --bg:#0A0D11; --surface:#12171D; --surface-2:#171D24; --surface-3:#1F262E;
+    --line:#252D36; --line-strong:#36414C; --grid:#1C232A;
+    --ink:#E8EDF1; --ink-2:#AEB8C2; --ink-3:#7E8994;
+    --accent:#FFB21F; --accent-ink:#1B1400; --accent-text:#FFC44D; --accent-soft:#33260A;
+    --rail-bg:rgba(10,13,17,.86);
+    --wafer:#27303A; --die-idle:#313B46; --sheen-1:#313D66; --sheen-2:#57412D; --sheen-3:#2A5245;
+    --st-op:#4FC07F; --st-ramp:#4FB8D6; --st-build:#E8A33A; --st-plan:#9DAAC2; --st-conv:#B593E8; --st-exit:#F07B6E; --st-rd:#9AA4AE;
+    --conf-off:#5FCF8C; --conf-rep:#5CC2E0; --conf-est:#F0B44C;
+    --warn:#FF8A4C; --warn-bg:#2B1A10;
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-    --grid:rgba(230,237,243,.08); --shadow:0 1px 2px rgba(0,0,0,.3);
+    --hatch:rgba(232,237,241,.13);
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.7);
   }
 }
 :root[data-theme="dark"]{
   color-scheme: dark;
-  --bg:#0c1117; --surface:#141b23; --surface-2:#19222c; --line:#253140; --line-strong:#34424f;
-  --ink:#e6edf3; --ink-2:#aab6c2; --ink-3:#7f8c98;
-  --accent:#5cb8cf; --accent-soft:#16303a; --accent-ink:#06151a;
-  --st-op:#5fcf8c; --st-op-bg:#15301f; --st-ramp:#5cc2e0; --st-ramp-bg:#10303b;
-  --st-build:#f0b44c; --st-build-bg:#35270e; --st-plan:#a9b8d6; --st-plan-bg:#222b3b;
-  --st-conv:#c3a0f0; --st-conv-bg:#2c2140; --st-exit:#f28b82; --st-exit-bg:#3a1a18;
-  --st-rd:#aab4be; --st-rd-bg:#242b33;
-  --conf-off:#5fcf8c; --conf-rep:#5cc2e0; --conf-est:#f0b44c;
+  --bg:#0A0D11; --surface:#12171D; --surface-2:#171D24; --surface-3:#1F262E;
+  --line:#252D36; --line-strong:#36414C; --grid:#1C232A;
+  --ink:#E8EDF1; --ink-2:#AEB8C2; --ink-3:#7E8994;
+  --accent:#FFB21F; --accent-ink:#1B1400; --accent-text:#FFC44D; --accent-soft:#33260A;
+  --rail-bg:rgba(10,13,17,.86);
+  --wafer:#27303A; --die-idle:#313B46; --sheen-1:#313D66; --sheen-2:#57412D; --sheen-3:#2A5245;
+  --st-op:#4FC07F; --st-ramp:#4FB8D6; --st-build:#E8A33A; --st-plan:#9DAAC2; --st-conv:#B593E8; --st-exit:#F07B6E; --st-rd:#9AA4AE;
+  --conf-off:#5FCF8C; --conf-rep:#5CC2E0; --conf-est:#F0B44C;
+  --warn:#FF8A4C; --warn-bg:#2B1A10;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-  --grid:rgba(230,237,243,.08); --shadow:0 1px 2px rgba(0,0,0,.3);
+  --hatch:rgba(232,237,241,.13);
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.7);
 }
+
+/* ---------- base ---------- */
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
-.wrap{max-width:1320px;margin:0 auto}
-a{color:var(--accent)}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+html{scroll-padding-top:calc(var(--rail-h) + 12px)}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.65;padding-inline:var(--gutter);padding-block:0 64px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.inner{max-width:1360px;margin-inline:auto}
+a{color:inherit;text-decoration-color:color-mix(in srgb,currentColor 38%,transparent);text-underline-offset:3px}
+a:hover{text-decoration-color:currentColor}
 button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{cursor:pointer}
+button:disabled{cursor:default;opacity:.38}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{text-wrap:balance}
+p{text-wrap:pretty}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 
-/* header */
-header.top{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-block:28px 20px;border-bottom:1px solid var(--line)}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
-h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,4vw,40px);line-height:1.15;margin:4px 0 6px;text-wrap:balance;letter-spacing:.02em}
-.lede{color:var(--ink-2);max-width:68ch;margin:0}
-.asof{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:300px;box-shadow:var(--shadow)}
-.asof label{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-3)}
-.asof .q{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink)}
-.asof input[type=range]{width:100%;accent-color:var(--accent)}
-.asof .hint{font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between}
-.asof .reset{border:0;background:none;color:var(--accent);cursor:pointer;padding:0;font-size:12px}
+/* ---------- rail (sticky: company tabs + time) ---------- */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);background:var(--rail-bg);-webkit-backdrop-filter:saturate(1.3) blur(14px);backdrop-filter:saturate(1.3) blur(14px);border-bottom:1px solid var(--line)}
+.rail-in{max-width:1360px;margin-inline:auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"brand tabs step" "ruler ruler ruler";column-gap:18px;align-items:center}
+.brand{grid-area:brand;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-height:56px}
+.brand svg{width:28px;height:28px;display:block;flex:none}
+.brand b{display:block;font-weight:900;font-size:15px;letter-spacing:.08em;line-height:1.15}
+.brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);line-height:1.3}
+.cnav{grid-area:tabs;display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none;padding-block:8px}
+.cnav::-webkit-scrollbar{display:none}
+.cnav button{flex:none;display:flex;align-items:center;gap:8px;border:0;background:transparent;border-radius:6px;padding:7px 12px;color:var(--ink-2);white-space:nowrap;transition:background-color .15s}
+.cnav button:hover{background:var(--surface-3)}
+.cnav .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.cnav .dots{display:grid;grid-template-columns:repeat(2,4px);gap:1.5px;flex:none}
+.cnav .dots span{width:4px;height:4px;border-radius:50%}
+.cnav b{font-size:14px;font-weight:700;color:var(--ink)}
+.cnav small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.02em}
+.cnav button[aria-selected="true"]{background:var(--ink)}
+.cnav button[aria-selected="true"] b{color:var(--surface)}
+.cnav button[aria-selected="true"] small{color:color-mix(in srgb,var(--surface) 62%,transparent)}
+.stepper{grid-area:step;display:flex;align-items:center;gap:5px}
+.sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;min-width:32px;padding:0 8px;border:1px solid var(--line);background:var(--surface);border-radius:6px;color:var(--ink);font-size:12.5px;white-space:nowrap;transition:border-color .15s,background-color .15s}
+.sbtn:hover:not(:disabled){border-color:var(--line-strong)}
+.sbtn svg{width:14px;height:14px;display:block}
+.sbtn .i-pause{display:none}
+.sbtn[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.sbtn[aria-pressed="true"] .i-play{display:none}
+.sbtn[aria-pressed="true"] .i-pause{display:block}
+.qbox{display:grid;justify-items:center;min-width:86px;line-height:1.05;padding-inline:2px}
+.qlabel{font-family:var(--display);font-weight:800;font-size:19px;font-variation-settings:"wdth" 106;letter-spacing:.01em}
+.qtag{font-size:10.5px;line-height:15px;padding:0 6px;border-radius:3px;margin-top:3px;color:var(--ink-2);background:var(--surface-3)}
+.qtag[data-t="now"]{background:var(--accent);color:var(--accent-ink);font-weight:500}
+.qtag[data-t="future"]{background-color:var(--surface);background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 5px);box-shadow:inset 0 0 0 1px var(--line-strong)}
 
-/* KPI */
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-block:20px}
-.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.kpi .k{font-size:12px;color:var(--ink-3)}
-.kpi .v{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1.2;margin-top:2px}
-.kpi .v small{font-size:13px;font-weight:400;color:var(--ink-3);margin-left:4px}
-.kpi .s{font-size:12px;color:var(--ink-2);margin-top:4px}
+/* time ruler */
+.ruler{grid-area:ruler;position:relative;height:40px}
+.ruler input{position:absolute;inset:0;width:100%;height:40px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:grab;z-index:2}
+.ruler input:active{cursor:grabbing}
+.ruler input:focus-visible{outline:none}
+.ruler input::-webkit-slider-runnable-track{height:40px;background:transparent;border:0}
+.ruler input::-moz-range-track{height:40px;background:transparent;border:0}
+.ruler input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:11px;border-radius:50%;background:var(--ink);border:4px solid var(--accent);box-shadow:0 0 0 2px var(--surface),0 2px 6px rgba(0,0,0,.25)}
+.ruler input::-moz-range-thumb{box-sizing:border-box;width:18px;height:18px;border-radius:50%;background:var(--ink);border:4px solid var(--accent);box-shadow:0 0 0 2px var(--surface),0 2px 6px rgba(0,0,0,.25)}
+.ruler input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--surface),0 0 0 6px color-mix(in srgb,var(--accent) 50%,transparent)}
+.ruler input:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2px var(--surface),0 0 0 6px color-mix(in srgb,var(--accent) 50%,transparent)}
+.r-scale{position:absolute;left:9px;right:9px;top:0;bottom:0;pointer-events:none}
+.r-track{position:absolute;left:0;right:0;top:18px;height:4px;border-radius:2px;background:var(--ink-3)}
+.r-future{position:absolute;right:0;top:17px;height:6px;border-radius:0 3px 3px 0;background-color:var(--surface);background-image:repeating-linear-gradient(135deg,var(--ink-3) 0 1.2px,transparent 1.2px 4px);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.r-tick{position:absolute;top:26px;width:1px;height:4px;background:var(--line-strong);margin-left:-.5px}
+.r-tick.y{height:9px;background:var(--ink-3)}
+.r-year{position:absolute;top:1px;font-family:var(--mono);font-size:10.5px;line-height:12px;color:var(--ink-3);letter-spacing:.02em;padding-left:3px}
+.r-today{position:absolute;top:15px;width:10px;height:10px;margin-left:-5px;transform:rotate(45deg);background:var(--accent);box-shadow:0 0 0 2px var(--surface)}
+.r-today-l{position:absolute;top:27px;margin-left:6px;font-size:10.5px;line-height:12px;color:var(--accent-text);font-weight:500;white-space:nowrap}
 
-/* disclaimer */
-.disclaimer{margin-top:16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;background:var(--st-build-bg);color:var(--ink);border:1px solid var(--st-build);border-radius:10px;padding:10px 14px;font-size:13px}
-.disclaimer > b:first-child{font-size:11px;font-family:var(--mono);letter-spacing:.06em;color:var(--st-build);border:1px solid var(--st-build);border-radius:4px;padding:0 6px}
+/* ---------- masthead ---------- */
+.mast{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,460px);gap:14px 40px;align-items:start;padding-block:24px 4px}
+.mast h1{margin:0;font-weight:900;font-size:clamp(19px,2vw,23px);letter-spacing:.08em;line-height:1.3}
+.mast p{margin:6px 0 0;color:var(--ink-2);font-size:13.5px;max-width:78ch}
+.notice{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start;border:1px solid color-mix(in srgb,var(--accent) 65%,var(--line));background:var(--accent-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.6}
+.notice .badge{font-size:11px;font-weight:700;letter-spacing:.04em;background:var(--accent);color:var(--accent-ink);border-radius:3px;padding:1px 7px;white-space:nowrap;margin-top:1px}
+.notice p{margin:0;color:var(--ink)}
 
-/* sections */
-section{margin-top:28px}
-.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:12px}
-h2{font-size:18px;margin:0;font-weight:700}
-.sec-h p{margin:0;color:var(--ink-3);font-size:13px}
-.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
-.panel.wide{grid-column:1/-1}
-.panel h3{margin:0;font-size:15px}
-.panel .sub{font-size:12px;color:var(--ink-3);margin:2px 0 10px}
-.panel-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:flex-start}
-.cbox{position:relative;height:320px}
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.95fr);gap:28px clamp(24px,4vw,60px);align-items:start;margin-top:26px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.co-title{margin:10px 0 16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;line-height:1}
+.co-title .zh{font-size:clamp(44px,6.2vw,78px);font-weight:900;letter-spacing:.04em}
+.co-title .en{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.5vw,30px);font-variation-settings:"wdth" 125;color:var(--ink-3);letter-spacing:.03em}
+.co-title .sw{width:.2em;height:.2em;border-radius:50%;align-self:center;font-size:clamp(44px,6.2vw,78px);flex:none}
+.hero .lede{margin:0;font-size:15px;line-height:1.75;color:var(--ink-2);max-width:62ch}
+.spec{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,45%),1fr));margin:22px 0 0;border-top:2px solid var(--ink)}
+.spec > div{padding:9px 16px 9px 0;border-bottom:1px solid var(--line);min-width:0}
+.spec dt{font-size:11.5px;color:var(--ink-3)}
+.spec dd{margin:2px 0 0;font-family:var(--display);font-weight:700;font-size:15px;line-height:1.4}
+.jump{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:18px;font-size:12px;color:var(--ink-3)}
+.jump button{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);border-radius:5px;padding:4px 10px;font-size:12.5px;color:var(--ink)}
+.jump button:hover{border-color:var(--line-strong)}
+.jump svg{width:11px;height:11px}
+
+/* wafer figure */
+.wfig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px;display:grid;gap:12px;min-width:0}
+.wfig-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 12px}
+.wfig-h h3{margin:0;font-size:14px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.wfig-h h3 .mono{font-size:12px;font-weight:600;color:var(--accent-text)}
+.wstage{border-radius:8px;padding:12px;background-color:var(--surface-2);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px;background-position:-1px -1px;display:grid;place-items:center}
+.wafer{display:block;width:100%;max-width:320px;height:auto;overflow:visible}
+.wafer .die{transition:fill .42s cubic-bezier(.2,.7,.2,1) var(--dl,0ms),opacity .15s ease}
+.wafer[data-hl] .die{opacity:.2}
+.wafer[data-hl] .die.on{opacity:1}
+.w-edge rect{fill:var(--die-idle);opacity:.55}
+.w-rim{fill:none;stroke:var(--line-strong);stroke-width:1}
+.w-notch{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:1}
+.wlegend{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.wlegend button{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;border:0;background:transparent;border-radius:4px;padding:4px 6px;text-align:left;font-size:12.5px;line-height:1.35;color:var(--ink-2);cursor:default}
+.wlegend button:hover,.wlegend button:focus-visible,.wlegend button.on{background:var(--surface-2);color:var(--ink)}
+.wlegend button.zero{opacity:.5}
+.wlegend i{width:10px;height:10px;border-radius:2px}
+.wlegend .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink);white-space:nowrap;text-align:right}
+.wlegend .v small{color:var(--ink-3);font-size:10.5px;margin-left:5px}
+.wnote{margin:0;font-size:11.5px;line-height:1.55;color:var(--ink-3)}
+
+/* compare wafers */
+.cwafers{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-evenly;gap:18px 12px;min-height:230px;padding:16px 4px 10px}
+.cw{display:grid;justify-items:center;gap:8px;border:0;background:none;padding:6px 4px;border-radius:8px;color:inherit;min-width:0}
+.cw:hover{background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.cw svg{display:block;max-width:100%;height:auto;overflow:visible}
+.cw .w-notch{fill:var(--surface-2)}
+.cw-l{display:grid;justify-items:center;line-height:1.3}
+.cw-l .nm{display:flex;align-items:center;gap:6px;font-weight:700;font-size:13px}
+.cw-l .nm i{width:8px;height:8px;border-radius:50%}
+.cw-l .val{font-family:var(--display);font-weight:700;font-size:20px}
+.cw-l .sh{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.wkey{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)}
+.wkey i{width:10px;height:10px;border-radius:2px;margin-left:6px}
+.wkey .k12{background:var(--ink-2)}
+.wkey .k86{background:color-mix(in srgb,var(--ink-2) 42%,var(--surface))}
+
+/* ---------- KPI strip ---------- */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:26px}
+.kpi{background:var(--surface);padding:14px 16px 12px;display:flex;flex-direction:column;min-width:0}
+.kpi .k{font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.kpi .k .q{font-family:var(--mono);font-size:10.5px;white-space:nowrap}
+.kpi .v{font-family:var(--display);font-weight:700;font-size:30px;line-height:1.1;margin-top:6px;white-space:nowrap}
+.kpi .v .sl{color:var(--ink-3);font-weight:400;margin:0 3px}
+.kpi .u{font-family:var(--font);font-size:12px;font-weight:400;color:var(--ink-3);margin-left:5px}
+.kpi .d{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:3px;min-height:16px}
+.kpi .d b{font-weight:600;color:var(--ink)}
+.kpi .s{font-size:12px;color:var(--ink-2);line-height:1.5;margin-top:2px}
+.spk{position:relative;height:38px;margin-top:auto;padding-top:8px}
+.spk svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:30px;overflow:visible}
+.spk-a{fill:color-mix(in srgb,var(--c) 13%,transparent)}
+.spk-l{fill:none;stroke:var(--c);stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.spk-f{fill:none;stroke:var(--c);stroke-width:1.5;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.75}
+.spk .cur{position:absolute;bottom:0;height:30px;width:1px;background:var(--ink);opacity:.45;left:var(--x)}
+.spk .dotm{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--surface);transform:translate(-50%,-50%);left:var(--x);top:calc(8px + var(--y) * .3px)}
+.stbar{display:flex;gap:2px;height:8px;margin-top:auto;padding-top:0;border-radius:2px;overflow:hidden}
+.stbar i{display:block;min-width:2px}
+.stleg{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:8px;font-size:11.5px;color:var(--ink-2)}
+.stleg span{display:inline-flex;align-items:center;gap:4px}
+
+/* ---------- sections & sheets ---------- */
+.sec{margin-top:40px;scroll-margin-top:calc(var(--rail-h) + 12px)}
+.sec-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 20px;margin-bottom:14px}
+.sec-h h2{margin:0;font-size:22px;font-weight:900;letter-spacing:.05em;line-height:1.25}
+.sec-h .meta{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em;margin-top:3px}
+.sec-h > p{flex:1 0 100%;margin:0;color:var(--ink-2);font-size:13px;max-width:none}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
+.pan{background:var(--surface);padding:18px 20px 16px;min-width:0}
+.pan.wide{grid-column:1/-1}
+.pan-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 14px;margin-bottom:8px}
+.pan h3{margin:0;font-size:15px;font-weight:700}
+.pan .sub{font-size:12px;color:var(--ink-3);margin-top:2px;max-width:72ch;text-wrap:pretty}
+.pan .sub .asofTxt{font-family:var(--mono);color:var(--accent-text);font-weight:600}
+.cbox{position:relative;height:290px}
 .cbox.tall{height:380px}
-.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
-.seg button{border:0;background:var(--surface);padding:5px 12px;font-size:12px;cursor:pointer;color:var(--ink-2)}
-.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--ink-2)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.legend i.dia{width:9px;height:9px;border-radius:1px;transform:rotate(45deg);background:transparent!important;border:2px solid var(--ink)}
-details.datatable{margin-top:10px;font-size:12px}
-details.datatable summary{cursor:pointer;color:var(--accent)}
-.tscroll{overflow-x:auto}
+.hint{margin:8px 0 0;font-size:11.5px;color:var(--ink-3)}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:2px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:5px;padding:4px 11px;font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:500;box-shadow:0 0 0 1px var(--line-strong),0 1px 2px rgba(0,0,0,.08)}
+.seg.sm button{padding:3px 9px;font-size:12px}
+
+/* chart legends */
+.lg{display:flex;flex-wrap:wrap;gap:2px 4px;margin-top:10px;font-size:12px;color:var(--ink-2)}
+.lg button,.lg span{display:inline-flex;align-items:center;gap:6px;border:0;background:none;border-radius:4px;padding:3px 7px;font-size:12px;color:var(--ink-2);line-height:1.4}
+.lg button:hover{background:var(--surface-2);color:var(--ink)}
+.lg button[aria-pressed="false"]{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--ink-3)}
+.lg button[aria-pressed="false"] i{opacity:.25}
+.lg i{width:10px;height:10px;border-radius:2px;flex:none}
+.lg i.ln{height:3px;width:14px;border-radius:2px}
+.lg i.dia{width:8px;height:8px;border-radius:1px;transform:rotate(45deg);background:transparent!important;box-shadow:inset 0 0 0 2px var(--ink-2)}
+
+/* year-end table */
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{border-collapse:collapse;width:100%}
-th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:12px;color:var(--ink-3);font-weight:500;white-space:nowrap;background:var(--surface-2);position:sticky;top:0}
-td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ye{font-size:12.5px}
+.ye th,.ye td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.ye th:first-child,.ye td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;font-family:var(--font)}
+.ye thead th{font-family:var(--mono);font-weight:500;color:var(--ink-3);font-size:11.5px;background:var(--surface-2);vertical-align:bottom;line-height:1.25}
+.ye thead th:first-child{background:var(--surface-2)}
+.ye thead th small{display:block;font-family:var(--font);font-size:10px;color:var(--ink-3)}
+.ye thead th.fc{background-image:repeating-linear-gradient(135deg,var(--hatch) 0 1.5px,transparent 1.5px 5px)}
+.ye td{font-family:var(--mono);font-variant-numeric:tabular-nums;background-image:linear-gradient(var(--bar,transparent),var(--bar,transparent));background-repeat:no-repeat;background-position:right 10px bottom 3px;background-size:var(--w,0%) 2px}
+.ye tbody th{font-family:var(--font);font-size:12.5px;color:var(--ink)}
+.ye tbody th i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:8px;vertical-align:0}
+.ye .sel{background-color:var(--accent-soft)}
+.ye thead th.sel{background-color:var(--accent);color:var(--accent-ink)}
+.ye thead th.sel small{color:var(--accent-ink)}
+.ye tr.tot td,.ye tr.tot th{font-weight:600;color:var(--ink);border-top:1px solid var(--ink-3)}
+.ye tr.sep td,.ye tr.sep th{border-top:1px solid var(--line-strong)}
 
-/* filters */
-.filters{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:var(--shadow)}
-.frow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
-.frow .fl{font-size:12px;color:var(--ink-3);width:64px;flex:none}
-.search{flex:1 1 260px;display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px;background:var(--surface-2)}
+/* ---------- status glyphs, badges, notes ---------- */
+.gl{width:13px;height:13px;flex:none;display:inline-block;vertical-align:-2px}
+.st-op{color:var(--st-op)} .st-ramp{color:var(--st-ramp)} .st-build{color:var(--st-build)} .st-plan{color:var(--st-plan)}
+.st-conv{color:var(--st-conv)} .st-exit{color:var(--st-exit)} .st-sold{color:var(--st-exit)} .st-rd{color:var(--st-rd)} .st-rumor{color:var(--st-rd)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;line-height:18px;color:var(--ink-2);white-space:nowrap}
+.conf{display:inline-block;font-size:10.5px;line-height:16px;border-radius:3px;padding:0 5px;white-space:nowrap;font-weight:500;vertical-align:1px}
+.conf.c-off{color:var(--conf-off);box-shadow:inset 0 0 0 1px currentColor;background:color-mix(in srgb,var(--conf-off) 12%,transparent)}
+.conf.c-rep{color:var(--conf-rep);box-shadow:inset 0 0 0 1px currentColor}
+.conf.c-est{color:var(--conf-est);border:1px dashed currentColor;line-height:14px}
+.warn{display:flex;gap:7px;align-items:flex-start;margin:6px 0 0;padding:6px 9px;border-radius:6px;background:var(--warn-bg);font-size:12px;line-height:1.55;color:var(--ink)}
+.warn .wi{width:14px;height:14px;flex:none;margin-top:2px;color:var(--warn)}
+.warn b{color:var(--warn);margin-right:6px;font-weight:700}
+.warn-i{color:var(--warn);font-weight:700}
+
+/* ---------- filters ---------- */
+.fbar{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.frow .fl{flex:none;width:76px;font-size:12px;color:var(--ink-3)}
+.search{flex:1 1 280px;display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);border-radius:7px;padding:6px 10px;background:var(--surface-2)}
+.search:focus-within{border-color:var(--ink-3);background:var(--surface)}
+.search svg{width:15px;height:15px;color:var(--ink-3);flex:none}
 .search input{border:0;background:transparent;outline:none;flex:1;min-width:0}
-.chip{border:1px solid var(--line-strong);background:var(--surface);border-radius:999px;padding:3px 11px;font-size:12px;cursor:pointer;color:var(--ink-2);white-space:nowrap}
-.chip[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:500}
-.chip .n{font-family:var(--mono);color:var(--ink-3);margin-left:4px}
-.fcount{font-size:12px;color:var(--ink-3);margin-left:auto}
-.clear{border:0;background:none;color:var(--accent);cursor:pointer;font-size:12px}
-.collapse-f{display:none}
+.clear{border:0;background:none;color:var(--ink-2);font-size:12.5px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+.chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);border-radius:5px;padding:3px 9px;font-size:12.5px;color:var(--ink-2);white-space:nowrap;transition:background-color .12s,border-color .12s}
+.chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.chip .n{font-family:var(--mono);font-size:10.5px;opacity:.7}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.chip[aria-pressed="true"] .gl{color:inherit}
+.vwrap{margin-top:14px}
 
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px;margin-top:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.card-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.code{font-family:var(--mono);font-weight:600;font-size:20px;line-height:1.1}
-.cname{font-size:13px;color:var(--ink-2)}
-.tag{font-size:11px;border:1px solid var(--line-strong);border-radius:6px;padding:1px 7px;color:var(--ink-2);white-space:nowrap}
-.meta{font-size:12px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:4px 12px}
-.capline{display:flex;gap:18px;align-items:baseline;border-block:1px dashed var(--line);padding-block:8px}
-.capline .big{font-family:var(--mono);font-size:22px;font-weight:600}
-.capline .lbl{font-size:11px;color:var(--ink-3)}
-.phases{display:flex;flex-direction:column}
-.ph{display:grid;grid-template-columns:78px 1fr auto;gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line);align-items:start}
+/* ---------- fab cards ---------- */
+.fabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px;align-items:start}
+.grp-h{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:14px 0 -2px;font-size:14px;font-weight:900;letter-spacing:.06em}
+.grp-h:first-child{margin-top:0}
+.grp-h .mono{font-size:11.5px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.grp-h::after{content:"";flex:1;height:1px;background:var(--line-strong);align-self:center}
+.fab{background:var(--surface);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-width:0;transition:border-color .15s,box-shadow .2s}
+.fab:hover{border-color:var(--line-strong);box-shadow:var(--shadow)}
+.fab-h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:14px 16px 6px;align-items:start}
+.fab-title{display:grid;gap:2px;text-align:left;border:0;background:none;padding:0;color:inherit}
+.fab-code{font-family:var(--display);font-weight:800;font-size:22px;font-variation-settings:"wdth" 112;line-height:1.05;letter-spacing:.005em}
+.fab-title:hover .fab-code{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--accent)}
+.fab-name{font-size:13px;color:var(--ink-2);line-height:1.45}
+.fab-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:170px}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:3px;padding:0 6px;color:var(--ink-2);white-space:nowrap;line-height:18px}
+.fab-meta{padding:0 16px;font-size:12px;color:var(--ink-3);line-height:1.6}
+.fab-meta span+span::before{content:"・"}
+.fab > .warn{margin:8px 16px 0}
+.fab-cap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:end;margin:10px 16px 0;padding:10px 0 12px;border-top:1px solid var(--line)}
+.capnow{display:grid;gap:2px;min-width:0}
+.capnow .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.capnow b{font-family:var(--display);font-weight:700;font-size:24px;line-height:1}
+.capnow small{font-size:11px;color:var(--ink-3);margin-left:4px}
+.capnow .eq{font-size:11.5px;color:var(--ink-2)}
+.capnow .q{font-family:var(--mono);font-size:10.5px;color:var(--accent-text);font-weight:600}
+.cspk{position:relative;height:44px;min-width:0}
+.cspk svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cspk .fc{position:absolute;top:0;bottom:0;right:0;width:var(--fw);background-image:repeating-linear-gradient(135deg,var(--hatch) 0 1.5px,transparent 1.5px 5px);border-left:1px dashed var(--line-strong)}
+.cspk::after{content:"";position:absolute;top:-2px;bottom:-2px;left:var(--qx);width:2px;margin-left:-1px;background:var(--ink);border-radius:1px}
+.cspk .mx{position:absolute;right:0;top:-4px;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--surface);padding-left:3px;line-height:1.2}
+.cspk.none{display:flex;align-items:center;justify-content:flex-end;font-size:11.5px;color:var(--ink-3);height:auto}
+.cspk.none::after{display:none}
+.phs{list-style:none;margin:0;padding:0 16px 4px;border-top:1px solid var(--line)}
+.ph{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:2px 12px;padding:10px 0;border-bottom:1px solid var(--grid);align-items:start}
 .ph:last-child{border-bottom:0}
 .ph.dim{opacity:.35}
-.ph .pn{font-family:var(--mono);font-size:12px;font-weight:600}
-.ph .pd{font-size:12.5px;min-width:0}
-.ph .pd .nodes{font-weight:500}
-.ph .pd .when{color:var(--ink-3);font-size:12px}
-.ph .pc{text-align:right;font-family:var(--mono);font-size:12.5px;white-space:nowrap}
-.ph .pc small{display:block;color:var(--ink-3);font-size:11px}
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;border-radius:999px;padding:0 8px;line-height:19px;white-space:nowrap;font-weight:500}
-.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.st-op{color:var(--st-op);background:var(--st-op-bg)} .st-ramp{color:var(--st-ramp);background:var(--st-ramp-bg)}
-.st-build{color:var(--st-build);background:var(--st-build-bg)} .st-plan{color:var(--st-plan);background:var(--st-plan-bg)}
-.st-conv{color:var(--st-conv);background:var(--st-conv-bg)} .st-exit{color:var(--st-exit);background:var(--st-exit-bg)}
-.st-rd{color:var(--st-rd);background:var(--st-rd-bg)} .st-rumor{color:var(--st-rd);background:transparent;border:1px dashed var(--line-strong)}
-.conf{font-size:10.5px;font-family:var(--mono);border-radius:4px;padding:0 5px;border:1px solid currentColor;white-space:nowrap}
-.conf.c-off{color:var(--conf-off)} .conf.c-rep{color:var(--conf-rep)} .conf.c-est{color:var(--conf-est)}
-.warn,.warn-i{color:var(--st-build);font-size:12px}
-.warn{margin-top:2px}
-.card > .warn{background:var(--st-build-bg);border-radius:6px;padding:4px 8px;margin-top:0}
-.card details{font-size:12.5px;color:var(--ink-2)}
-.card details summary{cursor:pointer;color:var(--accent);font-size:12px}
-.card details ul{margin:6px 0 0;padding-left:18px}
-.srcs{font-size:11.5px;margin-top:6px;color:var(--ink-3)}
-.srcs a{margin-right:8px}
-.empty{padding:40px;text-align:center;color:var(--ink-3);background:var(--surface);border:1px dashed var(--line-strong);border-radius:12px;margin-top:14px}
+.ph-id{display:grid;gap:3px;align-content:start;min-width:0}
+.ph-id b{font-family:var(--display);font-size:13px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.ph-d{font-size:12.5px;min-width:0;line-height:1.55}
+.ph-d .nodes{font-weight:500;color:var(--ink)}
+.ph-d .when{color:var(--ink-3);font-size:12px}
+.ph-d .full{color:var(--ink-3);font-size:12px}
+.ph-c{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;white-space:nowrap;line-height:1.35}
+.ph-c small{display:block;color:var(--ink-3);font-size:10.5px;font-family:var(--font)}
+.ph-c .none{color:var(--ink-3)}
+.strip,.g-track{position:relative;border-radius:2px;background-color:var(--surface-2);background-image:var(--gaps),repeating-linear-gradient(135deg,var(--hatch) 0 1.5px,transparent 1.5px 5px),var(--data,none);background-size:100% 100%,var(--fw) 100%,100% 100%;background-position:0 0,right top,0 0;background-repeat:no-repeat}
+.strip{grid-column:2/-1;height:7px;margin-top:6px;cursor:crosshair}
+.strip::after,.g-track::after{content:"";position:absolute;top:-3px;bottom:-3px;left:var(--qx);width:2px;margin-left:-1px;background:var(--ink);border-radius:1px;pointer-events:none}
+.fab-f{margin-top:auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 12px;padding:10px 16px 12px;border-top:1px solid var(--line)}
+.fab-st{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:11.5px;color:var(--ink-2)}
+.fab-st span{display:inline-flex;align-items:center;gap:4px}
+.more{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:5px;padding:4px 10px;font-size:12.5px;color:var(--ink)}
+.more:hover{border-color:var(--ink-3)}
+.more .mono{font-size:10.5px;color:var(--ink-3)}
+.empty{padding:40px 20px;text-align:center;color:var(--ink-3);background:var(--surface);border:1px dashed var(--line-strong);border-radius:10px}
 
-/* table view */
-#tableView{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-#tableView .tscroll{max-height:70vh}
-#tableView th{cursor:pointer;user-select:none}
-#tableView th[aria-sort]::after{content:" ▾";color:var(--accent)}
-#tableView th[aria-sort=ascending]::after{content:" ▴"}
-#tableView td{font-size:12.5px}
+/* ---------- roadmap (gantt) ---------- */
+.gantt{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+.g-in{min-width:800px;padding-bottom:8px}
+.g-key{display:flex;flex-wrap:wrap;gap:4px 16px;padding:10px 14px;font-size:11.5px;color:var(--ink-3);border-bottom:1px solid var(--line)}
+.g-key span{display:inline-flex;align-items:center;gap:6px}
+.g-key i{display:inline-block;width:22px;height:9px;border-radius:2px}
+.g-row,.g-head{display:grid;grid-template-columns:236px minmax(0,1fr) 112px;align-items:center;column-gap:14px;padding-inline:14px}
+.g-head{position:sticky;top:0;z-index:2;background:var(--surface-2);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink-3);min-height:30px}
+.g-head .g-label{background:var(--surface-2)}
+.g-years{position:relative;height:30px}
+.g-years span{position:absolute;top:8px;font-family:var(--mono);font-size:10.5px;padding-left:4px;border-left:1px solid var(--line-strong);line-height:14px}
+.g-val{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap}
+.g-val small{color:var(--ink-3);font-family:var(--font);font-size:10.5px;margin-left:3px}
+.g-head .g-val{font-weight:600;color:var(--accent-text)}
+.g-group{padding:14px 14px 6px;font-weight:900;font-size:13px;letter-spacing:.06em;display:flex;gap:8px;align-items:baseline}
+.g-group .mono{font-size:11px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.g-row{min-height:30px;padding-block:3px;border-top:1px solid var(--grid);cursor:pointer}
+.g-row.first{border-top-color:var(--line)}
+.g-row:hover,.g-row:focus-visible{background:var(--surface-2)}
+.g-label{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px;align-items:center;font-size:12.5px;min-width:0;position:sticky;left:0;background:var(--surface);align-self:stretch;align-content:center}
+.g-row:hover .g-label,.g-row:focus-visible .g-label{background:var(--surface-2)}
+.g-site{font-family:var(--display);font-weight:800;font-size:13px;font-variation-settings:"wdth" 108;line-height:1.2}
+.g-ph{display:flex;align-items:center;gap:6px;min-width:0;color:var(--ink-2);line-height:1.35}
+.g-track{height:14px}
+.g-track.none{background:none;border:1px dashed var(--line-strong);height:auto;min-height:18px;display:flex;align-items:center;padding:1px 8px;font-size:11px;line-height:1.4;color:var(--ink-3)}
+.g-track.none::after{display:none}
 
-/* notes */
-.two{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+/* ---------- phase table ---------- */
+.tview{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.tview .tscroll{max-height:72vh}
+.pt th,.pt td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12.5px}
+.pt th{font-size:11.5px;color:var(--ink-3);font-weight:500;white-space:nowrap;background:var(--surface-2);position:sticky;top:0;z-index:1;cursor:pointer;user-select:none}
+.pt th[aria-sort]::after{content:" ▾";color:var(--accent-text)}
+.pt th[aria-sort="ascending"]::after{content:" ▴"}
+.pt td.num,.pt th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pt tbody tr:hover td{background:var(--surface-2)}
+.pt .site{font-family:var(--display);font-weight:700;white-space:nowrap}
+.pt tbody tr[data-open]{cursor:pointer}
+.ctable th{cursor:default}
+.ctable td{font-size:13px}
+.cdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
+
+/* ---------- method ---------- */
+.method{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1px;background:var(--line)}
+.method > div{background:var(--surface);padding:18px 22px}
 .note{font-size:13px;color:var(--ink-2)}
-.note ol,.note ul{padding-left:20px;margin:6px 0}
-.note li{margin-bottom:4px}
-.srclist{font-size:12px;columns:2;column-gap:28px}
-.srclist li{break-inside:avoid;margin-bottom:4px}
-footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px}
+.note h3{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--ink)}
+.note h3:not(:first-child){margin-top:18px}
+.note ul,.note ol{margin:0;padding-left:18px}
+.note li{margin-bottom:6px}
+.note li .mono{color:var(--ink-3);font-size:11.5px;margin-right:4px}
+.srcs{padding:18px 22px;border-top:1px solid var(--line)}
+.srclist{columns:2 340px;column-gap:40px;font-size:12.5px;padding-left:28px}
+.srclist li{break-inside:avoid;margin-bottom:5px}
+.srclist li::marker{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
 
-@media (max-width:1000px){
+/* ---------- footer ---------- */
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line-strong);font-size:12px;color:var(--ink-3);line-height:1.8}
+.foot b{color:var(--ink-2)}
+
+/* ---------- tooltip ---------- */
+.tip{position:fixed;z-index:60;left:0;top:0;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:7px;padding:8px 10px;font-size:12px;line-height:1.5;box-shadow:var(--shadow);max-width:290px}
+.tip .tt-h{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.tip .tt-t{font-weight:700;margin-bottom:2px}
+.tip .tt-r{display:flex;gap:8px;align-items:baseline}
+.tip .tt-r b{font-family:var(--display);font-size:15px;font-weight:700}
+.tip .tt-r i{width:12px;height:3px;border-radius:2px;flex:none;align-self:center}
+.tip .muted{color:var(--ink-3)}
+
+/* ---------- drawer ---------- */
+dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;height:100%;max-height:100%;width:min(620px,100vw);max-width:100vw;border:0;border-left:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0;box-shadow:-30px 0 60px -30px rgba(0,0,0,.45)}
+dialog.drawer[open]{display:flex;flex-direction:column;animation:drIn .24s cubic-bezier(.2,.7,.2,1)}
+dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
+@keyframes drIn{from{transform:translateX(28px);opacity:.4}to{transform:none;opacity:1}}
+.dr-h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:start;padding:calc(env(safe-area-inset-top,0px) + 16px) 20px 14px;border-bottom:1px solid var(--line);background:var(--surface)}
+.dr-h h3{margin:6px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-size:15px;font-weight:700;line-height:1.3}
+.dr-h h3 .fab-code{font-size:28px}
+.dr-nav{display:flex;align-items:center;gap:4px}
+.dr-nav .mono{font-size:11px;color:var(--ink-3);min-width:44px;text-align:center}
+.dr-b{flex:1;overflow-y:auto;padding:4px 20px calc(env(safe-area-inset-bottom,0px) + 32px);overscroll-behavior:contain}
+.dr-sec{margin-top:22px}
+.dr-sec h4{margin:0 0 8px;font-size:13px;font-weight:700;display:flex;gap:8px;align-items:baseline}
+.dr-sec h4 .mono{font-size:11px;font-weight:500;color:var(--ink-3)}
+.dr-sec > p{margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.75}
+.dr-chart{height:220px}
+.dr-phs{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.dr-ph{padding:12px 0;border-bottom:1px solid var(--line)}
+.dr-ph-h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.dr-ph-h > b{font-family:var(--display);font-size:15px;font-weight:800}
+.dr-ph-h .now{margin-left:auto;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;text-align:right}
+.dr-ph-h .now small{color:var(--ink-3);font-family:var(--font);font-size:10.5px;margin-left:3px}
+.dr-ph .nodes{margin-top:4px;font-weight:500;font-size:13px}
+.kv{display:grid;grid-template-columns:76px minmax(0,1fr);gap:2px 10px;margin:6px 0 0;font-size:12.5px}
+.kv dt{color:var(--ink-3)}
+.kv dd{margin:0;color:var(--ink-2)}
+.cps{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:8px;font-size:12px}
+.cps-l{flex-basis:100%;font-size:11px;color:var(--ink-3)}
+.cp{border:1px solid var(--line);border-radius:4px;padding:1px 7px;color:var(--ink-2);background:var(--surface-2)}
+.cp b{font-family:var(--mono);font-weight:600;color:var(--ink);margin-right:4px;font-size:11px}
+.cp.fc{background-color:var(--surface);background-image:repeating-linear-gradient(135deg,var(--hatch) 0 1.5px,transparent 1.5px 5px)}
+.cp.cur{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.cps .arr{color:var(--ink-3);font-style:normal;font-size:11px}
+.cps.none{color:var(--ink-3)}
+.dr-ph .strip{margin-top:10px;height:9px}
+.dr-src{margin:0;padding-left:30px;font-size:12.5px}
+.dr-src li{margin-bottom:5px}
+.dr-src li::marker{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.dr-spec{margin-top:16px}
+.empty-s{margin:0;padding:18px;border:1px dashed var(--line-strong);border-radius:8px;color:var(--ink-3);font-size:12.5px;text-align:center}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .charts,.two{grid-template-columns:1fr}
-  .srclist{columns:1}
+  .kpi:first-child{grid-column:1/-1}
 }
-@media (max-width:640px){
-  header.top{grid-template-columns:1fr}
-  .asof{min-width:0}
-  .kpi .v{font-size:22px}
-  .grid{grid-template-columns:1fr}
-  .cbox{height:280px}
+@media (max-width:980px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .wfig{max-width:620px}
+  .mast{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:860px){
+  .pgrid,.method{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:720px){
+  :root{--rail-h:92px}
+  .rail-in{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"tabs tabs" "step ruler";column-gap:10px}
+  .brand{display:none}
+  .cnav{padding-block:6px 2px}
+  .cnav small{display:none}
+  .stepper{gap:3px}
+  .sbtn.reset,.sbtn.play span{display:none}
+  .qbox{min-width:62px}
+  .qlabel{font-size:15px}
+  .r-year{font-size:0;padding-left:2px}
+  .r-year::after{content:attr(data-s);font-size:9.5px}
+  .r-today-l{display:none}
+  .cbox{height:260px}
+  .cbox.tall{height:300px}
   .frow .fl{width:100%}
-  .filters{position:static}
+  .co-title .zh{font-size:46px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-
-/* company nav + intro */
-.cnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.cnav button{display:flex;flex-direction:column;align-items:flex-start;border:1px solid var(--line-strong);background:var(--surface);border-radius:10px;padding:8px 14px;cursor:pointer;min-width:132px;text-align:left;color:var(--ink)}
-.cnav button b{font-size:15px;line-height:1.3}
-.cnav button span{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
-.cnav button[aria-selected=true]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
-.cnav button:hover{border-color:var(--accent)}
-.intro{margin-top:18px}
-.intro h2{font-size:22px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-.intro h2 .en{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-weight:500}
-.intro p{margin:6px 0 0;color:var(--ink-2);max-width:86ch}
-.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.fact{font-size:12px;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:3px 9px;color:var(--ink-2)}
-.fact b{font-family:var(--mono);color:var(--ink);font-weight:600;margin-left:6px}
-.st-sold{color:var(--st-exit);background:transparent;border:1px solid var(--st-exit)}
-@media (max-width:640px){ .cnav button{flex:1 1 44%;min-width:0} }
+@media (max-width:560px){
+  .fab-h{grid-template-columns:minmax(0,1fr)}
+  .fab-tags{justify-content:flex-start;max-width:none}
+  .ph{grid-template-columns:74px minmax(0,1fr) auto}
+  .fab-cap{grid-template-columns:minmax(0,1fr)}
+  .kpi .v{font-size:26px}
+  .wlegend{grid-template-columns:minmax(0,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <div>
-      <div class="eyebrow">Foundry Capacity Atlas · TSMC × UMC × VIS × PSMC</div>
-      <h1>台灣晶圓代工產能版圖</h1>
-      <p class="lede">逐廠、逐期盤點台積電、聯電、世界先進、力積電四家晶圓代工廠（含海外據點與合資廠）的製程、產能與量產時程。用下方選單切換公司，或看「四家比較」；拖動右側時間軸，可以查看任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
+<header class="rail" id="rail">
+  <div class="rail-in">
+    <a class="brand" href="#tsmc" aria-label="台灣晶圓代工產能版圖">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.3" fill="none" stroke="currentColor" stroke-width="1.6"/><g fill="currentColor"><rect x="6.9" y="6.9" width="4" height="4" rx=".6"/><rect x="12" y="6.9" width="4" height="4" rx=".6"/><rect x="17.1" y="6.9" width="4" height="4" rx=".6"/><rect x="6.9" y="12" width="4" height="4" rx=".6"/><rect x="17.1" y="12" width="4" height="4" rx=".6"/><rect x="6.9" y="17.1" width="4" height="4" rx=".6"/><rect x="12" y="17.1" width="4" height="4" rx=".6"/><rect x="17.1" y="17.1" width="4" height="4" rx=".6"/></g><rect x="12" y="12" width="4" height="4" rx=".6" style="fill:var(--accent)"/></svg>
+      <span><b>產能版圖</b><small>Foundry Capacity Atlas</small></span>
+    </a>
+    <nav class="cnav" id="cnav" role="tablist" aria-label="選擇公司"></nav>
+    <div class="stepper" role="group" aria-label="檢視時間點">
+      <button class="sbtn" id="qPrev" type="button" aria-label="上一季"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="qbox"><span class="qlabel" id="asofLabel">2026Q3</span><span class="qtag" id="asofTag" data-t="now">本季</span></div>
+      <button class="sbtn" id="qNext" type="button" aria-label="下一季"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="sbtn play" id="qPlay" type="button" aria-pressed="false" aria-label="逐季播放"><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z" fill="currentColor"/></svg><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3h2.6v10H4.5zM8.9 3h2.6v10H8.9z" fill="currentColor"/></svg><span>播放</span></button>
+      <button class="sbtn reset" id="asofReset" type="button">回到本季</button>
     </div>
-    <div class="asof">
-      <label for="asof"><span>檢視時間點（季末）</span><span id="asofTag"></span></label>
-      <div class="q" id="asofLabel">2026Q3</div>
-      <input type="range" id="asof" min="0" max="31" step="1" value="14" aria-label="檢視時間點">
-      <div class="hint"><span class="mono">2023Q1</span><button class="reset" id="asofReset" type="button">回到本季</button><span class="mono">2030Q4</span></div>
+    <div class="ruler" id="ruler">
+      <div class="r-scale" id="rScale" aria-hidden="true"></div>
+      <input type="range" id="asof" min="0" max="31" step="1" value="14" aria-label="檢視時間點（季末）">
     </div>
-  </header>
+  </div>
+</header>
 
-  <nav class="cnav" id="cnav" role="tablist" aria-label="選擇公司"></nav>
-  <div class="intro" id="intro"></div>
+<section class="mast inner">
+  <div>
+    <h1>台灣晶圓代工產能版圖</h1>
+    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電四家晶圓代工廠（含海外據點與合資廠）的製程、產能與量產時程。用上方選單切換公司或看「四家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
+  </div>
+  <div class="notice" role="note"><span class="badge">AI 自動收集資料</span><p>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</p></div>
+</section>
 
-  <div class="disclaimer" role="note"><b>AI 自動收集資料</b>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</div>
-
+<main class="inner" id="main">
+  <section class="hero" id="hero" aria-live="off"></section>
   <div class="kpis" id="kpis"></div>
 
   <div id="coView">
-  <section id="charts">
-    <div class="sec-h"><h2>產能演進</h2><p id="chartsNote"></p></div>
-    <div class="charts">
-      <div class="panel wide" id="pTotal">
-        <div class="panel-h">
-          <div><h3>晶圓產能合計（12 吋約當，千片／月）</h3><div class="sub" id="sTotal"></div></div>
-          <div class="seg" role="group" aria-label="分組方式" id="segTotal"></div>
+    <section class="sec" id="charts">
+      <div class="sec-h"><div><h2>產能演進</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p id="chartsNote"></p></div>
+      <div class="sheet"><div class="pgrid">
+        <div class="pan wide" id="pTotal">
+          <div class="pan-h"><div><h3>晶圓產能合計</h3><div class="sub" id="sTotal"></div></div><div class="seg" role="group" aria-label="分組方式" id="segTotal"></div></div>
+          <div class="cbox tall"><canvas id="cTotal" role="img" aria-label="晶圓產能合計堆疊面積圖"></canvas></div>
+          <div class="lg" id="lgTotal"></div>
+          <p class="hint">點圖表任一處可跳到該季；點圖例可隱藏或顯示該組，滑過可單獨標示。斜線區為預估。</p>
         </div>
-        <div class="cbox tall"><canvas id="cTotal" aria-label="晶圓產能合計堆疊面積圖"></canvas></div>
-        <div class="legend" id="lgTotal"></div>
-      </div>
-      <div class="panel" id="pAdv">
-        <h3>先進節點產能（千片／月）</h3><div class="sub">N5/N4、N3、N2 家族（含 N2P／A16）、A14；◆為報導值</div>
-        <div class="cbox"><canvas id="cAdv" aria-label="先進節點產能折線圖"></canvas></div>
-        <div class="legend" id="lgAdv"></div>
-      </div>
-      <div class="panel" id="pUtil">
-        <h3>產能利用率（%）</h3><div class="sub" id="sUtil">公司公布值；虛線點為預估或指引</div>
-        <div class="cbox"><canvas id="cUtil" aria-label="產能利用率折線圖"></canvas></div>
-      </div>
-      <div class="panel" id="pSite">
-        <h3>各廠區產能分布（<span class="asofTxt">2026Q3</span>，12 吋約當）</h3><div class="sub">晶圓廠，依選定時間點；顏色見下方圖例</div>
-        <div class="cbox"><canvas id="cSite" aria-label="各廠區產能長條圖"></canvas></div>
-        <div class="legend" id="lgSite"></div>
-      </div>
-      <div class="panel" id="pCowos">
-        <h3>CoWoS 產能（年底，千片／月）</h3><div class="sub">依封裝廠堆疊；◆為報導的全公司總量</div>
-        <div class="cbox"><canvas id="cCowos" aria-label="CoWoS 產能堆疊長條圖"></canvas></div>
-        <div class="legend" id="lgCowos"></div>
-      </div>
-      <div class="panel" id="pSoic">
-        <h3>SoIC 產能（年底，千片／月）</h3><div class="sub">依封裝廠堆疊；◆為報導的全公司目標</div>
-        <div class="cbox"><canvas id="cSoic" aria-label="SoIC 產能堆疊長條圖"></canvas></div>
-        <div class="legend" id="lgSoic"></div>
-      </div>
-      <div class="panel wide">
-        <details class="datatable" open>
-          <summary>年底產能彙總表（千片／月）</summary>
-          <div class="tscroll"><table id="yeTable"></table></div>
-        </details>
-      </div>
-    </div>
-  </section>
+        <div class="pan" id="pAdv">
+          <div class="pan-h"><div><h3>先進節點產能</h3><div class="sub">千片／月；N5/N4、N3、N2 家族（含 N2P／A16）、A14。◆ 為媒體或公司報導的節點總量</div></div></div>
+          <div class="cbox"><canvas id="cAdv" role="img" aria-label="先進節點產能折線圖"></canvas></div>
+          <div class="lg" id="lgAdv"></div>
+        </div>
+        <div class="pan" id="pUtil">
+          <div class="pan-h"><div><h3>產能利用率</h3><div class="sub">公司公布值；空心菱形與虛線為公司指引或預估</div></div></div>
+          <div class="cbox"><canvas id="cUtil" role="img" aria-label="產能利用率折線圖"></canvas></div>
+        </div>
+        <div class="pan" id="pSite">
+          <div class="pan-h"><div><h3>各廠區產能分布</h3><div class="sub"><span class="asofTxt">2026Q3</span>・晶圓廠，12 吋約當；點長條可開啟廠區詳情</div></div></div>
+          <div class="cbox" id="siteBox"><canvas id="cSite" role="img" aria-label="各廠區產能長條圖"></canvas></div>
+          <div class="lg" id="lgSite"></div>
+        </div>
+        <div class="pan" id="pCowos">
+          <div class="pan-h"><div><h3>CoWoS 產能</h3><div class="sub">年底，千片／月；依封裝廠堆疊，◆ 為報導的全公司總量</div></div></div>
+          <div class="cbox"><canvas id="cCowos" role="img" aria-label="CoWoS 產能堆疊長條圖"></canvas></div>
+          <div class="lg" id="lgCowos"></div>
+        </div>
+        <div class="pan" id="pSoic">
+          <div class="pan-h"><div><h3>SoIC 產能</h3><div class="sub">年底，千片／月；依封裝廠堆疊，◆ 為報導的全公司目標</div></div></div>
+          <div class="cbox"><canvas id="cSoic" role="img" aria-label="SoIC 產能堆疊長條圖"></canvas></div>
+          <div class="lg" id="lgSoic"></div>
+        </div>
+        <div class="pan wide" id="pYe">
+          <div class="pan-h"><div><h3>年底產能彙總表</h3><div class="sub">千片／月・12 吋約當；年底＝各年 Q4。醒目欄＝選定季所在年份，斜線欄＝預估</div></div></div>
+          <div class="tscroll"><table class="ye" id="yeTable"></table></div>
+        </div>
+      </div></div>
+    </section>
 
-  <section id="list">
-    <div class="sec-h"><h2>廠區與各期明細</h2>
-      <div class="seg" role="group" aria-label="檢視方式"><button type="button" data-v="cards" aria-pressed="true">卡片</button><button type="button" data-v="table" aria-pressed="false">表格</button></div>
-    </div>
-    <div class="filters" id="filters">
-      <div class="frow">
-        <label class="search" for="q"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="搜尋廠名、城市、製程、客戶、備註…"></label>
-        <span class="fcount" id="fcount"></span><button class="clear" id="fclear" type="button">清除篩選</button>
+    <section class="sec" id="list">
+      <div class="sec-h">
+        <div><h2>廠區與各期明細</h2><span class="meta" id="fcount"></span></div>
+        <div class="seg" role="group" aria-label="檢視方式"><button type="button" data-v="cards" aria-pressed="true">卡片</button><button type="button" data-v="gantt" aria-pressed="false">時程</button><button type="button" data-v="table" aria-pressed="false">表格</button></div>
       </div>
-      <div class="frow" id="fKind"><span class="fl">類型</span></div>
-      <div class="frow" id="fRegion"><span class="fl">地區</span></div>
-      <div class="frow" id="fStatus"><span class="fl">狀態</span></div>
-      <div class="frow" id="fTech"><span class="fl">製程／技術</span></div>
-    </div>
-    <div class="grid" id="cards"></div>
-    <div id="tableView" hidden><div class="tscroll"><table id="phTable"></table></div></div>
-    <div class="empty" id="empty" hidden>沒有符合條件的廠區，請調整篩選或搜尋字詞。</div>
-  </section>
+      <div class="fbar" id="filters">
+        <div class="frow">
+          <label class="search" for="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="搜尋廠名、城市、製程、客戶、備註…" autocomplete="off"></label>
+          <button class="clear" id="fclear" type="button">清除篩選</button>
+        </div>
+        <div class="frow" id="fKind"><span class="fl">類型</span></div>
+        <div class="frow" id="fRegion"><span class="fl">地區</span></div>
+        <div class="frow" id="fStatus"><span class="fl">狀態</span></div>
+        <div class="frow" id="fTech"><span class="fl">製程／技術</span></div>
+      </div>
+      <div class="vwrap">
+        <div class="fabs" id="cards"></div>
+        <div class="gantt" id="ganttView" hidden></div>
+        <div class="tview" id="tableView" hidden><div class="tscroll"><table class="pt" id="phTable"></table></div></div>
+        <div class="empty" id="empty" hidden>沒有符合條件的廠區。請清除篩選，或換個關鍵字。</div>
+      </div>
+    </section>
 
-  <section id="method">
-    <div class="two">
-      <div class="panel note">
-        <h3>資料說明與可信度</h3>
-        <ul id="notes"></ul>
+    <section class="sec" id="method">
+      <div class="sec-h"><div><h2>資料說明與來源</h2><span class="meta">可信度・更新紀錄・追蹤清單・來源</span></div></div>
+      <div class="sheet">
+        <div class="method">
+          <div class="note"><h3>資料說明與可信度</h3><ul id="notes"></ul></div>
+          <div class="note"><h3>更新紀錄</h3><ul id="changelog"></ul><h3>值得持續追蹤</h3><ul id="watch"></ul></div>
+        </div>
+        <div class="srcs note"><h3>資料來源</h3><ol class="srclist" id="srclist"></ol></div>
       </div>
-      <div class="panel note">
-        <h3>更新紀錄</h3>
-        <ul id="changelog"></ul>
-        <h3 style="margin-top:14px">值得持續追蹤</h3>
-        <ul id="watch"></ul>
-      </div>
-    </div>
-    <div class="panel note" style="margin-top:14px">
-      <h3>資料來源</h3>
-      <ol class="srclist" id="srclist"></ol>
-    </div>
-  </section>
+    </section>
   </div>
 
   <div id="cmpView" hidden>
-  <section>
-    <div class="sec-h"><h2>四家產能比較</h2><p>各公司逐期模型加總（12 吋約當）；台積電以外三家的產能多為官方公布值</p></div>
-    <div class="charts">
-      <div class="panel wide">
-        <h3>晶圓產能合計（12 吋約當，千片／月）</h3><div class="sub">不含先進封裝；虛線為今天，右側為預估</div>
-        <div class="cbox tall"><canvas id="cCmp" aria-label="四家產能折線圖"></canvas></div>
-        <div class="legend" id="lgCmp"></div>
-      </div>
-      <div class="panel">
-        <h3>產能結構（<span class="asofTxt">2026Q3</span>，12 吋約當）</h3><div class="sub">12 吋與 8／6 吋產能</div>
-        <div class="cbox"><canvas id="cMix" aria-label="產能結構長條圖"></canvas></div>
-        <div class="legend" id="lgMix"></div>
-      </div>
-      <div class="panel">
-        <h3>產能利用率（%）</h3><div class="sub">公司公布值；台積電不公布季度利用率</div>
-        <div class="cbox"><canvas id="cUtilCmp" aria-label="產能利用率比較折線圖"></canvas></div>
-        <div class="legend" id="lgUtilCmp"></div>
-      </div>
-      <div class="panel wide">
-        <h3>重點比較（<span class="asofTxt">2026Q3</span>）</h3><div class="sub">產能欄位依選定時間點；其餘欄位為最新公開資訊</div>
-        <div class="tscroll"><table id="cmpTable"></table></div>
-      </div>
-    </div>
-  </section>
+    <section class="sec" id="cmpCharts">
+      <div class="sec-h"><div><h2>四家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；台積電以外三家的產能多為官方公布值。</p></div>
+      <div class="sheet"><div class="pgrid">
+        <div class="pan wide">
+          <div class="pan-h"><div><h3>晶圓產能合計</h3><div class="sub">不含先進封裝；虛線為今天，斜線區為預估；點圖可跳到該季</div></div></div>
+          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="四家產能折線圖"></canvas></div>
+          <div class="lg" id="lgCmp"></div>
+        </div>
+        <div class="pan">
+          <div class="pan-h"><div><h3>產能結構</h3><div class="sub"><span class="asofTxt">2026Q3</span>・12 吋與 8／6 吋（12 吋約當）</div></div></div>
+          <div class="cbox"><canvas id="cMix" role="img" aria-label="產能結構長條圖"></canvas></div>
+          <div class="lg" id="lgMix"></div>
+        </div>
+        <div class="pan">
+          <div class="pan-h"><div><h3>產能利用率</h3><div class="sub">公司公布值；台積電不公布季度利用率</div></div></div>
+          <div class="cbox"><canvas id="cUtilCmp" role="img" aria-label="產能利用率比較折線圖"></canvas></div>
+          <div class="lg" id="lgUtilCmp"></div>
+        </div>
+        <div class="pan wide">
+          <div class="pan-h"><div><h3>重點比較</h3><div class="sub"><span class="asofTxt">2026Q3</span>・產能欄位依選定時間點；其餘欄位為最新公開資訊</div></div></div>
+          <div class="tscroll"><table class="pt ctable" id="cmpTable"></table></div>
+        </div>
+      </div></div>
+    </section>
   </div>
+</main>
 
-  <footer id="foot"></footer>
+<footer class="foot inner" id="foot"></footer>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<dialog class="drawer" id="drawer" aria-labelledby="dTitle"></dialog>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -389,8 +687,9 @@ footer{margin-top:28px;font-size:12px;color:var(--ink-3);border-top:1px solid va
    util: 產能利用率 [季, %, 註記]；BENCH：報導總量（◆）
    ===================================================================== */
 const NOW_Q = '2026Q3';
-const SITE_META = { version: 'v2.0', updated: '2026-09-23', checked: '2026-09-23' };
+const SITE_META = { version: 'v3.0', updated: '2026-09-24', checked: '2026-09-23' };
 const SITE_CHANGELOG = [
+  { d: '2026-09-24', t: 'v3.0 版面改版：常駐時間尺（可逐季播放）、晶圓圖呈現產能組成、KPI 走勢線、各期產能時序條、新增「時程」檢視與廠區詳情側欄；資料內容不變。' },
   { d: '2026-09-23', t: 'v2.0 改版：由台積電單頁擴充為台積電、聯電、世界先進、力積電四家公司各自獨立頁面，加上「四家比較」頁；用上方選單切換。' }
 ];
 
@@ -1044,8 +1343,13 @@ const STATUS = {
   op:{l:'量產中'}, ramp:{l:'爬坡中'}, build:{l:'建設／裝機'}, conv:{l:'轉換／移轉'},
   plan:{l:'規劃中'}, exit:{l:'淘汰中'}, sold:{l:'已出售'}, rd:{l:'研發／非產能'}, rumor:{l:'評估／傳聞'}
 };
-const KINDS = { fab:'晶圓廠', ap:'先進封裝', land:'新基地（未編號）', partner:'合作／非自有' };
+const KINDS = { fab:'晶圓廠', land:'新基地（未編號）', ap:'先進封裝', partner:'合作／非自有' };
 const CONF_L = { off:'官方', rep:'報導', est:'推估' };
+const MONO = '"Chivo Mono", ui-monospace, monospace';
+const SANS = '"Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const reduced = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){ return false; } };
 
 /* groups: resolve items + colors per company */
 ORDER.forEach(id=>{
@@ -1060,18 +1364,22 @@ ORDER.forEach(id=>{
   });
 });
 
-/* ---------- time helpers ---------- */
+/* ---------- time + number helpers ---------- */
 const Y0 = 2023, Y1 = 2030;
-const qi = s => { const [y,q] = s.split('Q'); return (+y)*4 + (+q) - 1; };
+const qi = s => { const [y,q] = String(s).split('Q'); return (+y)*4 + (+q) - 1; };
 const I0 = qi(Y0+'Q1'), IN = qi(Y1+'Q4');
 const qlab = i => Math.floor(i/4) + 'Q' + (i%4 + 1);
 const QUARTERS = []; for (let i=I0;i<=IN;i++) QUARTERS.push(i);
+const NQ = QUARTERS.length;
+const YEARS = []; for (let y=Y0;y<=Y1;y++) YEARS.push(y);
 const NOW_I = qi(NOW_Q);
-const fmt = (v,d=0) => v==null||isNaN(v) ? '—' : v.toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d});
+const fmt = (v,d=0) => v==null||isNaN(v) ? '—' : Number(v).toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d});
 const sum = o => Object.values(o).reduce((a,b)=>a+b,0);
-const esc = t => String(t).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc = t => String(t==null?'':t).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const counted = s => s.kind!=='ap' && s.kind!=='partner';
+const d1 = v => (v%1 && Math.abs(v)<100) ? 1 : 0;
 
+/* ---------- capacity model ---------- */
 function fac(co,s){ return s.wafer===8 ? co.f8 : s.wafer===6 ? co.f6 : 1; }
 function capAt(ph, i){ const m = {}; for (const p of (ph.cap||[])) { if (qi(p.t) <= i) m[p.n||p.k] = p.v; } return m; }
 function keyFnOf(g){
@@ -1110,249 +1418,544 @@ function siteNow(s, i){
   return { w, cw, so };
 }
 function phaseMax(ph){ const last = {}; for (const p of (ph.cap||[])) last[p.n||p.k] = p.v; return last; }
+function phaseAt(ph, i){ const m = capAt(ph,i); let t = 0, top = null, tv = -1; for (const k in m){ t += m[k]; if (m[k] > tv){ tv = m[k]; top = k; } } return { t, top, m }; }
 function utilAt(co, i){ let r = null; for (const u of (co.util||[])) if (qi(u[0])<=i) r = u; return r; }
+function phaseCounts(co){ let a=0,b=0,c=0; co.SITES.forEach(s=>s.phases.forEach(p=>{ if(['op','ramp','conv','exit'].includes(p.st)) a++; else if(p.st==='build') b++; else if(['plan','rumor'].includes(p.st)) c++; })); return [a,b,c]; }
+function allocate(list, N){
+  const tot = list.reduce((a,b)=>a+Math.max(0,b.v),0);
+  if (!tot || N<=0) return list.map(x=>({ ...x, n:0 }));
+  const raw = list.map(x=>Math.max(0,x.v)/tot*N); const base = raw.map(Math.floor); let rem = N - base.reduce((a,b)=>a+b,0);
+  raw.map((r,i)=>[r-base[i],i]).sort((a,b)=>b[0]-a[0]).slice(0,rem).forEach(([,i])=>base[i]++);
+  return list.map((x,i)=>({ ...x, n:base[i] }));
+}
+function techL(co,t){ return (co.techLabel||{})[t]||t; }
+function keyLabel(co, s, k){ if (s.kind==='ap') return k; if (k==='W') return `${s.wafer} 吋`; return techL(co,k) + (s.wafer && s.wafer!==12 ? `（${s.wafer} 吋）` : ''); }
+function keyColor(co, s, key){
+  if (s.kind==='ap'){ const a = (co.AP_SITES||[]).find(x=>x[0]===s.id); return a ? a[1] : CO_COLOR[co.id]; }
+  if (co.NODES){ const nd = co.NODES.find(n=>n.k===key); if (nd) return nd.c; }
+  const g = co.groups.find(x=>x.by==='grp'); if (g){ const it = g.items.find(x=>x.k===(s.grp||s.id)); if (it) return it.c; }
+  return CO_COLOR[co.id];
+}
 
 /* ---------- theme ---------- */
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-function rgba(hex, a){ const h = hex.replace('#',''); const n = parseInt(h.length===3? h.split('').map(c=>c+c).join('') : h,16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+function rgba(hex, a){ const h = String(hex).replace('#',''); if (!/^[0-9a-f]{3,8}$/i.test(h)) return hex; const n = parseInt(h.length===3 ? h.split('').map(c=>c+c).join('') : h.slice(0,6), 16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+function mixHex(a, b, t){ const pa = parseInt(a.replace('#','').slice(0,6),16), pb = parseInt(b.replace('#','').slice(0,6),16); const m = s => Math.round((pa>>s&255)*t + (pb>>s&255)*(1-t)); return '#' + [16,8,0].map(s=>m(s).toString(16).padStart(2,'0')).join(''); }
 
 /* ---------- state ---------- */
-const state = { co:'tsmc', asof: NOW_I, group:null, view:'cards', q:'', kind:new Set(), region:new Set(), status:new Set(), tech:new Set(), sort:{k:null,dir:1} };
-try { const v = localStorage.getItem('tsmc-view'); if (v==='table'||v==='cards') state.view = v; } catch(e){}
+const state = { co:null, asof:NOW_I, group:null, view:'cards', q:'', kind:new Set(), region:new Set(), status:new Set(), tech:new Set(), sort:{k:null,dir:1}, drawer:null, visibleIds:[], wl:null };
+try { const v = localStorage.getItem('tsmc-view'); if (['cards','gantt','table'].includes(v)) state.view = v; } catch(e){}
 const CO = () => COS[state.co];
+const curGroup = co => co.groups.find(g=>g.id===state.group) || co.groups[0];
+const dlg = $('#drawer');
 
-/* ---------- charts ---------- */
+/* ---------- tooltip ---------- */
+const tip = $('#tip'); let tipOwner = null;
+function showTip(html, ev, owner){
+  tip.innerHTML = html; tip.hidden = false; tipOwner = owner||null;
+  const pad = 14, r = tip.getBoundingClientRect(); let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.transform = `translate(${Math.max(8,x)}px,${Math.max(8,y)}px)`;
+}
+function hideTip(owner){ if (owner && tipOwner!==owner) return; tip.hidden = true; tipOwner = null; }
+
+/* ---------- status glyphs & badges ---------- */
+function glyph(st){
+  const ring = '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>';
+  const pie = f => { const a = f*2*Math.PI, x = 8+6*Math.sin(a), y = 8-6*Math.cos(a); return `<path d="M8 8V2A6 6 0 ${f>.5?1:0} 1 ${x.toFixed(2)} ${y.toFixed(2)}Z" fill="currentColor"/>`; };
+  let g;
+  switch(st){
+    case 'op': g = '<circle cx="8" cy="8" r="6.8" fill="currentColor"/>'; break;
+    case 'ramp': g = ring + pie(.66); break;
+    case 'build': g = ring + pie(.33); break;
+    case 'conv': g = ring + '<path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/>'; break;
+    case 'plan': g = '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.6 2.1"/>'; break;
+    case 'exit': g = ring + '<path d="M3.9 12.1 12.1 3.9" stroke="currentColor" stroke-width="1.6"/>'; break;
+    case 'sold': g = ring + '<path d="M5.6 10.4 10.3 5.7M7 5.6h3.4V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'; break;
+    case 'rd': g = '<path d="M8 1.8 14.2 8 8 14.2 1.8 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/>'; break;
+    default: g = '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray=".1 2.9" stroke-linecap="round"/>';
+  }
+  return `<svg class="gl st-${st}" viewBox="0 0 16 16" aria-hidden="true">${g}</svg>`;
+}
+const pill = st => `<span class="pill">${glyph(st)}${STATUS[st].l}</span>`;
+const conf = c => `<span class="conf c-${c}" title="資料可信度：${CONF_L[c]}">${CONF_L[c]}</span>`;
+const WARN_ICO = '<svg class="wi" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.3v3.4M8 11.7v.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+const warnHTML = t => `<p class="warn">${WARN_ICO}<span><b>留意</b>${esc(t)}</span></p>`;
+
+/* ---------- chart plumbing ---------- */
 const charts = {};
-const nowLine = {
-  id:'nowLine',
-  afterDatasetsDraw(chart, args, opt){
-    if (!opt || opt.index == null) return;
-    const x = chart.scales.x; const {top,bottom} = chart.chartArea;
-    const draw = (idx, color, dash, label, align) => {
-      if (idx < 0 || idx >= chart.data.labels.length) return;
-      const px = x.getPixelForValue(idx);
-      const c = chart.ctx; c.save(); c.strokeStyle = color; c.setLineDash(dash); c.lineWidth = 1;
-      c.beginPath(); c.moveTo(px, top); c.lineTo(px, bottom); c.stroke();
-      if (label){ c.setLineDash([]); c.fillStyle = color; c.font = '11px "IBM Plex Mono", monospace'; c.textAlign = align; c.fillText(label, px + (align==='left'?4:-4), top + 11); }
-      c.restore();
-    };
-    draw(opt.today, opt.muted, [4,4], '今天', 'right');
-    if (opt.index !== opt.today) draw(opt.index, opt.accent, [], chart.data.labels[opt.index], 'left');
+function hatchPat(chart, color){
+  chart.$pats = chart.$pats || {};
+  if (!chart.$pats[color]){
+    const c = document.createElement('canvas'); c.width = c.height = 6; const g = c.getContext('2d');
+    g.strokeStyle = color; g.lineWidth = 1; g.beginPath(); g.moveTo(-1,7); g.lineTo(7,-1); g.moveTo(-1,1); g.lineTo(1,-1); g.moveTo(5,7); g.lineTo(7,5); g.stroke();
+    chart.$pats[color] = chart.ctx.createPattern(c,'repeat');
+  }
+  return chart.$pats[color];
+}
+function rrect(ctx,x,y,w,h,r){ ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x,y,w,h,r); else ctx.rect(x,y,w,h); }
+/* forecast hatch, selected-quarter line + chip, today line */
+const cursorPlugin = {
+  id:'cursor',
+  beforeDatasetsDraw(chart, _a, o){
+    if (!o || o.index==null) return;
+    const { ctx, chartArea:ca, scales:{x} } = chart; const n = chart.data.labels.length; if (!n || !x) return;
+    const step = n>1 ? Math.abs(x.getPixelForValue(1) - x.getPixelForValue(0)) : (ca.right - ca.left);
+    ctx.save();
+    if (o.fc!=null && o.fc>=0 && o.fc<n){
+      const px = Math.max(ca.left, o.band ? x.getPixelForValue(o.fc) - step/2 : x.getPixelForValue(o.fc));
+      if (px < ca.right){ ctx.fillStyle = hatchPat(chart, o.hatch); ctx.fillRect(px, ca.top, ca.right - px, ca.bottom - ca.top); }
+    }
+    if (o.band && o.index>=0 && o.index<n){ const cx = x.getPixelForValue(o.index); ctx.fillStyle = o.soft; ctx.fillRect(cx - step/2, ca.top, step, ca.bottom - ca.top); }
+    ctx.restore();
+  },
+  afterDatasetsDraw(chart, _a, o){
+    if (!o || o.index==null || o.band) return;
+    const { ctx, chartArea:ca, scales:{x} } = chart; const n = chart.data.labels.length; if (!n || !x) return;
+    const line = (idx, color, dash, w) => { if (idx==null || idx<0 || idx>=n) return null; const px = x.getPixelForValue(idx); ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = w; ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(px, ca.top); ctx.lineTo(px, ca.bottom); ctx.stroke(); ctx.restore(); return px; };
+    const tp = line(o.today, o.muted, [3,3], 1);
+    const sp = o.index===o.today ? tp : line(o.index, o.ink, [], 1.5);
+    if (tp!=null && o.index!==o.today){
+      ctx.save(); ctx.font = `11px ${SANS}`; ctx.fillStyle = o.muted; ctx.textBaseline = 'top';
+      const w = ctx.measureText('今天').width; ctx.fillText('今天', tp + 4 + w > ca.right ? tp - 4 - w : tp + 4, ca.top + 4); ctx.restore();
+    }
+    if (sp!=null){
+      const label = chart.data.labels[o.index] + (o.index===o.today ? '・本季' : '');
+      ctx.save(); ctx.font = `600 11px ${MONO}`; const w = ctx.measureText(label).width + 12;
+      const lx = Math.max(ca.left, Math.min(ca.right - w, sp - w/2));
+      ctx.fillStyle = o.accent; rrect(ctx, lx, ca.top - 21, w, 17, 3); ctx.fill();
+      ctx.fillStyle = o.accentInk; ctx.textBaseline = 'middle'; ctx.fillText(label, lx + 6, ca.top - 12.5); ctx.restore();
+    }
   }
 };
+/* direct labels at line ends (skipped when they would collide) */
 const endLabels = {
   id:'endLabels',
-  afterDatasetsDraw(chart, args, opt){
-    if (!opt || !opt.on) return;
-    const c = chart.ctx; c.save(); c.font = '600 12px "Noto Sans TC", sans-serif'; c.textAlign = 'right';
-    chart.data.datasets.forEach((ds, di)=>{
-      if (ds._bench) return;
-      const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
-      const pts = meta.data; const last = pts[pts.length-1]; if (!last) return;
-      c.fillStyle = css('--ink'); c.fillText(ds.label, last.x - 4, last.y - 8);
-    });
-    c.restore();
+  afterDatasetsDraw(chart, _a, o){
+    if (!o || !o.on) return;
+    const { ctx } = chart; const items = [];
+    chart.data.datasets.forEach((ds, di)=>{ if (!chart.isDatasetVisible(di)) return; const meta = chart.getDatasetMeta(di); const last = meta.data[meta.data.length-1]; if (last) items.push({ y:last.y, x:last.x, t:ds.label }); });
+    items.sort((a,b)=>a.y-b.y); let prev = -Infinity;
+    ctx.save(); ctx.font = `700 12px ${SANS}`; ctx.fillStyle = o.ink; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    items.forEach(it=>{ if (it.y - prev < 16) return; ctx.fillText(it.t, it.x - 4, it.y - 5); prev = it.y; });
+    ctx.restore();
   }
 };
-Chart.register(nowLine, endLabels);
-const nowOpt = () => ({ index: state.asof - I0, today: NOW_I - I0, accent: css('--accent'), muted: css('--ink-3') });
+/* value at the tip of horizontal bars */
+const valueLabels = {
+  id:'valueLabels',
+  afterDatasetsDraw(chart, _a, o){
+    if (!o || !o.on) return;
+    const { ctx } = chart; const last = chart.data.datasets.length - 1; const meta = chart.getDatasetMeta(last); if (!meta || !chart.isDatasetVisible(last)) return;
+    ctx.save(); ctx.font = `10.5px ${MONO}`; ctx.fillStyle = o.ink; ctx.textBaseline = 'middle';
+    meta.data.forEach((bar, j)=>{ let v = 0; chart.data.datasets.forEach((d,di)=>{ if (chart.isDatasetVisible(di)) v += +d.data[j]||0; }); if (!v) return; ctx.fillText(fmt(v, v<10?1:0), bar.x + 6, bar.y); });
+    ctx.restore();
+  }
+};
+Chart.register(cursorPlugin, endLabels, valueLabels);
 
 function baseOpts(){
-  Chart.defaults.font.family = css('--font').replace(/"/g,'');
-  Chart.defaults.color = css('--ink-2');
+  const ink = css('--ink'), ink3 = css('--ink-3');
+  Chart.defaults.font.family = SANS; Chart.defaults.color = css('--ink-2');
   return {
-    responsive:true, maintainAspectRatio:false, animation:{duration:250},
+    responsive:true, maintainAspectRatio:false,
+    animation: reduced() ? false : { duration:320, easing:'easeOutCubic' },
     interaction:{ mode:'index', intersect:false },
-    plugins:{ legend:{display:false},
-      tooltip:{ backgroundColor: css('--surface'), titleColor: css('--ink'), bodyColor: css('--ink-2'), borderColor: css('--line-strong'), borderWidth:1, padding:10, boxPadding:4, usePointStyle:true,
-        titleFont:{family:'IBM Plex Mono'}, bodyFont:{family:'IBM Plex Mono'}, footerColor: css('--ink') } },
+    layout:{ padding:{ top:26, right:8 } },
+    plugins:{
+      legend:{ display:false },
+      tooltip:{ backgroundColor:css('--surface'), titleColor:ink, bodyColor:ink, footerColor:ink, borderColor:css('--line-strong'), borderWidth:1, padding:10, boxPadding:6, cornerRadius:6, caretSize:0, usePointStyle:true,
+        titleFont:{ family:MONO, size:11.5, weight:'600' }, bodyFont:{ family:SANS, size:12 }, footerFont:{ family:SANS, size:12, weight:'700' },
+        callbacks:{ labelPointStyle: () => ({ pointStyle:'line', rotation:0 }) } }
+    },
     scales:{
-      x:{ grid:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, maxRotation:0, autoSkip:true }, border:{color:css('--line-strong')} },
-      y:{ grid:{color:css('--grid')}, border:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, callback:v=>fmt(v) }, beginAtZero:true }
+      x:{ grid:{ display:false }, border:{ color:css('--line-strong') }, ticks:{ color:ink3, font:{ family:MONO, size:10.5 }, maxRotation:0, autoSkip:true, autoSkipPadding:12 } },
+      y:{ beginAtZero:true, grid:{ color:css('--grid') }, border:{ display:false }, ticks:{ color:ink3, font:{ family:MONO, size:10.5 }, callback:v=>fmt(v), maxTicksLimit:6, padding:6 } }
     }
   };
 }
-function legendHTML(el, items, diamond){
-  el.innerHTML = items.map(it=>`<span><i style="background:${it.color}"></i>${esc(it.label)}</span>`).join('') + (diamond?`<span><i class="dia"></i>報導值</span>`:'');
+function quarterAxis(o){
+  const ls = css('--line-strong');
+  o.scales.x.ticks.autoSkip = false;
+  o.scales.x.ticks.callback = (v, idx) => idx % 4 === 0 ? String(Y0 + idx/4) : '';
+  o.scales.x.grid = { display:true, drawOnChartArea:false, tickLength:5, color: c => c.index % 4 === 0 ? ls : 'transparent' };
 }
-function mk(key, id, cfg){ if (charts[key]) charts[key].destroy(); charts[key] = new Chart(document.getElementById(id), cfg); }
+function cursorOpt(index, today, extra){
+  return Object.assign({ index, today, fc:today, ink:css('--ink'), muted:css('--ink-3'), accent:css('--accent'), accentInk:css('--accent-ink'), hatch:css('--hatch'), soft:css('--accent-soft') }, extra||{});
+}
+function titleQ(it){ return it[0].label + (qi(it[0].label) > NOW_I ? '・預估' : ''); }
+const lineKey = c => ({ borderColor:c.dataset._c, backgroundColor:c.dataset._c, borderWidth:3 });
+function mk(key, id, cfg){ if (charts[key]) { charts[key].destroy(); delete charts[key]; } const el = typeof id==='string' ? document.getElementById(id) : id; if (!el) return null; charts[key] = new Chart(el, cfg); return charts[key]; }
+function clickQuarter(e, _els, chart){ const v = chart.scales.x.getValueForPixel(e.x); if (v==null || isNaN(v)) return; stopPlay(); setAsof(I0 + Math.max(0, Math.min(NQ-1, Math.round(v)))); }
 
+/* interactive legend: click toggles a series, hover/focus emphasises it */
+function legendChips(el, chart, items, extraHTML){
+  if (!el) return; el.innerHTML = '';
+  items.forEach(it=>{
+    const live = it.ds!=null && chart;
+    const b = document.createElement(live ? 'button' : 'span');
+    if (live){ b.type = 'button'; b.setAttribute('aria-pressed', String(chart.isDatasetVisible(it.ds))); }
+    const sw = document.createElement('i'); if (it.shape) sw.className = it.shape; sw.style.background = it.color; b.appendChild(sw);
+    b.appendChild(document.createTextNode(it.label));
+    if (live){
+      b.addEventListener('click', ()=>{ const vis = !chart.isDatasetVisible(it.ds); chart.setDatasetVisibility(it.ds, vis); (it.also||[]).forEach(d=>chart.setDatasetVisibility(d, vis)); b.setAttribute('aria-pressed', String(vis)); emphasize(chart, null); chart.update(); });
+      const on = ()=>emphasize(chart, it.ds, it.also), off = ()=>emphasize(chart, null);
+      b.addEventListener('mouseenter', on); b.addEventListener('focus', on); b.addEventListener('mouseleave', off); b.addEventListener('blur', off);
+    }
+    el.appendChild(b);
+  });
+  if (extraHTML) el.insertAdjacentHTML('beforeend', extraHTML);
+}
+function fadeColor(c){
+  if (Array.isArray(c)) return c.map(fadeColor);
+  if (typeof c!=='string') return c;
+  const m = c.match(/^rgba?\(([^)]+)\)$/); if (m){ const p = m[1].split(',').map(s=>s.trim()); return `rgba(${p[0]},${p[1]},${p[2]},${((p[3]!=null?+p[3]:1)*.16).toFixed(3)})`; }
+  return c[0]==='#' ? rgba(c,.16) : c;
+}
+function emphasize(chart, idx, also){
+  chart.data.datasets.forEach((d,i)=>{
+    if (!d._base) d._base = { bg:d.backgroundColor, bc:d.borderColor, pb:d.pointBackgroundColor };
+    const keep = idx==null || i===idx || (also||[]).includes(i);
+    d.backgroundColor = keep ? d._base.bg : fadeColor(d._base.bg);
+    d.borderColor = keep ? d._base.bc : fadeColor(d._base.bc);
+    if (d._base.pb!==undefined) d.pointBackgroundColor = keep ? d._base.pb : fadeColor(d._base.pb);
+  });
+  chart.update('none');
+}
+
+/* ---------- company charts ---------- */
 function buildTotal(){
-  const co = CO(); const g = co.groups.find(x=>x.id===state.group) || co.groups[0];
-  const labels = QUARTERS.map(qlab); const keyFn = keyFnOf(g);
-  const series = QUARTERS.map(i=>waferBy(co,i,keyFn));
+  const co = CO(); const g = curGroup(co); const keyFn = keyFnOf(g);
+  const labels = QUARTERS.map(qlab); const series = QUARTERS.map(i=>waferBy(co,i,keyFn)); const surf = css('--surface');
   const datasets = g.items.map((it,gi)=>{ const col = css(it.c);
-    return { label:it.l, data: series.map(o=>+(o[it.k]||0).toFixed(1)), borderColor:col, backgroundColor:rgba(col,.78), fill: gi===0?'origin':'-1', pointRadius:0, pointHitRadius:8, borderWidth:1, tension:0 }; });
-  const o = baseOpts();
-  o.scales.y.stacked = true;
-  o.plugins.nowLine = nowOpt();
-  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}：${fmt(c.parsed.y,1)}`, footer: items => '合計：' + fmt(items.reduce((a,b)=>a+b.parsed.y,0),1) + ' 千片／月' };
-  o.plugins.tooltip.itemSort = (a,b)=>b.datasetIndex-a.datasetIndex;
+    return { label:it.l, data:series.map(o=>+(o[it.k]||0).toFixed(1)), borderColor:surf, backgroundColor:rgba(col,.9), fill: gi===0 ? 'origin' : '-1', pointRadius:0, pointHoverRadius:0, pointHitRadius:6, borderWidth:1.5, tension:0, _c:col }; });
+  const o = baseOpts(); o.scales.y.stacked = true; quarterAxis(o);
+  o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0);
+  o.plugins.tooltip.itemSort = (a,b) => b.datasetIndex - a.datasetIndex;
   o.plugins.tooltip.filter = it => it.parsed.y > 0;
-  o.onClick = (e, els, chart) => { const idx = chart.scales.x.getValueForPixel(e.x); if (idx!=null) setAsof(I0 + Math.max(0, Math.min(QUARTERS.length-1, Math.round(idx)))); };
-  mk('total','cTotal',{ type:'line', data:{labels, datasets}, options:o });
-  legendHTML(document.getElementById('lgTotal'), g.items.map(it=>({label:it.l,color:css(it.c)})).reverse(), false);
-  document.querySelectorAll('#segTotal button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.g===g.id));
+  Object.assign(o.plugins.tooltip.callbacks, { title:titleQ, label: c => ` ${fmt(c.parsed.y,1)}　${c.dataset.label}`, labelColor:lineKey,
+    footer: it => '合計 ' + fmt(it.reduce((a,b)=>a+b.parsed.y,0),1) + ' 千片／月' });
+  o.onClick = clickQuarter;
+  o.onHover = (e, els, chart) => { chart.canvas.style.cursor = 'crosshair'; };
+  mk('total','cTotal',{ type:'line', data:{ labels, datasets }, options:o });
+  legendChips($('#lgTotal'), charts.total, g.items.map((it,gi)=>({ label:it.l, color:css(it.c), ds:gi })).reverse());
 }
 
 function buildAdv(){
-  const co = CO(); const labels = QUARTERS.map(qlab);
-  const keys = ['N5','N3','N2','A14'];
-  const series = QUARTERS.map(i=>waferBy(co,i,(s,n)=>n));
-  const datasets = [];
+  const co = CO(); const labels = QUARTERS.map(qlab); const keys = ['N5','N3','N2','A14'];
+  const series = QUARTERS.map(i=>waferBy(co,i,(s,n)=>n)); const surf = css('--surface'); const datasets = [], items = [];
   keys.forEach(k=>{
-    const nd = co.NODES.find(n=>n.k===k); const col = css(nd.c);
-    datasets.push({ label:nd.l, data: series.map(o=>o[k]? +o[k].toFixed(1) : 0), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHitRadius:8, tension:0 });
-    const bm = labels.map(()=>null); const notes = {};
-    (co.BENCH[k]||[]).forEach(([t,v,txt])=>{ const idx = qi(t)-I0; if (idx>=0 && idx<labels.length){ bm[idx]=v; notes[idx]=txt; } });
-    datasets.push({ label:nd.l+'（報導）', data:bm, showLine:false, pointStyle:'rectRot', pointRadius:6, pointHoverRadius:7, pointBorderWidth:2, pointBackgroundColor:css('--surface'), borderColor:col, backgroundColor:col, _notes:notes, _bench:true });
+    const nd = co.NODES.find(n=>n.k===k); const col = css(nd.c); const di = datasets.length;
+    datasets.push({ label:nd.l, data:series.map(o=>o[k] ? +o[k].toFixed(1) : 0), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col });
+    const bm = labels.map(()=>null), notes = {};
+    (co.BENCH[k]||[]).forEach(([t,v,txt])=>{ const idx = qi(t)-I0; if (idx>=0 && idx<NQ){ bm[idx] = v; notes[idx] = txt; } });
+    datasets.push({ label:nd.l+'（報導）', data:bm, showLine:false, order:-1, pointStyle:'rectRot', pointRadius:6, pointHoverRadius:7, pointBorderWidth:2, pointBackgroundColor:surf, borderColor:col, backgroundColor:col, _notes:notes, _bench:true, _c:col });
+    items.push({ label:nd.l, color:col, ds:di, also:[di+1], shape:'ln' });
   });
-  const o = baseOpts();
-  o.plugins.nowLine = nowOpt();
-  o.plugins.tooltip.filter = it => it.parsed.y != null && !(it.dataset._bench==null && it.parsed.y===0);
-  o.plugins.tooltip.callbacks = { label: c => c.dataset._bench ? ` ◆ ${c.dataset.label}：${c.dataset._notes[c.dataIndex]}` : ` ${c.dataset.label}：${fmt(c.parsed.y)}` };
-  mk('adv','cAdv',{ type:'line', data:{labels, datasets}, options:o });
-  legendHTML(document.getElementById('lgAdv'), keys.map(k=>{const n=co.NODES.find(x=>x.k===k); return {label:n.l,color:css(n.c)};}), true);
+  const o = baseOpts(); quarterAxis(o); o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0);
+  o.plugins.tooltip.filter = it => it.parsed.y != null && !(!it.dataset._bench && it.parsed.y===0);
+  Object.assign(o.plugins.tooltip.callbacks, { title:titleQ, labelColor:lineKey,
+    label: c => c.dataset._bench ? ` ◆ ${c.dataset._notes[c.dataIndex]}　${c.dataset.label}` : ` ${fmt(c.parsed.y)}　${c.dataset.label}` });
+  o.onClick = clickQuarter;
+  mk('adv','cAdv',{ type:'line', data:{ labels, datasets }, options:o });
+  legendChips($('#lgAdv'), charts.adv, items, '<span><i class="dia"></i>報導值</span>');
 }
 
 function buildUtil(){
-  const co = CO(); const u = co.util||[];
-  const labels = u.map(x=>x[0]);
-  const col = css(CO_COLOR[co.id]);
-  const o = baseOpts();
-  o.scales.y.beginAtZero = false; o.scales.y.suggestedMin = 60; o.scales.y.suggestedMax = 100;
-  o.scales.y.ticks.callback = v => v + '%';
-  o.plugins.tooltip.callbacks = { label: c => ` ${fmt(c.parsed.y,1)}%` + (u[c.dataIndex][2] ? `（${u[c.dataIndex][2]}）` : '') };
-  mk('util','cUtil',{ type:'line', data:{ labels, datasets:[{ label:co.name+' 利用率', data:u.map(x=>x[1]), borderColor:col, backgroundColor:rgba(col,.12), fill:'origin', borderWidth:2, tension:0,
-    pointRadius:u.map(x=>x[2]?6:4), pointStyle:u.map(x=>x[2]?'rectRot':'circle'), pointBackgroundColor:u.map(x=>x[2]?css('--surface'):col), pointBorderColor:col, pointBorderWidth:2,
-    segment:{ borderDash: ctx => (u[ctx.p1DataIndex] && /預估|指引/.test(u[ctx.p1DataIndex][2]||'')) ? [5,4] : undefined } }] }, options:o });
+  const co = CO(); const u = co.util||[]; const labels = u.map(x=>x[0]); const col = css(CO_COLOR[co.id]); const surf = css('--surface');
+  const isG = x => /預估|指引/.test(x[2]||'');
+  const o = baseOpts(); o.scales.y.beginAtZero = false; o.scales.y.suggestedMin = 60; o.scales.y.suggestedMax = 100; o.scales.y.ticks.callback = v => v + '%';
+  o.plugins.cursor = cursorOpt(labels.indexOf(qlab(state.asof)), labels.indexOf(NOW_Q), { fc:null });
+  Object.assign(o.plugins.tooltip.callbacks, { labelColor: () => ({ borderColor:col, backgroundColor:col, borderWidth:3 }),
+    label: c => ` ${fmt(c.parsed.y,1)}%` + (u[c.dataIndex][2] ? `（${u[c.dataIndex][2]}）` : '') });
+  mk('util','cUtil',{ type:'line', data:{ labels, datasets:[{ label:co.name+' 利用率', data:u.map(x=>x[1]), borderColor:col, backgroundColor:rgba(col,.1), fill:'origin', borderWidth:2, tension:0,
+    pointRadius:u.map(x=>isG(x)?6:4.5), pointHoverRadius:7, pointStyle:u.map(x=>isG(x)?'rectRot':'circle'), pointBackgroundColor:u.map(x=>isG(x)?surf:col), pointBorderColor:u.map(x=>isG(x)?col:surf), pointBorderWidth:2,
+    segment:{ borderDash: ctx => (u[ctx.p1DataIndex] && isG(u[ctx.p1DataIndex])) ? [5,4] : undefined } }] }, options:o });
 }
 
-function siteColorGroup(co){ return co.groups.find(x=>x.by==='region' && x.items.length>1) || co.groups.find(x=>x.by==='grp') || co.groups[0]; }
+function siteRows(co, i){ return co.SITES.filter(counted).map(s=>({ s, v:siteNow(s,i).w*fac(co,s) })).filter(r=>r.v>0).sort((a,b)=>b.v-a.v); }
+function siteColorGroup(co){ return co.groups.find(x=>x.by==='grp') || co.groups.find(x=>x.by==='region' && x.items.length>1) || co.groups[0]; }
 function buildSite(){
-  const co = CO(); const i = state.asof; const cg = siteColorGroup(co); const kf = keyFnOf(cg); const cmap = {}; cg.items.forEach(it=>cmap[it.k]=css(it.c));
-  const rows = co.SITES.filter(counted).map(s=>({ s, v: siteNow(s,i).w*fac(co,s) })).filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
-  const o = baseOpts();
-  o.indexAxis = 'y';
-  o.interaction = { mode:'nearest', intersect:true, axis:'y' };
-  o.scales.x = { grid:{color:css('--grid')}, border:{display:false}, ticks:{font:{family:'IBM Plex Mono',size:11}}, beginAtZero:true };
-  o.scales.y = { grid:{display:false}, ticks:{font:{family:'IBM Plex Mono',size:11}, autoSkip:false}, border:{color:css('--line-strong')} };
-  o.plugins.tooltip.callbacks = { label: c => { const r = rows[c.dataIndex]; return ` ${r.s.name}：${fmt(c.parsed.x,1)} 千片／月（12 吋約當）` + (r.s.wafer!==12?`；原生 ${r.s.wafer} 吋 ${fmt(siteNow(r.s,i).w,1)}`:''); } };
-  const box = document.querySelector('#pSite .cbox'); box.style.height = Math.max(240, rows.length*26 + 40) + 'px';
-  mk('site','cSite',{ type:'bar', data:{ labels: rows.map(r=>r.s.code), datasets:[{ data: rows.map(r=>+r.v.toFixed(1)), backgroundColor: rows.map(r=>cmap[kf(r.s,'')]||css('--s1')), borderRadius:4, barThickness:12, borderSkipped:false }] }, options:o });
-  legendHTML(document.getElementById('lgSite'), cg.items.map(it=>({label:it.l,color:css(it.c)})), false);
+  const co = CO(); const cg = siteColorGroup(co); const kf = keyFnOf(cg); const cmap = {}; cg.items.forEach(it=>cmap[it.k] = css(it.c));
+  const rows = siteRows(co, state.asof);
+  $('#siteBox').style.height = Math.max(220, rows.length*24 + 56) + 'px';
+  const o = baseOpts(); o.indexAxis = 'y'; o.interaction = { mode:'nearest', intersect:true, axis:'y' }; o.layout.padding = { top:4, right:46 };
+  o.scales.x = { beginAtZero:true, grid:{ color:css('--grid') }, border:{ display:false }, ticks:{ color:css('--ink-3'), font:{ family:MONO, size:10.5 }, maxTicksLimit:6, callback:v=>fmt(v) } };
+  o.scales.y = { grid:{ display:false }, border:{ color:css('--line-strong') }, ticks:{ color:css('--ink-2'), font:{ family:MONO, size:11 }, autoSkip:false } };
+  Object.assign(o.plugins.tooltip.callbacks, {
+    title: it => { const r = charts.site && charts.site._rows[it[0].dataIndex]; return r ? `${r.s.code}・${r.s.name}` : ''; },
+    label: c => { const r = charts.site && charts.site._rows[c.dataIndex]; return ` ${fmt(c.parsed.x,1)} 千片／月（12 吋約當）` + (r && r.s.wafer!==12 ? `；原生 ${r.s.wafer} 吋 ${fmt(siteNow(r.s,state.asof).w,1)}` : ''); },
+    labelColor: c => { const b = c.dataset.backgroundColor[c.dataIndex]; return { borderColor:b, backgroundColor:b, borderWidth:3 }; },
+    footer: () => '點一下開啟廠區詳情' });
+  o.plugins.tooltip.footerFont = { family:SANS, size:11, weight:'400' }; o.plugins.tooltip.footerColor = css('--ink-3');
+  o.plugins.valueLabels = { on:true, ink:css('--ink-2') };
+  o.onClick = (e, els) => { if (els && els.length){ const r = charts.site._rows[els[0].index]; if (r) openDrawer(r.s.id); } };
+  o.onHover = (e, els, chart) => { chart.canvas.style.cursor = els && els.length ? 'pointer' : 'default'; };
+  const ch = mk('site','cSite',{ type:'bar', data:{ labels:rows.map(r=>r.s.code), datasets:[{ label:'產能', data:rows.map(r=>+r.v.toFixed(1)), backgroundColor:rows.map(r=>cmap[kf(r.s,'')]||css('--s1')), borderRadius:4, barThickness:12, borderSkipped:'start' }] }, options:o });
+  ch._rows = rows; ch._cmap = cmap; ch._kf = kf;
+  legendChips($('#lgSite'), null, cg.items.map(it=>({ label:it.l, color:css(it.c) })));
+}
+function updateSite(){
+  const ch = charts.site; if (!ch) return; const rows = siteRows(CO(), state.asof);
+  if (rows.length !== ch.data.labels.length) return buildSite();
+  ch._rows = rows; ch.data.labels = rows.map(r=>r.s.code);
+  ch.data.datasets[0].data = rows.map(r=>+r.v.toFixed(1)); ch.data.datasets[0].backgroundColor = rows.map(r=>ch._cmap[ch._kf(r.s,'')]||css('--s1'));
+  ch.update('none');
 }
 
 function buildAP(kind, canvasId, legendId){
-  const co = CO(); const years = []; for (let y=Y0;y<=Y1;y++) years.push(y);
-  const series = years.map(y=>apBy(co, y*4+3, kind));
-  const present = co.AP_SITES.filter(([id])=>series.some(o=>o[id]));
+  const co = CO(); const series = YEARS.map(y=>apBy(co, y*4+3, kind)); const present = co.AP_SITES.filter(([id])=>series.some(o=>o[id])); const surf = css('--surface');
   const datasets = present.map(([id,c])=>{ const col = css(c); const s = co.SITES.find(x=>x.id===id);
-    return { type:'bar', label:s.code + ' ' + s.loc.split(/[（ ]/)[0], data: series.map(o=>o[id]||0), backgroundColor:col, borderColor:css('--surface'), borderWidth:{top:2,bottom:0,left:0,right:0}, borderRadius:{topLeft:3,topRight:3}, borderSkipped:'bottom', stack:'a', maxBarThickness:42 }; });
-  const bm = years.map(()=>null), notes = {};
-  (co.BENCH[kind]||[]).forEach(([y,v,t])=>{ const idx = years.indexOf(y); if (idx>=0){ bm[idx]=v; notes[idx]=t; } });
-  datasets.push({ type:'line', label:'報導總量', data:bm, showLine:false, pointStyle:'rectRot', pointRadius:7, pointHoverRadius:8, pointBorderWidth:2, pointBackgroundColor:css('--surface'), borderColor:css('--ink'), backgroundColor:css('--ink'), stack:'bm', _notes:notes, _bench:true });
-  const o = baseOpts();
-  o.scales.x.stacked = true; o.scales.y.stacked = true;
-  o.scales.x.ticks.callback = function(v){ return years[v] + '底'; };
-  o.plugins.tooltip.filter = it => it.parsed.y != null && (it.dataset._bench || it.parsed.y>0);
-  o.plugins.tooltip.callbacks = {
-    label: c => c.dataset._bench ? ` ◆ 報導：${c.dataset._notes[c.dataIndex]}` : ` ${c.dataset.label}：${fmt(c.parsed.y)}`,
-    footer: items => '模型合計：' + fmt(items.filter(x=>!x.dataset._bench).reduce((a,b)=>a+b.parsed.y,0)) + ' 千片／月'
-  };
-  mk(kind, canvasId, { type:'bar', data:{ labels: years.map(String), datasets }, options:o });
-  legendHTML(document.getElementById(legendId), present.map(([id,c])=>{ const s = co.SITES.find(x=>x.id===id); return {label:s.code+'（'+s.loc.split(/[（ ]/)[0]+'）', color:css(c)}; }), true);
+    return { type:'bar', label:s.code + ' ' + s.loc.split(/[（ ]/)[0], data:series.map(o=>o[id]||0), backgroundColor:col, borderColor:surf, borderWidth:{ top:2, bottom:0, left:0, right:0 }, borderRadius:{ topLeft:3, topRight:3 }, borderSkipped:'bottom', stack:'a', maxBarThickness:28, _c:col }; });
+  const bm = YEARS.map(()=>null), notes = {};
+  (co.BENCH[kind]||[]).forEach(([y,v,t])=>{ const idx = YEARS.indexOf(y); if (idx>=0){ bm[idx] = v; notes[idx] = t; } });
+  datasets.push({ type:'line', label:'報導總量', data:bm, showLine:false, order:-1, pointStyle:'rectRot', pointRadius:7, pointHoverRadius:8, pointBorderWidth:2, pointBackgroundColor:surf, borderColor:css('--ink'), backgroundColor:css('--ink'), stack:'bm', _notes:notes, _bench:true, _c:css('--ink') });
+  const o = baseOpts(); o.scales.x.stacked = true; o.scales.y.stacked = true;
+  const fcYear = YEARS.findIndex(y => y*4+3 > NOW_I);
+  o.plugins.cursor = cursorOpt(Math.floor(state.asof/4) - Y0, null, { band:true, fc:fcYear });
+  const selIdx = () => Math.floor(state.asof/4) - Y0; const ink = css('--ink'), ink3 = css('--ink-3');
+  o.scales.x.ticks.callback = v => String(YEARS[v]);
+  o.scales.x.ticks.color = c => c.index === selIdx() ? ink : ink3;
+  o.scales.x.ticks.font = c => ({ family:MONO, size:10.5, weight: c.index === selIdx() ? '700' : '400' });
+  o.plugins.tooltip.filter = it => it.parsed.y != null && (it.dataset._bench || it.parsed.y > 0);
+  Object.assign(o.plugins.tooltip.callbacks, {
+    title: it => it[0].label + ' 年底' + (fcYear>=0 && it[0].dataIndex >= fcYear ? '・預估' : ''),
+    label: c => c.dataset._bench ? ` ◆ 報導：${c.dataset._notes[c.dataIndex]}` : ` ${fmt(c.parsed.y)}　${c.dataset.label}`,
+    labelColor:lineKey,
+    footer: it => '模型合計 ' + fmt(it.filter(x=>!x.dataset._bench).reduce((a,b)=>a+b.parsed.y,0)) + ' 千片／月' });
+  o.onClick = (e, _els, chart) => { const v = chart.scales.x.getValueForPixel(e.x); if (v==null || isNaN(v)) return; const y = YEARS[Math.max(0, Math.min(YEARS.length-1, Math.round(v)))]; stopPlay(); setAsof(Math.min(y*4+3, IN)); };
+  mk(kind, canvasId, { type:'bar', data:{ labels:YEARS.map(String), datasets }, options:o });
+  legendChips($('#'+legendId), charts[kind], present.map(([id,c],j)=>{ const s = co.SITES.find(x=>x.id===id); return { label:s.code+'（'+s.loc.split(/[（ ]/)[0]+'）', color:css(c), ds:j }; }), '<span><i class="dia"></i>報導總量</span>');
+}
+function updateCursors(){
+  ['total','adv','cmp'].forEach(k=>{ const ch = charts[k]; if (!ch) return; ch.options.plugins.cursor.index = state.asof - I0; ch.update('none'); });
+  ['util','utilc'].forEach(k=>{ const ch = charts[k]; if (!ch) return; ch.options.plugins.cursor.index = ch.data.labels.indexOf(qlab(state.asof)); ch.update('none'); });
+  ['CoWoS','SoIC'].forEach(k=>{ const ch = charts[k]; if (!ch) return; ch.options.plugins.cursor.index = Math.floor(state.asof/4) - Y0; ch.update('none'); });
 }
 
 function buildYeTable(){
-  const co = CO(); const years = []; for (let y=Y0;y<=Y1;y++) years.push(y);
-  const g = co.groups.find(x=>x.id===co.tableGroup) || co.groups[0]; const keyFn = keyFnOf(g);
-  const rows = [ ...g.items.slice().reverse().map(it=>({ l:esc(it.l), f:i=>waferBy(co,i,keyFn)[it.k]||0 })),
-    { l:'<b>晶圓合計（12 吋約當）</b>', f:i=>totalOf(co,i), b:true } ];
-  if (co.packaging) rows.push({ l:'CoWoS', f:i=>sum(apBy(co,i,'CoWoS')) }, { l:'SoIC', f:i=>sum(apBy(co,i,'SoIC')) });
-  let h = '<thead><tr><th>千片／月（年底，12 吋約當）</th>' + years.map(y=>`<th class="num">${y}</th>`).join('') + '</tr></thead><tbody>';
-  rows.forEach(r=>{ h += `<tr><td>${r.l}</td>` + years.map(y=>`<td class="num">${r.b?'<b>':''}${fmt(r.f(y*4+3))}${r.b?'</b>':''}</td>`).join('') + '</tr>'; });
-  document.getElementById('yeTable').innerHTML = h + '</tbody>';
+  const co = CO(); if (!co) return; const g = co.groups.find(x=>x.id===co.tableGroup) || co.groups[0]; const keyFn = keyFnOf(g);
+  const selY = Math.floor(state.asof/4); const vals = {}; YEARS.forEach(y=>{ vals[y] = waferBy(co, y*4+3, keyFn); });
+  const rows = g.items.slice().reverse().map(it=>({ l:esc(it.l), c:`var(${it.c})`, f:y=>vals[y][it.k]||0 }));
+  rows.push({ l:'晶圓合計（12 吋約當）', f:y=>totalOf(co, y*4+3), tot:true });
+  if (co.packaging) rows.push({ l:'CoWoS（晶圓片數）', f:y=>sum(apBy(co,y*4+3,'CoWoS')), sep:true }, { l:'SoIC（晶圓片數）', f:y=>sum(apBy(co,y*4+3,'SoIC')) });
+  let h = '<thead><tr><th scope="col">千片／月（年底）</th>' + YEARS.map(y=>{ const fc = y*4+3 > NOW_I; return `<th scope="col" class="${fc?'fc':''}${y===selY?' sel':''}">${y}${fc?'<small>預估</small>':''}</th>`; }).join('') + '</tr></thead><tbody>';
+  rows.forEach(r=>{ const mx = Math.max(1e-9, ...YEARS.map(y=>r.f(y)));
+    h += `<tr class="${r.tot?'tot':''}${r.sep?' sep':''}"><th scope="row" style="font-weight:${r.tot?700:400};text-align:left">${r.c?`<i style="background:${r.c}"></i>`:''}${r.l}</th>` + YEARS.map(y=>{ const v = r.f(y); return `<td class="${y===selY?'sel':''}" style="--w:${(v/mx*55).toFixed(1)}%;--bar:${r.c||'var(--ink-3)'}">${fmt(v)}</td>`; }).join('') + '</tr>'; });
+  $('#yeTable').innerHTML = h + '</tbody>';
 }
 
-/* ---------- compare ---------- */
-function buildCompare(){
-  const labels = QUARTERS.map(qlab);
-  const ds = ORDER.map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]);
-    return { label:co.name, data: QUARTERS.map(i=>+totalOf(co,i).toFixed(1)), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHitRadius:8, tension:0 }; });
-  const o = baseOpts(); o.plugins.nowLine = nowOpt(); o.plugins.endLabels = { on:true };
-  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}：${fmt(c.parsed.y)}` };
-  o.onClick = (e, els, chart) => { const idx = chart.scales.x.getValueForPixel(e.x); if (idx!=null) setAsof(I0 + Math.max(0, Math.min(QUARTERS.length-1, Math.round(idx)))); };
-  mk('cmp','cCmp',{ type:'line', data:{labels, datasets:ds}, options:o });
-  legendHTML(document.getElementById('lgCmp'), ORDER.map(id=>({label:COS[id].name+' '+COS[id].en, color:css(CO_COLOR[id])})), false);
-
-  const i = state.asof;
-  const mix = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); return { id, w12:n[12], w86:(n[8]||0)*co.f8 + (n[6]||0)*co.f6 }; });
-  const o2 = baseOpts(); o2.indexAxis = 'y'; o2.interaction = { mode:'nearest', intersect:true, axis:'y' };
-  o2.scales.x = { stacked:true, grid:{color:css('--grid')}, border:{display:false}, ticks:{font:{family:'IBM Plex Mono',size:11}}, beginAtZero:true };
-  o2.scales.y = { stacked:true, grid:{display:false}, ticks:{font:{size:12}}, border:{color:css('--line-strong')} };
-  o2.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}：${fmt(c.parsed.x,1)} 千片／月` };
-  const bar = (label, key, c) => ({ label, data: mix.map(m=>+m[key].toFixed(1)), backgroundColor:css(c), borderColor:css('--surface'), borderWidth:{right:2,left:0,top:0,bottom:0}, borderSkipped:false, borderRadius:3, barThickness:18 });
-  mk('mix','cMix',{ type:'bar', data:{ labels: ORDER.map(id=>COS[id].name), datasets:[ bar('12 吋','w12','--s1'), bar('8／6 吋（約當）','w86','--s2') ] }, options:o2 });
-  legendHTML(document.getElementById('lgMix'), [{label:'12 吋',color:css('--s1')},{label:'8／6 吋（12 吋約當）',color:css('--s2')}], false);
-
-  const uq = [...new Set(ORDER.flatMap(id=>(COS[id].util||[]).map(u=>u[0])))].sort((a,b)=>qi(a)-qi(b));
-  const uds = ORDER.filter(id=>(COS[id].util||[]).length).map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); const m = {}; co.util.forEach(u=>m[u[0]]=u);
-    return { label:co.name, data: uq.map(q=>m[q]?m[q][1]:null), _u: uq.map(q=>m[q]), spanGaps:true, borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:4, tension:0 }; });
-  const o3 = baseOpts(); o3.scales.y.beginAtZero = false; o3.scales.y.suggestedMin = 60; o3.scales.y.suggestedMax = 100; o3.scales.y.ticks.callback = v=>v+'%';
-  o3.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}：${fmt(c.parsed.y,1)}%` + (c.dataset._u[c.dataIndex] && c.dataset._u[c.dataIndex][2] ? `（${c.dataset._u[c.dataIndex][2]}）` : '') };
-  mk('utilc','cUtilCmp',{ type:'line', data:{ labels:uq, datasets:uds }, options:o3 });
-  legendHTML(document.getElementById('lgUtilCmp'), uds.map(d=>({label:d.label,color:d.borderColor})), false);
-
-  const cols = ['公司','營運中晶圓廠','建設／規劃中 phase','晶圓產能（12 吋約當）','12 吋','8／6 吋（原生）','最新利用率','最先進量產','2026 資本支出','擴產重點'];
-  let h = '<thead><tr>' + cols.map((c,ci)=>`<th class="${ci>=3&&ci<=5?'num':''}">${c}</th>`).join('') + '</tr></thead><tbody>';
-  ORDER.forEach(id=>{ const co = COS[id]; const n = nativeBy(co,i); const u = utilAt(co,i);
-    const pipe = co.SITES.reduce((a,s)=>a+s.phases.filter(p=>['build','plan'].includes(p.st)).length,0);
-    h += `<tr><td><a href="#${id}"><b>${co.name}</b></a> <span class="mono" style="color:var(--ink-3)">${co.en}</span></td><td>${esc(co.cmp.fabs)}</td><td class="mono">${pipe}</td>
-      <td class="num"><b>${fmt(totalOf(co,i))}</b></td><td class="num">${fmt(n[12])}</td><td class="num">${fmt(n[8])}${n[6]?' ／ '+fmt(n[6]):''}</td>
-      <td>${u?`${fmt(u[1],1)}%<br><small style="color:var(--ink-3)">${u[0]}${u[2]?'・'+esc(u[2]):''}</small>`:'<span style="color:var(--ink-3)">未公布</span>'}</td>
-      <td>${esc(co.cmp.adv)}</td><td>${esc(co.cmp.capex)}</td><td style="min-width:220px;color:var(--ink-2)">${esc(co.cmp.focus)}</td></tr>`; });
-  document.getElementById('cmpTable').innerHTML = h + '</tbody>';
+/* ---------- KPI strip ---------- */
+const kpiPrev = {};
+function tween(el, from, to, d){
+  if (reduced() || from==null || !isFinite(from) || from===to){ el.textContent = fmt(to,d); return; }
+  cancelAnimationFrame(el._raf); const t0 = performance.now(), D = 360;
+  const step = t => { const k = Math.min(1,(t-t0)/D), e = 1-Math.pow(1-k,3); el.textContent = fmt(from+(to-from)*e, d); if (k<1) el._raf = requestAnimationFrame(step); };
+  el._raf = requestAnimationFrame(step);
 }
-
-/* ---------- KPIs ---------- */
-function kpiHTML(list, i){ return list.map(x=>`<div class="kpi"><div class="k">${x.k}（${qlab(i)}）</div><div class="v">${x.v}<small>${x.u}</small></div><div class="s">${x.s}</div></div>`).join(''); }
-function phaseCounts(co){ let a=0,b=0,c=0; co.SITES.forEach(s=>s.phases.forEach(p=>{ if(['op','ramp','conv','exit'].includes(p.st)) a++; else if(p.st==='build') b++; else if(['plan','rumor'].includes(p.st)) c++; })); return [a,b,c]; }
+function sparkHTML(vals, color, sparse){
+  const W = 240, H = 30, n = vals.length, today = NOW_I - I0, j = state.asof - I0;
+  const pts = vals.map((v,k)=> v==null || !isFinite(v) ? null : [ (k+.5)/n*W, +v ]);
+  const vv = pts.filter(Boolean).map(p=>p[1]); if (!vv.length) return '';
+  const max = Math.max(...vv), min = sparse ? Math.min(...vv) - 3 : 0, rng = (max - min) || 1;
+  const Y = v => (H - 2) - (v - min) / rng * (H - 6);
+  const path = arr => arr.length > 1 ? 'M' + arr.map(p=>`${p[0].toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('L') : '';
+  const past = pts.slice(0, today+1).filter(Boolean), fut = pts.slice(today).filter(Boolean);
+  const pl = path(past), fl = sparse ? '' : path(fut);
+  const area = pl ? `${pl}L${past[past.length-1][0].toFixed(1)} ${H}L${past[0][0].toFixed(1)} ${H}Z` : '';
+  const cur = pts[j];
+  return `<div class="spk" style="--c:var(${color})"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${area?`<path class="spk-a" d="${area}"/>`:''}${pl?`<path class="spk-l" d="${pl}"/>`:''}${fl?`<path class="spk-f" d="${fl}"/>`:''}</svg><i class="cur" style="--x:${((j+.5)/n*100).toFixed(2)}%"></i>${cur?`<i class="dotm" style="--x:${(cur[0]/W*100).toFixed(2)}%;--y:${(Y(cur[1])/H*100).toFixed(1)}"></i>`:''}</div>`;
+}
+function deltaTxt(now, prev, label){
+  if (prev==null) return `<span>${label ? '' : '無去年同季資料'}</span>`;
+  if (!prev) return now ? `<span>新增產能・${label} 為 0</span>` : '';
+  const d = (now/prev - 1)*100;
+  return Math.abs(d) < .05 ? `持平 <span>較 ${label}</span>` : `${d>0?'▲':'▼'} <b>${fmt(Math.abs(d),1)}%</b> <span>較 ${label}</span>`;
+}
+function kpiTile(t){
+  const dec = t.dec||0; const pk = k => kpiPrev[state.co+':'+k];
+  const num = (v,k) => `<span data-tw="${k}" data-to="${v}" data-dec="${dec}">${fmt(pk(k)!=null ? pk(k) : v, dec)}</span>`;
+  const vHTML = t.v==null ? '—' : Array.isArray(t.v) ? t.v.map((x,j)=>(j?'<span class="sl">/</span>':'') + num(x, t.key+'-'+j)).join('') : num(t.v, t.key);
+  return `<div class="kpi"><div class="k"><span>${t.k}</span><span class="q">${qlab(state.asof)}</span></div><div class="v">${vHTML}${t.v!=null && t.u ? `<span class="u">${t.u}</span>` : ''}</div><div class="d">${t.d||''}</div>${t.s?`<div class="s">${t.s}</div>`:''}${t.spark||''}</div>`;
+}
+function phaseTile(co){
+  const [a,b,c] = phaseCounts(co);
+  return { key:'ph', k:'追蹤的廠期數', v:a+b+c, u:'個 phase', d:'全部時點合計', spark:`<div class="stbar" aria-hidden="true" style="margin-top:14px"><i style="flex:${a};background:var(--st-op)"></i><i style="flex:${b};background:var(--st-build)"></i><i style="flex:${c};background:var(--st-plan)"></i></div><div class="stleg"><span>${glyph('op')}營運 ${a}</span><span>${glyph('build')}建設 ${b}</span><span>${glyph('plan')}規劃／傳聞 ${c}</span></div>` };
+}
 function renderKPIs(){
-  const i = state.asof; const el = document.getElementById('kpis');
+  const i = state.asof, p = i - 4, hasP = p >= I0, pl = hasP ? qlab(p) : ''; let tiles;
+  const dP = (a,b) => hasP ? deltaTxt(a,b,pl) : '<span>無去年同季資料</span>';
   if (state.co==='compare'){
-    const tots = ORDER.map(id=>({id, v: totalOf(COS[id],i)})); const all = tots.reduce((a,b)=>a+b.v,0);
-    el.innerHTML = kpiHTML([
-      ...tots.map(t=>({ k:COS[t.id].name+' 晶圓產能', v:fmt(t.v), u:'千片／月', s:`占四家合計 ${fmt(all?t.v/all*100:0,1)}%（12 吋約當）` })),
-      { k:'四家合計', v:fmt(all), u:'千片／月', s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）` }
-    ], i); return;
+    const tots = ORDER.map(id=>({ id, v:totalOf(COS[id],i), pv: hasP ? totalOf(COS[id],p) : null }));
+    const all = tots.reduce((a,b)=>a+b.v,0), allP = hasP ? tots.reduce((a,b)=>a+b.pv,0) : null;
+    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name+' 晶圓產能', v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占四家合計 ${fmt(all? t.v/all*100 : 0,1)}%`, spark:sparkHTML(QUARTERS.map(q=>totalOf(COS[t.id],q)), CO_COLOR[t.id]) })),
+      { key:'t-all', k:'四家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+totalOf(COS[id],q),0)), '--ink-2') } ];
+  } else {
+    const co = CO(); const tot = totalOf(co,i), totP = hasP ? totalOf(co,p) : null; const C = CO_COLOR[co.id];
+    const totS = sparkHTML(QUARTERS.map(q=>totalOf(co,q)), C);
+    if (co.id==='tsmc'){
+      const bn = q => waferBy(co,q,(s,n)=>n); const b = bn(i), bp = hasP ? bn(p) : {};
+      const advOf = o => ['N7','N5','N3','N2','A14'].reduce((a,k)=>a+(o[k]||0),0);
+      const cw = sum(apBy(co,i,'CoWoS')), so = sum(apBy(co,i,'SoIC')), cwP = hasP ? sum(apBy(co,p,'CoWoS')) : null;
+      const byQ = QUARTERS.map(bn);
+      tiles = [
+        { key:'tot', k:'晶圓產能（12 吋約當）', v:Math.round(tot), u:'千片／月', d:dP(tot,totP), s:`年化約 ${fmt(tot*12/1000,1)} 百萬片；官方 2025 年逾 17 百萬片`, spark:totS },
+        { key:'adv', k:'先進製程（≤7nm）', v:Math.round(advOf(b)), u:'千片／月', d:dP(advOf(b), hasP ? advOf(bp) : null), s:`占晶圓產能 ${fmt(tot? advOf(b)/tot*100 : 0,0)}%`, spark:sparkHTML(byQ.map(advOf), C) },
+        { key:'n2', k:'N2 家族（含 A16）', v:Math.round(b.N2||0), u:'千片／月', d:dP(b.N2||0, hasP ? (bp.N2||0) : null), s: b.A14 ? `A14：${fmt(b.A14)} 千片／月` : 'A14 尚未量產', spark:sparkHTML(byQ.map(o=>o.N2||0), C) },
+        { key:'cw', k:'CoWoS／SoIC', v:[Math.round(cw), Math.round(so)], u:'千片／月', d:hasP ? deltaTxt(cw, cwP, pl).replace('<span>較', '<span>CoWoS 較') : '<span>無去年同季資料</span>', s:'先進封裝晶圓片數；走勢線為 CoWoS', spark:sparkHTML(QUARTERS.map(q=>sum(apBy(co,q,'CoWoS'))), C) },
+        phaseTile(co)
+      ];
+    } else {
+      const n = nativeBy(co,i), np = hasP ? nativeBy(co,p) : {}; const u = utilAt(co,i), up = hasP ? utilAt(co,p) : null;
+      const nq = QUARTERS.map(q=>nativeBy(co,q));
+      tiles = [
+        { key:'tot', k:'晶圓產能（12 吋約當）', v:+tot.toFixed(1), dec:1, u:'千片／月', d:dP(tot,totP), s:`年化約 ${fmt(tot*12/1000,2)} 百萬片`, spark:totS },
+        { key:'n12', k:'12 吋月產能', v:+(n[12]||0).toFixed(1), dec:1, u:'千片／月', d:dP(n[12]||0, hasP ? (np[12]||0) : null), s:'原生 12 吋片數', spark:sparkHTML(nq.map(x=>x[12]||0), C) },
+        { key:'n8', k: n[6] ? '8 吋／6 吋月產能' : '8 吋月產能', v: n[6] ? [+(n[8]||0).toFixed(1), +n[6].toFixed(1)] : +(n[8]||0).toFixed(1), dec:1, u:'千片／月', d: hasP ? deltaTxt(n[8]||0, np[8]||0, pl).replace('<span>較', n[6] ? '<span>8 吋較' : '<span>較') : '<span>無去年同季資料</span>', s:'原生片數', spark:sparkHTML(nq.map(x=>x[8]||0), C) },
+        { key:'util', k:'產能利用率', v: u ? u[1] : null, dec:1, u:'%', d: u && up && up[0]!==u[0] ? `${u[1]>=up[1]?'▲':'▼'} <b>${fmt(Math.abs(u[1]-up[1]),1)} 個百分點</b> <span>較 ${up[0]}</span>` : '', s: u ? `${u[0]}${u[2]?'・'+esc(u[2]):''}` : '該季以前無公布值', spark:sparkHTML(QUARTERS.map(q=>{ const x = (co.util||[]).find(z=>qi(z[0])===q); return x ? x[1] : null; }), C, true) },
+        phaseTile(co)
+      ];
+    }
   }
-  const co = CO(); const [nOp,nBuild,nPlan] = phaseCounts(co);
-  const tot = totalOf(co,i);
-  if (co.id==='tsmc'){
-    const byNode = waferBy(co,i,(s,n)=>n);
-    const adv = ['N7','N5','N3','N2','A14'].reduce((a,k)=>a+(byNode[k]||0),0);
-    const cw = sum(apBy(co,i,'CoWoS')), so = sum(apBy(co,i,'SoIC'));
-    el.innerHTML = kpiHTML([
-      { k:'晶圓產能（12 吋約當）', v:fmt(tot), u:'千片／月', s:`年化約 ${fmt(tot*12/1000,1)} 百萬片；官方 2025 年：逾 17 百萬片` },
-      { k:'先進製程（≤7nm）', v:fmt(adv), u:'千片／月', s:`占晶圓產能 ${fmt(tot?adv/tot*100:0,0)}%` },
-      { k:'N2 家族（含 A16）', v:fmt(byNode.N2||0), u:'千片／月', s:(byNode.A14?`A14：${fmt(byNode.A14)} 千片`:'A14 尚未量產') },
-      { k:'CoWoS ／ SoIC', v:`${fmt(cw)}<small>/</small>${fmt(so)}`, u:'千片／月', s:'先進封裝晶圓片數' },
-      { k:'追蹤的廠期數', v:String(nOp+nBuild+nPlan), u:'個 phase', s:`營運 ${nOp}・建設 ${nBuild}・規劃／傳聞 ${nPlan}` }
-    ], i); return;
+  const el = $('#kpis'); el.innerHTML = tiles.map(kpiTile).join('');
+  el.querySelectorAll('[data-tw]').forEach(s=>{ const key = state.co+':'+s.dataset.tw, to = +s.dataset.to; tween(s, kpiPrev[key], to, +s.dataset.dec); kpiPrev[key] = to; });
+}
+
+/* ---------- wafer map (company) ---------- */
+const WG = (()=>{
+  const C = 160, R = 150, d = 15, ex = 8; const full = [], edge = []; const n = Math.ceil(R/d) + 1;
+  for (let r=-n;r<n;r++) for (let c=-n;c<n;c++){
+    const x0 = c*d, y0 = r*d, x1 = x0+d, y1 = y0+d;
+    const far = Math.max(Math.hypot(x0,y0),Math.hypot(x1,y0),Math.hypot(x0,y1),Math.hypot(x1,y1));
+    const near = Math.hypot(Math.max(x0, Math.min(0,x1)), Math.max(y0, Math.min(0,y1)));
+    if (far <= R - ex) full.push({ x:C+x0, y:C+y0, r, c }); else if (near < R) edge.push({ x:C+x0, y:C+y0 });
   }
-  const n = nativeBy(co,i); const u = utilAt(co,i);
-  el.innerHTML = kpiHTML([
-    { k:'晶圓產能（12 吋約當）', v:fmt(tot,1), u:'千片／月', s:`年化約 ${fmt(tot*12/1000,2)} 百萬片` },
-    { k:'12 吋月產能', v:fmt(n[12],1), u:'千片／月', s:'原生 12 吋片數' },
-    { k:(n[6]?'8 吋／6 吋月產能':'8 吋月產能'), v: n[6] ? `${fmt(n[8],1)}<small>/</small>${fmt(n[6],1)}` : fmt(n[8],1), u:'千片／月', s:'原生片數' },
-    { k:'產能利用率', v: u ? fmt(u[1],1)+'%' : '—', u:'', s: u ? `${u[0]}${u[2]?'・'+esc(u[2]):''}` : '該季以前無公布值' },
-    { k:'追蹤的廠期數', v:String(nOp+nBuild+nPlan), u:'個 phase', s:`營運 ${nOp}・建設 ${nBuild}・規劃／傳聞 ${nPlan}` }
-  ], i);
+  full.sort((a,b)=>a.r-b.r || a.c-b.c);
+  return { C, R, d, full, edge };
+})();
+function waferSVG(){
+  const { C, R, d, full, edge } = WG; const gp = 1.8, w = (d-gp).toFixed(1);
+  const rect = (p, j) => `<rect${j!=null?` class="die" data-j="${j}" style="fill:var(--die-idle)"`:''} x="${(p.x+gp/2).toFixed(1)}" y="${(p.y+gp/2).toFixed(1)}" width="${w}" height="${w}" rx="1.4"/>`;
+  return `<svg class="wafer" id="wafer" viewBox="0 0 320 320" role="img" aria-labelledby="wTitle"><title id="wTitle">晶圓圖</title>
+    <defs><linearGradient id="wSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--sheen-1)"/><stop offset=".5" style="stop-color:var(--sheen-2)"/><stop offset="1" style="stop-color:var(--sheen-3)"/></linearGradient><clipPath id="wClip"><circle cx="${C}" cy="${C}" r="${R}"/></clipPath></defs>
+    <circle cx="${C}" cy="${C}" r="${R}" style="fill:var(--wafer)"/><circle cx="${C}" cy="${C}" r="${R}" fill="url(#wSheen)" opacity=".6"/>
+    <g class="w-edge" clip-path="url(#wClip)">${edge.map(p=>rect(p)).join('')}</g>
+    <g class="w-dies">${full.map((p,j)=>rect(p,j)).join('')}</g>
+    <circle class="w-rim" cx="${C}" cy="${C}" r="${R}"/><circle class="w-notch" cx="${C}" cy="${C+R}" r="6"/></svg>`;
+}
+function updateWafer(){
+  const svg = $('#wafer'); if (!svg || state.co==='compare') return;
+  const co = CO(); const g = curGroup(co); const i = state.asof;
+  const vals = waferBy(co, i, keyFnOf(g));
+  const list = g.items.slice().reverse().map(it=>({ k:it.k, l:it.l, c:it.c, v:vals[it.k]||0 }));
+  const N = WG.full.length, tot = list.reduce((a,b)=>a+b.v,0); const alloc = allocate(list, N);
+  const seq = []; alloc.forEach(a=>{ for (let j=0;j<a.n;j++) seq.push(a); });
+  const anim = !reduced() && svg.dataset.ready==='1';
+  svg.querySelectorAll('.die').forEach((r,j)=>{ const a = seq[j]; r.style.setProperty('--dl', anim ? Math.round(j/N*320)+'ms' : '0ms'); r.style.fill = a ? `var(${a.c})` : 'var(--die-idle)'; r.dataset.k = a ? a.k : ''; });
+  svg.dataset.ready = '1';
+  state.wl = { list:alloc, tot, N, q:i };
+  $('#wLegend').innerHTML = alloc.map(a=>`<li><button type="button" data-k="${esc(a.k)}" class="${a.v>0?'':'zero'}"><i style="background:var(${a.c})"></i><span>${esc(a.l)}</span><span class="v">${fmt(a.v, d1(a.v))}<small>${tot ? fmt(a.v/tot*100,1)+'%' : '—'}</small></span></button></li>`).join('');
+  $('#wNote').textContent = tot ? `每顆晶粒約 ${fmt(tot/N,1)} 千片／月（12 吋約當），共 ${N} 顆；由上而下依序排列，與下方堆疊圖同一順序。合計 ${fmt(tot, d1(tot))} 千片／月。` : '此時點尚無產能數據。';
+  svg.querySelector('title').textContent = `${co.name} ${qlab(i)} 產能組成：` + (tot ? alloc.filter(a=>a.v>0).map(a=>`${a.l} ${fmt(a.v)}（${fmt(a.v/tot*100,1)}%）`).join('、') : '尚無產能');
+  if (svg.dataset.hl) hlWafer(svg.dataset.hl, true);
+}
+function hlWafer(k, force){
+  const svg = $('#wafer'); if (!svg) return;
+  if (!k){ if (!svg.dataset.hl) return; delete svg.dataset.hl; svg.querySelectorAll('.die.on').forEach(r=>r.classList.remove('on')); $$('#wLegend button.on').forEach(b=>b.classList.remove('on')); return; }
+  if (svg.dataset.hl===k && !force) return;
+  svg.dataset.hl = k;
+  svg.querySelectorAll('.die').forEach(r=>r.classList.toggle('on', r.dataset.k===k));
+  $$('#wLegend button').forEach(b=>b.classList.toggle('on', b.dataset.k===k));
+}
+function waferTip(k){
+  const w = state.wl; if (!w) return ''; const a = w.list.find(x=>x.k===k); if (!a) return '';
+  return `<div class="tt-h">${qlab(w.q)}${w.q>NOW_I?'・預估':''}</div><div class="tt-r"><i style="background:var(${a.c})"></i><b>${fmt(a.v, d1(a.v))}</b><span>千片／月</span></div><div class="tt-t">${esc(a.l)}</div><div class="muted">占 ${w.tot ? fmt(a.v/w.tot*100,1) : 0}%・${a.n} 顆晶粒</div>`;
+}
+function wireWafer(){
+  const svg = $('#wafer'), lg = $('#wLegend'); if (!svg || !lg) return;
+  svg.addEventListener('pointermove', e=>{ const r = e.target.closest && e.target.closest('.die'); const k = r && r.dataset.k; if (!k){ hlWafer(null); hideTip('wafer'); return; } hlWafer(k); showTip(waferTip(k), e, 'wafer'); });
+  svg.addEventListener('pointerleave', ()=>{ hlWafer(null); hideTip('wafer'); });
+  lg.addEventListener('pointerover', e=>{ const b = e.target.closest('button'); if (b) hlWafer(b.dataset.k); });
+  lg.addEventListener('pointerleave', ()=>hlWafer(null));
+  lg.addEventListener('focusin', e=>{ const b = e.target.closest('button'); if (b) hlWafer(b.dataset.k); });
+  lg.addEventListener('focusout', ()=>hlWafer(null));
+}
+
+/* ---------- compare wafers: die = 10 千片／月 ---------- */
+const CWC = {};
+function cwGrid(R){
+  if (CWC[R]) return CWC[R];
+  const d = 10, ex = 2.5, C = R + 6; const full = [], edge = []; const n = Math.ceil(R/d) + 1;
+  for (let r=-n;r<n;r++) for (let c=-n;c<n;c++){
+    const x0 = c*d, y0 = r*d, x1 = x0+d, y1 = y0+d;
+    const far = Math.max(Math.hypot(x0,y0),Math.hypot(x1,y0),Math.hypot(x0,y1),Math.hypot(x1,y1));
+    const near = Math.hypot(Math.max(x0, Math.min(0,x1)), Math.max(y0, Math.min(0,y1)));
+    if (far <= R - ex) full.push({ x:C+x0, y:C+y0, r, c }); else if (near < R) edge.push({ x:C+x0, y:C+y0 });
+  }
+  full.sort((a,b)=>a.r-b.r || a.c-b.c);
+  return (CWC[R] = { R, C, d, full, edge });
+}
+function cwGeom(need){ let R = Math.max(14, Math.ceil(Math.sqrt(need*100/Math.PI) + 5)); for (let t=0;t<160;t++){ const g = cwGrid(R); if (g.full.length >= need) return g; R++; } return cwGrid(R); }
+function cwSVG(id, need, split){
+  const g = cwGeom(need); const c = CO_COLOR[id]; const gp = 1.6, w = g.d - gp, size = 2*g.C;
+  const seq = []; split.forEach(s=>{ for (let j=0;j<s.n;j++) seq.push(s.k); });
+  const fillOf = k => k==='12' ? `var(${c})` : k==='86' ? `color-mix(in srgb,var(${c}) 42%,var(--surface))` : 'var(--die-idle);opacity:.55';
+  const r = (p, st) => `<rect x="${(p.x+gp/2).toFixed(1)}" y="${(p.y+gp/2).toFixed(1)}" width="${w}" height="${w}" rx="1"${st?` style="fill:${st}"`:''}/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><defs><linearGradient id="cws-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--sheen-1)"/><stop offset=".5" style="stop-color:var(--sheen-2)"/><stop offset="1" style="stop-color:var(--sheen-3)"/></linearGradient><clipPath id="cwc-${id}"><circle cx="${g.C}" cy="${g.C}" r="${g.R}"/></clipPath></defs>
+    <circle cx="${g.C}" cy="${g.C}" r="${g.R}" style="fill:var(--wafer)"/><circle cx="${g.C}" cy="${g.C}" r="${g.R}" fill="url(#cws-${id})" opacity=".6"/>
+    <g class="w-edge" clip-path="url(#cwc-${id})">${g.edge.map(p=>r(p)).join('')}</g><g>${g.full.map((p,j)=>r(p, fillOf(seq[j]))).join('')}</g>
+    <circle class="w-rim" cx="${g.C}" cy="${g.C}" r="${g.R}"/><circle class="w-notch" cx="${g.C}" cy="${g.C+g.R}" r="3.5"/></svg>`;
+}
+function renderCmpWafers(){
+  const el = $('#cwafers'); if (!el) return; const i = state.asof;
+  const data = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6; return { id, co, w12, w86, tot:w12+w86 }; });
+  const all = data.reduce((a,b)=>a+b.tot,0);
+  el.innerHTML = data.map(x=>{ const need = Math.round(x.tot/10); const split = allocate([{k:'12',v:x.w12},{k:'86',v:x.w86}], need);
+    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(x.co.name)} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(x.co.name)}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占四家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
+}
+function cwTip(id, e){
+  const co = COS[id]; const i = state.asof; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6;
+  showTip(`<div class="tt-h">${qlab(i)}${i>NOW_I?'・預估':''}</div><div class="tt-t">${esc(co.name)} ${esc(co.en)}</div><div class="tt-r"><i style="background:var(${CO_COLOR[id]})"></i><b>${fmt(w12+w86)}</b><span>千片／月（12 吋約當）</span></div><div class="muted">12 吋 ${fmt(w12)}・8／6 吋約當 ${fmt(w86)}・${Math.round((w12+w86)/10)} 顆晶粒</div><div class="muted">點一下切換到${esc(co.name)}頁</div>`, e, 'cw');
+}
+
+/* ---------- hero ---------- */
+const groupBtns = co => co.groups.map(g=>`<button type="button" data-g="${esc(g.id)}" aria-pressed="${g.id===state.group}">${esc(g.l)}</button>`).join('');
+const ARROW_D = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5v8M2.5 6.2 6 9.7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function renderHero(){
+  const el = $('#hero');
+  if (state.co==='compare'){
+    el.innerHTML = `<div class="hero-id">
+        <div class="eyebrow">TSMC × UMC × VIS × PSMC</div>
+        <h2 class="co-title"><span class="zh">四家比較</span><span class="en">Compare</span></h2>
+        <p class="lede">把四家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
+        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">四家產能比較${ARROW_D}</button></div>
+      </div>
+      <figure class="wfig">
+        <div class="wfig-h"><h3>產能規模 <span class="mono asofTxt">${qlab(state.asof)}</span></h3><span class="wkey"><i class="k12"></i>12 吋<i class="k86"></i>8／6 吋（約當）</span></div>
+        <div class="wstage"><div class="cwafers" id="cwafers"></div></div>
+        <p class="wnote">晶圓大小與晶粒數依產能比例繪製：每顆晶粒＝1 萬片／月（10 千片，12 吋約當）；深色晶粒為 12 吋，淺色為 8／6 吋換算。</p>
+      </figure>`;
+    return;
+  }
+  const co = CO(); const has6 = co.SITES.some(s=>s.wafer===6);
+  el.innerHTML = `<div class="hero-id">
+      <div class="eyebrow">${esc(co.en)} · ${esc(co.ticker)}</div>
+      <h2 class="co-title"><span class="sw" style="background:var(${CO_COLOR[co.id]})" aria-hidden="true"></span><span class="zh">${esc(co.name)}</span><span class="en">${esc(co.en)}</span></h2>
+      <p class="lede">${esc(co.summary)}</p>
+      <dl class="spec">${co.facts.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}<div><dt>12 吋約當換算</dt><dd>8 吋 ×${fmt(co.f8,3)}${has6?`・6 吋 ×${fmt(co.f6,2)}`:''}</dd></div></dl>
+      <div class="jump"><span>跳到</span>${[['charts','產能演進'],['list','廠區與各期明細'],['method','資料說明與來源']].map(([id,l])=>`<button type="button" data-jump="${id}">${l}${ARROW_D}</button>`).join('')}</div>
+    </div>
+    <figure class="wfig">
+      <div class="wfig-h"><h3>產能組成 <span class="mono asofTxt">${qlab(state.asof)}</span></h3><div class="seg sm" role="group" aria-label="晶圓圖分組方式">${groupBtns(co)}</div></div>
+      <div class="wstage">${waferSVG()}</div>
+      <ul class="wlegend" id="wLegend"></ul>
+      <p class="wnote" id="wNote"></p>
+    </figure>`;
+  wireWafer();
 }
 
 /* ---------- filters ---------- */
-function techL(co,t){ return (co.techLabel||{})[t]||t; }
 function phaseText(co,s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,s.warn||'',p.warn||'',p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],REG[s.region]||'',...(p.tech||[]).map(t=>techL(co,t)+' '+t)].join(' ').toLowerCase(); }
 function phaseMatch(co,s,p){
   if (state.kind.size && !state.kind.has(s.kind)) return false;
@@ -1362,174 +1965,404 @@ function phaseMatch(co,s,p){
   if (state.q){ const t = phaseText(co,s,p); if (!state.q.split(/\s+/).every(w=>t.includes(w))) return false; }
   return true;
 }
-function chipRow(elId, entries, set){
-  const el = document.getElementById(elId);
-  el.querySelectorAll('.chip').forEach(c=>c.remove());
+const anyFilter = () => !!(state.q || state.kind.size || state.region.size || state.status.size || state.tech.size);
+function chipRow(elId, entries, set, withGlyph){
+  const el = document.getElementById(elId); el.querySelectorAll('.chip').forEach(c=>c.remove());
+  el.hidden = !entries.length;
   entries.forEach(([k,l,n])=>{
-    const b = document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('aria-pressed', set.has(k));
-    b.innerHTML = `${esc(l)}<span class="n">${n}</span>`;
-    b.onclick = ()=>{ set.has(k)?set.delete(k):set.add(k); renderList(); renderFilters(); };
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', String(set.has(k)));
+    b.innerHTML = `${withGlyph?glyph(k):''}${esc(l)}<span class="n">${n}</span>`;
+    b.onclick = ()=>{ set.has(k) ? set.delete(k) : set.add(k); renderFilters(); renderList(); };
     el.appendChild(b);
   });
 }
 function renderFilters(){
-  const co = CO(); const all = []; co.SITES.forEach(s=>s.phases.forEach(p=>all.push([s,p])));
-  const cnt = fn => all.filter(([s,p])=>fn(s,p)).length;
+  const co = CO(); const all = []; co.SITES.forEach(s=>s.phases.forEach(p=>all.push([s,p]))); const cnt = fn => all.filter(([s,p])=>fn(s,p)).length;
   chipRow('fKind', Object.entries(KINDS).map(([k,l])=>[k,l,cnt(s=>s.kind===k)]).filter(e=>e[2]), state.kind);
   chipRow('fRegion', Object.keys(REG).map(r=>[r,REG[r],cnt(s=>s.region===r)]).filter(e=>e[2]), state.region);
-  chipRow('fStatus', Object.entries(STATUS).map(([k,v])=>[k,v.l,cnt((s,p)=>p.st===k)]).filter(e=>e[2]), state.status);
+  chipRow('fStatus', Object.entries(STATUS).map(([k,v])=>[k,v.l,cnt((s,p)=>p.st===k)]).filter(e=>e[2]), state.status, true);
   chipRow('fTech', co.techOrder.map(t=>[t,techL(co,t),cnt((s,p)=>(p.tech||[]).includes(t))]).filter(e=>e[2]), state.tech);
+  $('#fclear').hidden = !anyFilter();
 }
 
-/* ---------- list rendering ---------- */
-const pill = st => `<span class="pill st-${st}">${STATUS[st].l}</span>`;
-const conf = c => `<span class="conf c-${c}" title="資料可信度">${CONF_L[c]}</span>`;
+/* ---------- site list: cards / roadmap / table ---------- */
 function capCell(co, s, p, i){
   const m = capAt(p,i); const keys = Object.keys(m).filter(k=>m[k]>0);
-  if (!keys.length){
-    const future = (p.cap||[]).find(x=>qi(x.t)>i && x.v>0);
-    return future ? `<span style="color:var(--ink-3)">—</span><small>${future.t} 起</small>` : `<span style="color:var(--ink-3)">—</span>`;
-  }
-  return keys.map(k=>{
-    const lbl = s.kind==='ap' ? k : k==='W' ? `${s.wafer} 吋` : `${techL(co,k)}${s.wafer!==12?`（${s.wafer}吋）`:''}`;
-    return `${fmt(m[k],m[k]%1?1:0)}<small>${lbl}</small>`; }).join('');
+  if (!keys.length){ const fut = (p.cap||[]).find(x=>qi(x.t)>i && x.v>0); return fut ? `<span class="none">—</span><small>${fut.t} 起</small>` : `<span class="none">—</span>`; }
+  return keys.map(k=>`${fmt(m[k], m[k]%1?1:0)}<small>${esc(keyLabel(co,s,k))}</small>`).join('');
 }
-function srcLinks(co, ids){ const keys = Object.keys(co.SOURCES); return (ids||[]).map(id=>{ const s = co.SOURCES[id]; if(!s) return ''; const n = keys.indexOf(id)+1;
-  return s[1] ? `<a href="${s[1]}" target="_blank" rel="noopener" title="${esc(s[0])}">[${n}]</a>` : `<span title="${esc(s[0])}">[${n}]</span>`; }).join(''); }
-
+function capNowHTML(co, s, i){
+  const n = siteNow(s,i), f = fac(co,s); const q = `<span class="q">${qlab(i)}${i>NOW_I?'・預估':''}</span>`;
+  if (s.kind==='ap') return `<div class="row"><span><b>${fmt(n.cw)}</b><small>CoWoS</small></span><span><b>${fmt(n.so)}</b><small>SoIC</small></span></div><span class="eq">千片／月（晶圓片數）</span>${q}`;
+  if (s.kind==='partner') return `<div class="row"><span><b>—</b></span></div><span class="eq">非自有產能，不計入</span>${q}`;
+  return `<div class="row"><span><b>${fmt(n.w, n.w%1?1:0)}</b><small>${s.wafer?s.wafer+' 吋・':''}千片／月</small></span></div>${f!==1 && n.w ? `<span class="eq">≈ ${fmt(n.w*f,1)} 千片（12 吋約當）</span>` : ''}${q}`;
+}
+function cardSpark(co, s){
+  const ap = s.kind==='ap'; const a = QUARTERS.map(q=>{ const x = siteNow(s,q); return ap ? [x.cw, x.so] : [x.w]; });
+  let max = 0; a.forEach(v=>v.forEach(x=>{ if (x>max) max = x; }));
+  if (!max) return `<div class="cspk none">${s.kind==='partner' ? '非自有產能' : '尚無產能數據'}</div>`;
+  const W = 200, H = 44, X = j => (j+.5)/NQ*W, Y = v => H - 2 - v/max*(H-8); let paths = '';
+  for (let k=0; k<a[0].length; k++){
+    if (!a.some(v=>v[k])) continue;
+    const d = 'M' + a.map((v,j)=>`${X(j).toFixed(1)} ${Y(v[k]).toFixed(1)}`).join('L');
+    if (k===0) paths += `<path d="${d}L${X(NQ-1).toFixed(1)} ${H}L${X(0).toFixed(1)} ${H}Z" style="fill:color-mix(in srgb,var(--ink) 7%,transparent)"/>`;
+    paths += `<path d="${d}" style="fill:none;stroke:${k?'var(--ink-3)':'var(--ink-2)'};stroke-width:1.5${k?';stroke-dasharray:3 2':''}" vector-effect="non-scaling-stroke"/>`;
+  }
+  return `<div class="cspk" title="${esc(s.code)}：2023–2030 產能走勢，最高 ${fmt(max)} 千片／月${ap?'（實線 CoWoS、虛線 SoIC）':''}"><span class="fc"></span><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${paths}</svg><span class="mx">${fmt(max)}</span></div>`;
+}
+function stripData(co, s, p){
+  const vals = QUARTERS.map(i=>phaseAt(p,i)); const max = Math.max(0, ...vals.map(v=>v.t)); if (!max) return '';
+  const stops = []; let prev = null, start = 0;
+  const flush = (col, a, b) => stops.push(`${col} ${(a/NQ*100).toFixed(3)}% ${(b/NQ*100).toFixed(3)}%`);
+  vals.forEach((v,j)=>{ const col = v.t>0 ? `color-mix(in srgb,var(${keyColor(co,s,v.top)}) ${Math.round(30 + 70*v.t/max)}%,transparent)` : 'transparent'; if (col!==prev){ if (prev!==null) flush(prev, start, j); prev = col; start = j; } });
+  flush(prev, start, NQ);
+  return `linear-gradient(90deg,${stops.join(',')})`;
+}
+function phaseRowHTML(co, s, p, pi, match, i){
+  const strip = stripData(co,s,p);
+  return `<li class="ph${match?'':' dim'}">
+    <div class="ph-id"><b>${esc(p.id)}</b>${pill(p.st)}</div>
+    <div class="ph-d"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'；'+esc(p.ms):''}</div><div class="full">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div>${p.warn?warnHTML(p.warn):''}</div>
+    <div class="ph-c js-now" data-site="${esc(s.id)}" data-ph="${pi}">${capCell(co,s,p,i)}</div>
+    ${strip?`<div class="strip" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>`:''}
+  </li>`;
+}
+function cardHTML(co, s, m, i){
+  const stc = {}; s.phases.forEach(p=>{ stc[p.st] = (stc[p.st]||0) + 1; });
+  const meta = [esc(s.loc), `投產 ${esc(s.since)}`, s.adv && s.adv!=='—' ? `最先進量產 ${esc(s.adv)}` : ''].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
+  return `<article class="fab" data-site="${esc(s.id)}">
+    <header class="fab-h"><button type="button" class="fab-title" data-open="${esc(s.id)}"><span class="fab-code">${esc(s.code)}</span><span class="fab-name">${esc(s.name)}</span></button>
+      <div class="fab-tags"><span class="tag">${KINDS[s.kind]}</span>${REG[s.region]?`<span class="tag">${REG[s.region]}</span>`:''}${s.wafer?`<span class="tag">${s.wafer} 吋</span>`:''}</div></header>
+    <div class="fab-meta">${meta}</div>
+    ${s.warn?warnHTML(s.warn):''}
+    <div class="fab-cap"><div class="capnow js-now" data-site="${esc(s.id)}">${capNowHTML(co,s,i)}</div>${cardSpark(co,s)}</div>
+    <ol class="phs">${s.phases.map((p,pi)=>phaseRowHTML(co,s,p,pi,m[pi],i)).join('')}</ol>
+    <footer class="fab-f"><span class="fab-st">${Object.keys(stc).map(k=>`<span>${glyph(k)}${STATUS[k].l}${stc[k]>1?' ×'+stc[k]:''}</span>`).join('')}</span><button type="button" class="more" data-open="${esc(s.id)}">詳情與來源<span class="mono">${(s.src||[]).length}</span></button></footer>
+  </article>`;
+}
+function ganttVal(co, s, p, i){
+  const m = capAt(p,i); const keys = Object.keys(m).filter(k=>m[k]>0); if (!keys.length) return '<span class="none">—</span>';
+  const t = keys.reduce((a,k)=>a+m[k],0); return `${fmt(t, t%1?1:0)}<small>${keys.length===1 ? esc(keyLabel(co,s,keys[0])) : '合計'}</small>`;
+}
+function byKind(vis){ return Object.keys(KINDS).map(k=>[k, vis.filter(v=>v.s.kind===k)]).filter(([,l])=>l.length); }
+function ganttHTML(co, vis, i){
+  const key = `<div class="g-key"><span><i style="background:linear-gradient(90deg,color-mix(in srgb,var(--ink-2) 30%,transparent),var(--ink-2))"></i>色塊越深＝越接近該期產能高峰（顏色＝製程或廠區）</span><span><i style="background-color:var(--surface-2);background-image:repeating-linear-gradient(135deg,var(--hatch) 0 1.5px,transparent 1.5px 5px)"></i>斜線＝預估（${qlab(NOW_I+1)} 起）</span><span><i style="width:2px;background:var(--ink)"></i>直線＝選定季</span><span>點任一列開啟詳情；滑過色塊看該季數值</span></div>`;
+  let h = `<div class="g-in">${key}<div class="g-head"><div class="g-label">廠區・期別</div><div class="g-years">${YEARS.map(y=>`<span style="left:${((qi(y+'Q1')-I0)/NQ*100).toFixed(3)}%">${y}</span>`).join('')}</div><div class="g-val gq">${qlab(i)}</div></div>`;
+  byKind(vis).forEach(([k, list])=>{
+    h += `<div class="g-group">${KINDS[k]}<span class="mono">${list.length} 個廠區</span></div>`;
+    list.forEach(({s,m})=>{ let first = true;
+      s.phases.forEach((p,pi)=>{ if (!m[pi]) return; const strip = stripData(co,s,p);
+        h += `<div class="g-row${first?' first':''}" data-open="${esc(s.id)}" tabindex="0" role="button" aria-label="${esc(s.code+' '+p.id)}：開啟廠區詳情">
+          <div class="g-label"><span class="g-site">${first?esc(s.code):''}</span><span class="g-ph">${glyph(p.st)}${esc(p.id)}</span></div>
+          ${strip ? `<div class="g-track" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>` : `<div class="g-track none">${STATUS[p.st].l}・${esc(p.mp)}</div>`}
+          <div class="g-val js-now" data-site="${esc(s.id)}" data-ph="${pi}" data-mode="g">${ganttVal(co,s,p,i)}</div></div>`;
+        first = false; }); }); });
+  return h + '</div>';
+}
+function tableHTML(co, vis, i){
+  const rows = [];
+  vis.forEach(({s,m})=>s.phases.forEach((p,pi)=>{ if (!m[pi]) return;
+    rows.push({ id:s.id, site:s.code, ph:p.id, kind:KINDS[s.kind], region:REG[s.region]||'', wafer:s.wafer ? s.wafer+' 吋' : '封裝', nodes:p.nodes, st:p.st, mp:p.mp,
+      ms:[p.ms, p.warn&&('⚠ '+p.warn), s.warn&&('⚠ '+s.warn)].filter(Boolean).join('　'), now:Object.values(capAt(p,i)).reduce((a,v)=>a+v,0), max:Object.values(phaseMax(p)).reduce((a,b)=>a+b,0), conf:p.conf }); }));
+  const cols = [['site','廠區'],['ph','期別'],['kind','類型'],['region','地區'],['wafer','尺寸'],['nodes','製程／技術'],['st','狀態'],['mp','量產時間'],['now',qlab(i)+' 產能',1],['max','模型滿載',1],['conf','可信度'],['ms','進度／備註']];
+  if (state.sort.k){ const k = state.sort.k, d = state.sort.dir; rows.sort((a,b)=>(typeof a[k]==='number' ? a[k]-b[k] : String(a[k]).localeCompare(String(b[k]),'zh-Hant'))*d); }
+  let h = '<thead><tr>' + cols.map(([k,l,num])=>`<th scope="col" class="${num?'num':''}" data-k="${k}"${state.sort.k===k?` aria-sort="${state.sort.dir>0?'ascending':'descending'}"`:''}>${l}</th>`).join('') + '</tr></thead><tbody>';
+  rows.forEach(r=>{ h += `<tr data-open="${esc(r.id)}"><td class="site">${esc(r.site)}</td><td>${esc(r.ph)}</td><td>${r.kind}</td><td>${r.region}</td><td>${r.wafer}</td><td>${esc(r.nodes)}</td><td>${pill(r.st)}</td><td>${esc(r.mp)}</td><td class="num">${r.now?fmt(r.now,1):'—'}</td><td class="num">${r.max?fmt(r.max,1):'—'}</td><td>${conf(r.conf)}</td><td style="min-width:280px;color:var(--ink-2)">${esc(r.ms)}</td></tr>`; });
+  return h + '</tbody>';
+}
 function renderList(){
   const co = CO(); const i = state.asof;
-  const vis = co.SITES.map(s=>({ s, m: s.phases.map(p=>phaseMatch(co,s,p)) })).filter(x=>x.m.some(Boolean));
-  const nPh = vis.reduce((a,x)=>a+x.m.filter(Boolean).length,0);
-  document.getElementById('fcount').textContent = `${vis.length} 個廠區・${nPh} 個 phase`;
-  document.getElementById('empty').hidden = vis.length>0;
-  const cardsEl = document.getElementById('cards'), tv = document.getElementById('tableView');
-  cardsEl.hidden = state.view!=='cards' || !vis.length; tv.hidden = state.view!=='table' || !vis.length;
-  document.querySelectorAll('[data-v]').forEach(x=>x.setAttribute('aria-pressed', x.dataset.v===state.view));
+  const vis = co.SITES.map(s=>({ s, m:s.phases.map(p=>phaseMatch(co,s,p)) })).filter(x=>x.m.some(Boolean));
+  state.visibleIds = vis.map(v=>v.s.id);
+  const nPh = vis.reduce((a,x)=>a+x.m.filter(Boolean).length,0), all = co.SITES.reduce((a,s)=>a+s.phases.length,0);
+  $('#fcount').textContent = `${vis.length} 個廠區・${nPh} 個 phase` + (nPh < all ? `（全部 ${co.SITES.length} 個廠區・${all} 個 phase）` : '');
+  $('#empty').hidden = vis.length > 0;
+  const cardsEl = $('#cards'), gv = $('#ganttView'), tv = $('#tableView');
+  cardsEl.hidden = state.view!=='cards' || !vis.length; gv.hidden = state.view!=='gantt' || !vis.length; tv.hidden = state.view!=='table' || !vis.length;
+  $$('[data-v]').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.v===state.view)));
+  cardsEl.innerHTML = ''; gv.innerHTML = ''; $('#phTable').innerHTML = '';
+  if (!vis.length) return;
+  if (state.view==='cards'){ const groups = byKind(vis); cardsEl.innerHTML = groups.map(([k,l])=>(groups.length>1 ? `<h3 class="grp-h">${KINDS[k]}<span class="mono">${l.length} 個廠區</span></h3>` : '') + l.map(v=>cardHTML(co,v.s,v.m,i)).join('')).join(''); }
+  else if (state.view==='gantt') gv.innerHTML = ganttHTML(co, vis, i);
+  else $('#phTable').innerHTML = tableHTML(co, vis, i);
+}
+function updateListTime(){
+  const co = CO(); if (!co) return; const i = state.asof;
+  if (state.view==='table'){ renderList(); return; }
+  $$('#list .js-now').forEach(el=>{ const s = co.SITES.find(x=>x.id===el.dataset.site); if (!s) return;
+    if (el.dataset.ph!=null){ const p = s.phases[+el.dataset.ph]; el.innerHTML = el.dataset.mode==='g' ? ganttVal(co,s,p,i) : capCell(co,s,p,i); }
+    else el.innerHTML = capNowHTML(co,s,i); });
+  const gq = $('#ganttView .gq'); if (gq) gq.textContent = qlab(i);
+}
+function stripTip(el, e){
+  const co = CO(); if (!co) return; const s = co.SITES.find(x=>x.id===el.dataset.site); if (!s) return; const p = s.phases[+el.dataset.ph]; if (!p) return;
+  const r = el.getBoundingClientRect(); const j = Math.max(0, Math.min(NQ-1, Math.floor((e.clientX - r.left) / r.width * NQ))); const i = I0 + j;
+  const m = capAt(p, i); const keys = Object.keys(m).filter(k=>m[k]>0);
+  showTip(`<div class="tt-h">${qlab(i)}${i>NOW_I?'・預估':''}</div><div class="tt-t">${esc(s.code)}・${esc(p.id)}</div>` + (keys.length ? keys.map(k=>`<div class="tt-r"><i style="background:var(${keyColor(co,s,k)})"></i><b>${fmt(m[k], m[k]%1?1:0)}</b><span>${esc(keyLabel(co,s,k))}・千片／月</span></div>`).join('') : '<div class="muted">此季無產能</div>'), e, 'strip');
+}
 
-  if (state.view==='cards'){
-    cardsEl.innerHTML = vis.map(({s,m})=>{
-      const n = siteNow(s,i); const f = fac(co,s);
-      let capHTML;
-      if (s.kind==='ap') capHTML = `<div><div class="big">${fmt(n.cw)}</div><div class="lbl">CoWoS 千片／月</div></div><div><div class="big">${fmt(n.so)}</div><div class="lbl">SoIC 千片／月</div></div>`;
-      else if (s.kind==='partner') capHTML = `<div><div class="big">—</div><div class="lbl">非自有產能，不計入</div></div>`;
-      else capHTML = `<div><div class="big">${fmt(n.w,n.w%1?1:0)}</div><div class="lbl">${s.wafer?s.wafer+' 吋':''} 千片／月</div></div>` + (f!==1?`<div><div class="big">${fmt(n.w*f,1)}</div><div class="lbl">12 吋約當</div></div>`:'');
-      const stc = {}; s.phases.forEach(p=>stc[p.st]=(stc[p.st]||0)+1);
-      return `<article class="card">
-        <div class="card-h"><div><div class="code">${esc(s.code)}</div><div class="cname">${esc(s.name)}</div></div>
-          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end"><span class="tag">${KINDS[s.kind]}</span><span class="tag">${REG[s.region]||''}</span></div></div>
-        <div class="meta"><span>📍 ${esc(s.loc)}</span>${s.wafer?`<span>${s.wafer} 吋</span>`:''}<span>投產 ${esc(s.since)}</span>${s.adv&&s.adv!=='—'?`<span>最先進量產：${esc(s.adv)}</span>`:''}</div>
-        ${s.warn?`<div class="warn">⚠ ${esc(s.warn)}</div>`:''}
-        <div class="capline">${capHTML}<div style="margin-left:auto;text-align:right"><div class="lbl">${qlab(i)}</div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${Object.keys(stc).map(k=>`<span class="pill st-${k}">${STATUS[k].l}${stc[k]>1?' ×'+stc[k]:''}</span>`).join('')}</div></div></div>
-        <div class="phases">${s.phases.map((p,pi)=>`<div class="ph${m[pi]?'':' dim'}">
-            <div class="pn">${esc(p.id)}<div style="margin-top:3px">${pill(p.st)}</div></div>
-            <div class="pd"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'・'+esc(p.ms):''}</div><div class="when">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div>${p.warn?`<div class="warn">⚠ ${esc(p.warn)}</div>`:''}</div>
-            <div class="pc">${capCell(co,s,p,i)}</div></div>`).join('')}</div>
-        <details><summary>廠區說明與來源</summary><p style="margin:6px 0 0">${esc(s.desc)}</p><div class="meta" style="margin-top:6px"><span>持有：${esc(s.owner)}</span></div><div class="srcs">來源：${srcLinks(co,s.src)}</div></details>
-      </article>`;
-    }).join('');
+/* ---------- drawer (site detail) ---------- */
+function openDrawer(id){
+  if (state.co==='compare') return; const co = CO(); if (!co.SITES.some(s=>s.id===id)) return;
+  state.drawer = id; hideTip(); renderDrawer();
+  if (!dlg.open){ try { dlg.showModal(); } catch(e){ dlg.setAttribute('open',''); } }
+  const f = dlg.querySelector('[data-close]'); if (f) f.focus({ preventScroll:true });
+}
+function drIds(){ const co = CO(); return state.visibleIds.includes(state.drawer) ? state.visibleIds : co.SITES.map(x=>x.id); }
+function drPhase(co, s, p, pi, i){
+  const pts = {}; (p.cap||[]).forEach(c=>{ (pts[c.t] = pts[c.t] || []).push(`${c.n==='W' ? '' : esc(keyLabel(co,s,c.n||c.k))+' '}${fmt(c.v, c.v%1?1:0)}`); });
+  const ts = Object.keys(pts).sort((a,b)=>qi(a)-qi(b)); let curT = null; ts.forEach(t=>{ if (qi(t)<=i) curT = t; });
+  const tl = ts.map(t=>`<span class="cp${qi(t)>NOW_I?' fc':''}${t===curT?' cur':''}"><b>${t}</b>${pts[t].join('・')}</span>`).join('<i class="arr">→</i>');
+  const strip = stripData(co,s,p);
+  return `<li class="dr-ph">
+    <div class="dr-ph-h"><b>${esc(p.id)}</b>${pill(p.st)}${conf(p.conf)}<span class="now">${capCell(co,s,p,i)}</span></div>
+    <div class="nodes">${esc(p.nodes)}</div>
+    <dl class="kv"><dt>量產時程</dt><dd>${esc(p.mp)}</dd><dt>進度</dt><dd>${esc(p.ms)}</dd><dt>滿載／設計</dt><dd>${esc(p.full)}</dd>${(p.tech||[]).length?`<dt>技術標籤</dt><dd>${p.tech.map(t=>esc(techL(co,t))).join('、')}</dd>`:''}</dl>
+    ${p.warn?warnHTML(p.warn):''}
+    ${tl ? `<div class="cps"><span class="cps-l">模型產能時間點（千片／月，自該季起生效；外框＝選定季適用的數值，斜線＝預估）</span>${tl}</div>` : '<div class="cps none">未計入產能模型</div>'}
+    ${strip?`<div class="strip" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>`:''}
+  </li>`;
+}
+function renderDrawer(){
+  const co = CO(); const s = co.SITES.find(x=>x.id===state.drawer); if (!s) return;
+  const i = state.asof, ids = drIds(), pos = ids.indexOf(s.id), keys = Object.keys(co.SOURCES), n = siteNow(s,i), f = fac(co,s);
+  const unit = s.kind==='ap' ? '千片／月（CoWoS、SoIC 晶圓片數）' : `千片／月（原生 ${s.wafer} 吋，依期別堆疊${f!==1?`；12 吋約當 ×${fmt(f,3)}`:''}）`;
+  const nowTxt = s.kind==='ap' ? `CoWoS ${fmt(n.cw)}・SoIC ${fmt(n.so)} 千片／月` : s.kind==='partner' ? '非自有產能，不計入' : `${fmt(n.w, n.w%1?1:0)} 千片／月${f!==1 && n.w ? `（≈ ${fmt(n.w*f,1)} 12 吋約當）` : ''}`;
+  if (charts.drawer){ charts.drawer.destroy(); delete charts.drawer; }
+  const sb = dlg.querySelector('.dr-b'); const keepScroll = sb && sb.dataset.site===s.id ? sb.scrollTop : 0;
+  dlg.innerHTML = `<header class="dr-h">
+      <div><div class="eyebrow">${esc(co.en)}・${esc(KINDS[s.kind])}${REG[s.region]?'・'+esc(REG[s.region]):''}${s.wafer?`・${s.wafer} 吋`:''}</div>
+        <h3 id="dTitle"><span class="fab-code">${esc(s.code)}</span><span>${esc(s.name)}</span></h3></div>
+      <div class="dr-nav"><button type="button" class="sbtn" data-dnav="-1" aria-label="上一個廠區"${pos<=0?' disabled':''}><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="mono">${pos+1}／${ids.length}</span><button type="button" class="sbtn" data-dnav="1" aria-label="下一個廠區"${pos>=ids.length-1?' disabled':''}><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="sbtn" data-close aria-label="關閉"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    </header>
+    <div class="dr-b" data-site="${esc(s.id)}">
+      <dl class="spec dr-spec"><div><dt>位置</dt><dd>${esc(s.loc)}</dd></div><div><dt>投產</dt><dd>${esc(s.since)}</dd></div><div><dt>最先進量產</dt><dd>${esc(s.adv||'—')}</dd></div><div><dt>持有</dt><dd>${esc(s.owner)}</dd></div><div><dt>${qlab(i)} 產能${i>NOW_I?'（預估）':''}</dt><dd>${nowTxt}</dd></div></dl>
+      ${s.warn?warnHTML(s.warn):''}
+      <section class="dr-sec"><h4>產能演進<span class="mono">${esc(unit)}</span></h4><div class="cbox dr-chart"><canvas id="cDrawer" role="img" aria-label="${esc(s.code)} 產能演進圖"></canvas></div><div class="lg" id="lgDrawer"></div></section>
+      <section class="dr-sec"><h4>廠區說明</h4><p>${esc(s.desc)}</p></section>
+      <section class="dr-sec"><h4>各期明細<span class="mono">${s.phases.length} 期</span></h4><ol class="dr-phs">${s.phases.map((p,pi)=>drPhase(co,s,p,pi,i)).join('')}</ol></section>
+      <section class="dr-sec"><h4>來源<span class="mono">${(s.src||[]).length} 筆・編號同頁尾「資料來源」</span></h4><ol class="dr-src">${(s.src||[]).map(id=>{ const src = co.SOURCES[id]; if (!src) return ''; return `<li value="${keys.indexOf(id)+1}">${src[1]?`<a href="${esc(src[1])}" target="_blank" rel="noopener">${esc(src[0])}</a>`:esc(src[0])}</li>`; }).join('')}</ol></section>
+    </div>`;
+  buildDrawerChart(co, s);
+  if (keepScroll) dlg.querySelector('.dr-b').scrollTop = keepScroll;
+}
+function buildDrawerChart(co, s){
+  const box = dlg.querySelector('.dr-chart'); const labels = QUARTERS.map(qlab); const surf = css('--surface'); const datasets = [], items = [];
+  if (s.kind==='ap'){
+    [['CoWoS','--s1'],['SoIC','--s3']].forEach(([k,c])=>{ const data = QUARTERS.map(i=>s.phases.reduce((a,p)=>a+(capAt(p,i)[k]||0),0)); if (!data.some(v=>v)) return; const col = css(c);
+      items.push({ label:k, color:col, ds:datasets.length, shape:'ln' }); datasets.push({ label:k, data, borderColor:col, backgroundColor:rgba(col,.1), fill:'origin', borderWidth:2, pointRadius:0, pointHitRadius:8, tension:0, _c:col }); });
   } else {
-    const rows = [];
-    vis.forEach(({s,m})=>s.phases.forEach((p,pi)=>{ if(!m[pi]) return;
-      const nowV = Object.values(capAt(p,i)).reduce((a,v)=>a+v,0);
-      const mxV = Object.values(phaseMax(p)).reduce((a,b)=>a+b,0);
-      rows.push({ site:s.code, ph:p.id, kind:KINDS[s.kind], region:REG[s.region]||'', wafer:s.wafer?s.wafer+'"':'封裝', nodes:p.nodes, st:p.st, mp:p.mp,
-        ms:[p.ms, p.warn&&('⚠ '+p.warn), s.warn&&('⚠ '+s.warn)].filter(Boolean).join('　'), now:nowV, max:mxV, conf:p.conf });
-    }));
-    const cols = [['site','廠區'],['ph','Phase'],['kind','類型'],['region','地區'],['wafer','尺寸'],['nodes','製程／技術'],['st','狀態'],['mp','量產時間'],['now',qlab(i)+' 產能',1],['max','模型滿載',1],['conf','可信度'],['ms','進度／備註']];
-    if (state.sort.k){ const k = state.sort.k, d = state.sort.dir; rows.sort((a,b)=> (typeof a[k]==='number' ? (a[k]-b[k]) : String(a[k]).localeCompare(String(b[k]),'zh-Hant')) * d); }
-    let h = '<thead><tr>' + cols.map(([k,l,num])=>`<th class="${num?'num':''}" data-k="${k}" ${state.sort.k===k?`aria-sort="${state.sort.dir>0?'ascending':'descending'}"`:''}>${l}</th>`).join('') + '</tr></thead><tbody>';
-    rows.forEach(r=>{ h += `<tr><td class="mono"><b>${esc(r.site)}</b></td><td class="mono">${esc(r.ph)}</td><td>${r.kind}</td><td>${r.region}</td><td class="mono">${r.wafer}</td><td>${esc(r.nodes)}</td><td>${pill(r.st)}</td><td>${esc(r.mp)}</td><td class="num">${r.now?fmt(r.now,1):'—'}</td><td class="num">${r.max?fmt(r.max,1):'—'}</td><td>${conf(r.conf)}</td><td style="min-width:260px;color:var(--ink-2)">${esc(r.ms)}</td></tr>`; });
-    const t = document.getElementById('phTable'); t.innerHTML = h + '</tbody>';
-    t.querySelectorAll('th').forEach(th=>th.onclick=()=>{ const k = th.dataset.k; state.sort = { k, dir: state.sort.k===k ? -state.sort.dir : 1 }; renderList(); });
+    s.phases.filter(p=>(p.cap||[]).some(c=>c.v>0)).slice(0,8).forEach((p,j)=>{ const col = css('--s'+(j+1)); items.push({ label:p.id, color:col, ds:j });
+      datasets.push({ label:p.id, data:QUARTERS.map(i=>+phaseAt(p,i).t.toFixed(1)), borderColor:surf, backgroundColor:rgba(col,.88), fill: j===0 ? 'origin' : '-1', borderWidth:1.5, pointRadius:0, pointHitRadius:6, tension:0, _c:col }); });
   }
+  if (!datasets.length){ box.outerHTML = `<p class="empty-s">此廠區沒有可繪製的產能數據（${s.kind==='partner'?'非自有產能':'規劃、研發或尚未公布'}）。</p>`; const lg = dlg.querySelector('#lgDrawer'); if (lg) lg.remove(); return; }
+  const o = baseOpts(); quarterAxis(o); if (s.kind!=='ap') o.scales.y.stacked = true;
+  o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0);
+  o.plugins.tooltip.itemSort = (a,b) => b.datasetIndex - a.datasetIndex;
+  o.plugins.tooltip.filter = it => it.parsed.y > 0;
+  Object.assign(o.plugins.tooltip.callbacks, { title:titleQ, labelColor:lineKey, label: c => ` ${fmt(c.parsed.y,1)}　${c.dataset.label}` });
+  o.onClick = clickQuarter;
+  charts.drawer = new Chart(dlg.querySelector('#cDrawer'), { type:'line', data:{ labels, datasets }, options:o });
+  legendChips(dlg.querySelector('#lgDrawer'), charts.drawer, s.kind==='ap' ? items : items.slice().reverse());
+}
+function cleanupDrawer(){ state.drawer = null; if (charts.drawer){ charts.drawer.destroy(); delete charts.drawer; } hideTip(); }
+function closeDrawer(){ if (dlg.open) dlg.close(); cleanupDrawer(); }
+function drNav(d){
+  const ids = drIds(); const j = ids.indexOf(state.drawer) + d; if (j<0 || j>=ids.length) return;
+  state.drawer = ids[j]; renderDrawer();
+  const b = dlg.querySelector(`[data-dnav="${d}"]:not(:disabled)`) || dlg.querySelector('[data-close]'); if (b) b.focus({ preventScroll:true });
 }
 
-/* ---------- static per company ---------- */
-function renderNav(){
-  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en+' · '+COS[id].ticker.split('／')[0]]), ['compare','四家比較','Compare']];
-  document.getElementById('cnav').innerHTML = items.map(([id,n,s])=>`<button type="button" role="tab" data-co="${id}" aria-selected="${state.co===id}"><b>${n}</b><span>${esc(s)}</span></button>`).join('');
-  document.querySelectorAll('#cnav button').forEach(b=>b.onclick=()=>go(b.dataset.co));
+/* ---------- compare view ---------- */
+function mixData(i){ return ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); return { id, w12:n[12]||0, w86:(n[8]||0)*co.f8 + (n[6]||0)*co.f6 }; }); }
+function buildCompare(){
+  const labels = QUARTERS.map(qlab);
+  const ds = ORDER.map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); return { label:co.name, data:QUARTERS.map(i=>+totalOf(co,i).toFixed(1)), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col }; });
+  const o = baseOpts(); quarterAxis(o); o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0); o.plugins.endLabels = { on:true, ink:css('--ink') };
+  o.plugins.tooltip.itemSort = (a,b) => b.parsed.y - a.parsed.y;
+  Object.assign(o.plugins.tooltip.callbacks, { title:titleQ, labelColor:lineKey, label: c => ` ${fmt(c.parsed.y)}　${c.dataset.label}` });
+  o.onClick = clickQuarter;
+  mk('cmp','cCmp',{ type:'line', data:{ labels, datasets:ds }, options:o });
+  legendChips($('#lgCmp'), charts.cmp, ORDER.map((id,j)=>({ label:COS[id].name+' '+COS[id].en, color:css(CO_COLOR[id]), ds:j, shape:'ln' })));
+
+  const surf = css('--surface'); const cols = ORDER.map(id=>css(CO_COLOR[id])); const tints = cols.map(c=>mixHex(c, surf, .42)); const mix = mixData(state.asof);
+  const o2 = baseOpts(); o2.indexAxis = 'y'; o2.interaction = { mode:'nearest', intersect:true, axis:'y' }; o2.layout.padding = { top:4, right:46 };
+  o2.scales.x = { stacked:true, beginAtZero:true, grid:{ color:css('--grid') }, border:{ display:false }, ticks:{ color:css('--ink-3'), font:{ family:MONO, size:10.5 }, maxTicksLimit:6, callback:v=>fmt(v) } };
+  o2.scales.y = { stacked:true, grid:{ display:false }, border:{ color:css('--line-strong') }, ticks:{ color:css('--ink-2'), font:{ family:SANS, size:12 } } };
+  o2.plugins.valueLabels = { on:true, ink:css('--ink-2') };
+  Object.assign(o2.plugins.tooltip.callbacks, { label: c => ` ${fmt(c.parsed.x,1)}　${c.dataset.label}`, labelColor: c => { const b = c.dataset.backgroundColor[c.dataIndex]; return { borderColor:b, backgroundColor:b, borderWidth:3 }; } });
+  const bar = (label, key, bg) => ({ label, data:mix.map(m=>+m[key].toFixed(1)), backgroundColor:bg, borderColor:surf, borderWidth:{ right:2, left:0, top:0, bottom:0 }, borderSkipped:false, borderRadius:3, barThickness:18 });
+  mk('mix','cMix',{ type:'bar', data:{ labels:ORDER.map(id=>COS[id].name), datasets:[ bar('12 吋','w12',cols), bar('8／6 吋（12 吋約當）','w86',tints) ] }, options:o2 });
+  const ink2 = css('--ink-2');
+  legendChips($('#lgMix'), charts.mix, [{ label:'深色：12 吋', color:ink2, ds:0 }, { label:'淺色：8／6 吋（12 吋約當）', color:mixHex(ink2, surf, .42), ds:1 }]);
+
+  const uq = [...new Set(ORDER.flatMap(id=>(COS[id].util||[]).map(u=>u[0])))].sort((a,b)=>qi(a)-qi(b));
+  const uds = ORDER.filter(id=>(COS[id].util||[]).length).map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); const m = {}; co.util.forEach(u=>m[u[0]] = u);
+    return { label:co.name, data:uq.map(q=>m[q] ? m[q][1] : null), _u:uq.map(q=>m[q]), spanGaps:true, borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:4, pointHoverRadius:6, pointBorderColor:surf, pointBorderWidth:2, tension:0, _c:col }; });
+  const o3 = baseOpts(); o3.scales.y.beginAtZero = false; o3.scales.y.suggestedMin = 60; o3.scales.y.suggestedMax = 100; o3.scales.y.ticks.callback = v => v + '%';
+  o3.plugins.cursor = cursorOpt(uq.indexOf(qlab(state.asof)), uq.indexOf(NOW_Q), { fc:null });
+  Object.assign(o3.plugins.tooltip.callbacks, { labelColor:lineKey, label: c => ` ${fmt(c.parsed.y,1)}%　${c.dataset.label}` + (c.dataset._u[c.dataIndex] && c.dataset._u[c.dataIndex][2] ? `（${c.dataset._u[c.dataIndex][2]}）` : '') });
+  mk('utilc','cUtilCmp',{ type:'line', data:{ labels:uq, datasets:uds }, options:o3 });
+  legendChips($('#lgUtilCmp'), charts.utilc, uds.map((d,j)=>({ label:d.label, color:d.borderColor, ds:j, shape:'ln' })));
+  buildCmpTable();
 }
-function renderIntro(){
-  const el = document.getElementById('intro');
-  if (state.co==='compare'){
-    el.innerHTML = `<h2>四家比較<span class="en">TSMC × UMC × VIS × PSMC</span></h2><p>把四家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。點公司名稱可切換到個別頁面。</p>`;
-    return;
-  }
-  const co = CO();
-  el.innerHTML = `<h2>${co.name}<span class="en">${co.en} · ${esc(co.ticker)}</span></h2><p>${esc(co.summary)}</p><div class="facts">${co.facts.map(([k,v])=>`<span class="fact">${esc(k)}<b>${esc(v)}</b></span>`).join('')}</div>`;
+function buildCmpTable(){
+  const i = state.asof; const cols = ['公司','營運中晶圓廠','建設／規劃中 phase','晶圓產能（12 吋約當）','12 吋','8／6 吋（原生）','最新利用率','最先進量產','2026 資本支出','擴產重點'];
+  let h = '<thead><tr>' + cols.map((c,ci)=>`<th scope="col" class="${ci>=2&&ci<=5?'num':''}">${c}</th>`).join('') + '</tr></thead><tbody>';
+  ORDER.forEach(id=>{ const co = COS[id]; const n = nativeBy(co,i); const u = utilAt(co,i); const pipe = co.SITES.reduce((a,s)=>a+s.phases.filter(p=>['build','plan'].includes(p.st)).length,0);
+    h += `<tr><td><a href="#${id}" class="site"><i class="cdot" style="background:var(${CO_COLOR[id]})"></i>${esc(co.name)}</a> <span class="mono" style="color:var(--ink-3)">${esc(co.en)}</span></td><td>${esc(co.cmp.fabs)}</td><td class="num">${pipe}</td>
+      <td class="num"><b>${fmt(totalOf(co,i))}</b></td><td class="num">${fmt(n[12])}</td><td class="num">${fmt(n[8])}${n[6]?' ／ '+fmt(n[6]):''}</td>
+      <td>${u?`${fmt(u[1],1)}%<br><small style="color:var(--ink-3)">${u[0]}${u[2]?'・'+esc(u[2]):''}</small>`:'<span style="color:var(--ink-3)">未公布</span>'}</td>
+      <td>${esc(co.cmp.adv)}</td><td>${esc(co.cmp.capex)}</td><td style="min-width:240px;color:var(--ink-2)">${esc(co.cmp.focus)}</td></tr>`; });
+  $('#cmpTable').innerHTML = h + '</tbody>';
+}
+function updateCompare(){
+  const m = charts.mix; if (m){ const mix = mixData(state.asof); m.data.datasets[0].data = mix.map(x=>+x.w12.toFixed(1)); m.data.datasets[1].data = mix.map(x=>+x.w86.toFixed(1)); m.update('none'); }
+  buildCmpTable();
+}
+
+/* ---------- page chrome ---------- */
+function renderNav(){
+  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','四家比較','Compare']];
+  $('#cnav').innerHTML = items.map(([id,n,en])=>`<button type="button" role="tab" data-co="${id}" aria-selected="${state.co===id}" tabindex="${state.co===id?0:-1}">${id==='compare' ? `<i class="dots" aria-hidden="true">${ORDER.map(o=>`<span style="background:var(${CO_COLOR[o]})"></span>`).join('')}</i>` : `<i class="dot" style="background:var(${CO_COLOR[id]})" aria-hidden="true"></i>`}<b>${n}</b><small>${en}</small></button>`).join('');
+  const sel = $('#cnav button[aria-selected="true"]'); if (sel && sel.scrollIntoView) { try { sel.scrollIntoView({ block:'nearest', inline:'nearest' }); } catch(e){} }
 }
 function renderStatic(){
   const co = CO();
-  document.getElementById('checkedAt').textContent = SITE_META.checked;
-  if (state.co==='compare'){
-    document.getElementById('foot').innerHTML = `網站版本 ${SITE_META.version}・更新於 <span class="mono">${SITE_META.updated}</span>・最近自動檢查 <span class="mono">${SITE_META.checked}</span>。<br><b>本網站為 AI 自動收集資料，不代表各公司官方實際資料</b>；推估值僅供參考，非投資建議。`;
-    return;
-  }
-  document.getElementById('chartsNote').textContent = co.chartsNote;
-  document.getElementById('sTotal').textContent = co.totalSub;
-  document.getElementById('segTotal').innerHTML = co.groups.map(g=>`<button type="button" data-g="${g.id}" aria-pressed="false">${g.l}</button>`).join('');
-  document.querySelectorAll('#segTotal button').forEach(b=>b.onclick=()=>{ state.group = b.dataset.g; buildTotal(); });
-  document.getElementById('notes').innerHTML = co.notes.map(n=>`<li>${n}</li>`).join('');
-  document.getElementById('watch').innerHTML = co.watch.map(w=>`<li>${esc(w)}</li>`).join('');
-  document.getElementById('changelog').innerHTML = [...co.CHANGELOG, ...SITE_CHANGELOG].map(c=>`<li><span class="mono">${c.d}</span>：${esc(c.t)}</li>`).join('');
-  document.getElementById('srclist').innerHTML = Object.values(co.SOURCES).map(([t,u])=> u?`<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>`:`<li>${esc(t)}</li>`).join('');
-  document.getElementById('q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
-  const off = co.OFFICIAL_TOTAL ? '・官方總產能：' + co.OFFICIAL_TOTAL.map(o=>o[0]+' 年 '+o[1]).join('；') : '';
-  document.getElementById('foot').innerHTML = `${co.name}資料版本 ${co.META.version}・資料更新於 <span class="mono">${co.META.updated}</span>・最近自動檢查 <span class="mono">${co.META.checked||SITE_META.checked}</span>${off}・網站版本 ${SITE_META.version}。<br><b>本網站為 AI 自動收集資料，不代表各公司官方實際資料</b>；推估值僅供參考，非投資建議。`;
-  document.getElementById('pAdv').hidden = co.focus!=='adv';
-  document.getElementById('pUtil').hidden = co.focus!=='util';
-  document.getElementById('pCowos').hidden = !co.packaging;
-  document.getElementById('pSoic').hidden = !co.packaging;
+  $('#chartsNote').textContent = co.chartsNote; $('#sTotal').textContent = co.totalSub;
+  $('#segTotal').innerHTML = groupBtns(co);
+  $('#notes').innerHTML = co.notes.map(n=>`<li>${n}</li>`).join('');
+  $('#watch').innerHTML = co.watch.map(w=>`<li>${esc(w)}</li>`).join('');
+  $('#changelog').innerHTML = [...co.CHANGELOG, ...SITE_CHANGELOG].map(c=>`<li><span class="mono">${c.d}</span>${esc(c.t)}</li>`).join('');
+  $('#srclist').innerHTML = Object.values(co.SOURCES).map(([t,u])=> u ? `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join('');
+  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
+  $('#pAdv').hidden = co.focus!=='adv'; $('#pUtil').hidden = co.focus!=='util';
+  $('#pCowos').hidden = !co.packaging; $('#pSoic').hidden = !co.packaging;
+}
+function renderFooter(){
+  const disc = '<b>本網站為 AI 自動收集資料，不代表各公司官方實際資料</b>；推估值僅供參考，非投資建議。';
+  if (state.co==='compare'){ $('#foot').innerHTML = `網站版本 ${SITE_META.version}・更新於 <span class="mono">${SITE_META.updated}</span>・最近自動檢查 <span class="mono">${SITE_META.checked}</span>。<br>${disc}`; return; }
+  const co = CO(); const off = co.OFFICIAL_TOTAL ? '・官方總產能：' + co.OFFICIAL_TOTAL.map(o=>o[0]+' 年 '+o[1]).join('；') : '';
+  $('#foot').innerHTML = `${co.name}資料版本 ${co.META.version}・資料更新於 <span class="mono">${co.META.updated}</span>・最近自動檢查 <span class="mono">${co.META.checked||SITE_META.checked}</span>${off}・網站版本 ${SITE_META.version}。<br>${disc}`;
+}
+function renderRuler(){
+  const x = j => (j/(NQ-1)*100).toFixed(3)+'%'; const t = NOW_I - I0;
+  let h = `<div class="r-track"></div><div class="r-future" style="left:${x(t)}"></div>`;
+  QUARTERS.forEach((q,j)=>{ h += `<i class="r-tick${q%4===0?' y':''}" style="left:${x(j)}"></i>`; });
+  YEARS.forEach(y=>{ h += `<span class="r-year" style="left:${x(qi(y+'Q1')-I0)}" data-s="${String(y).slice(2)}">${y}</span>`; });
+  h += `<i class="r-today" style="left:${x(t)}" title="今天（${NOW_Q}）"></i><span class="r-today-l" style="left:${x(t)}">今天</span>`;
+  $('#rScale').innerHTML = h;
 }
 
+/* ---------- orchestration ---------- */
 function renderCompany(){
   const isCmp = state.co==='compare';
-  document.getElementById('coView').hidden = isCmp;
-  document.getElementById('cmpView').hidden = !isCmp;
-  renderNav(); renderIntro(); renderStatic();
-  if (isCmp){ buildCompare(); renderKPIs(); return; }
+  $('#coView').hidden = isCmp; $('#cmpView').hidden = !isCmp;
+  Object.keys(charts).forEach(k=>{ if (k!=='drawer'){ charts[k].destroy(); delete charts[k]; } });
+  if (!isCmp){ const co = CO(); if (!co.groups.some(g=>g.id===state.group)) state.group = co.groups[0].id; }
+  renderNav(); renderHero(); renderFooter();
+  if (isCmp){ buildCompare(); return; }
   const co = CO();
-  if (!co.groups.some(g=>g.id===state.group)) state.group = co.groups[0].id;
-  buildTotal();
+  renderStatic(); buildTotal();
   if (co.focus==='adv') buildAdv(); else buildUtil();
   buildSite();
   if (co.packaging){ buildAP('CoWoS','cCowos','lgCowos'); buildAP('SoIC','cSoic','lgSoic'); }
-  buildYeTable(); renderFilters(); renderList(); renderKPIs();
+  renderFilters(); renderList();
 }
 function setAsof(i){
   state.asof = Math.max(I0, Math.min(IN, i));
-  document.getElementById('asof').value = state.asof - I0;
-  document.getElementById('asofLabel').textContent = qlab(state.asof);
-  document.querySelectorAll('.asofTxt').forEach(e=>e.textContent = qlab(state.asof));
-  document.getElementById('asofTag').textContent = state.asof < NOW_I ? '歷史' : state.asof === NOW_I ? '本季' : '預估';
-  renderKPIs();
-  if (state.co==='compare'){ buildCompare(); return; }
-  renderList(); buildSite();
-  ['total','adv'].forEach(k=>{ if(charts[k] && charts[k].options.plugins.nowLine){ charts[k].options.plugins.nowLine.index = state.asof - I0; charts[k].update('none'); } });
+  const j = state.asof - I0, lab = qlab(state.asof), t = state.asof < NOW_I ? 'past' : state.asof === NOW_I ? 'now' : 'future';
+  const r = $('#asof'); r.value = j; r.setAttribute('aria-valuetext', `${lab}（${t==='past'?'歷史':t==='now'?'本季':'預估'}）`);
+  $('#asofLabel').textContent = lab;
+  const tg = $('#asofTag'); tg.dataset.t = t; tg.textContent = t==='past' ? '歷史' : t==='now' ? '本季' : '預估';
+  $('#qPrev').disabled = state.asof<=I0; $('#qNext').disabled = state.asof>=IN;
+  document.documentElement.style.setProperty('--qx', ((j+.5)/NQ*100).toFixed(3)+'%');
+  $$('.asofTxt').forEach(e=>{ e.textContent = lab; });
+  renderKPIs(); updateCursors();
+  if (state.co==='compare'){ renderCmpWafers(); updateCompare(); return; }
+  updateWafer(); updateSite(); buildYeTable(); updateListTime();
+  if (state.drawer && dlg.open) renderDrawer();
 }
+function setGroup(g){ state.group = g; $$('[data-g]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.g===g))); buildTotal(); updateWafer(); }
 function go(id, fromHash){
-  if (!fromHash){ try { history.replaceState(null, '', '#'+id); } catch(e){} }
-  const next = COS[id] ? id : (id==='compare' ? 'compare' : 'tsmc');
-  if (next !== state.co){ state.co = next; state.q=''; document.getElementById('q').value=''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); state.sort={k:null,dir:1}; state.group=null; }
+  const next = COS[id] ? id : (id==='compare' ? 'compare' : (state.co || 'tsmc'));
+  if (!fromHash){ try { history.replaceState(null, '', '#'+next); } catch(e){} }
+  closeDrawer();
+  if (next !== state.co){ state.co = next; state.q = ''; $('#q').value = ''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); state.sort = { k:null, dir:1 }; state.group = null; }
   renderCompany(); setAsof(state.asof);
 }
+function route(){ const h = (location.hash||'').replace('#','').toLowerCase(); if (COS[h] || h==='compare') go(h, true); else if (!state.co) go('tsmc', true); }
 
-/* ---------- wire ---------- */
-const slider = document.getElementById('asof'); slider.max = QUARTERS.length-1;
-slider.addEventListener('input', e=>setAsof(I0 + +e.target.value));
-document.getElementById('asofReset').onclick = ()=>setAsof(NOW_I);
-document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ state.view=b.dataset.v; try{localStorage.setItem('tsmc-view',state.view);}catch(e){} renderList(); });
-let qt; document.getElementById('q').addEventListener('input', e=>{ clearTimeout(qt); qt = setTimeout(()=>{ state.q = e.target.value.trim().toLowerCase(); renderList(); }, 120); });
-document.getElementById('fclear').onclick = ()=>{ state.q=''; document.getElementById('q').value=''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); renderFilters(); renderList(); };
-function route(){ go((location.hash||'').replace('#','').toLowerCase(), true); }
+let playT = null;
+function stopPlay(){ if (!playT) return; clearInterval(playT); playT = null; const b = $('#qPlay'); b.setAttribute('aria-pressed','false'); b.setAttribute('aria-label','逐季播放'); b.querySelector('span').textContent = '播放'; }
+function togglePlay(){
+  if (playT){ stopPlay(); return; }
+  if (state.asof >= IN) setAsof(I0);
+  const b = $('#qPlay'); b.setAttribute('aria-pressed','true'); b.setAttribute('aria-label','暫停播放'); b.querySelector('span').textContent = '暫停';
+  playT = setInterval(()=>{ if (state.asof >= IN){ stopPlay(); return; } setAsof(state.asof + 1); }, 750);
+}
+
+/* ---------- wiring ---------- */
+document.documentElement.style.setProperty('--nq', NQ);
+document.documentElement.style.setProperty('--fw', ((IN - NOW_I)/NQ*100).toFixed(3)+'%');
+$('#checkedAt').textContent = SITE_META.checked;
+const slider = $('#asof'); slider.max = NQ - 1;
+renderRuler();
+slider.addEventListener('input', e=>{ stopPlay(); setAsof(I0 + (+e.target.value)); });
+$('#qPrev').addEventListener('click', ()=>{ stopPlay(); setAsof(state.asof - 1); });
+$('#qNext').addEventListener('click', ()=>{ stopPlay(); setAsof(state.asof + 1); });
+$('#asofReset').addEventListener('click', ()=>{ stopPlay(); setAsof(NOW_I); });
+$('#qPlay').addEventListener('click', togglePlay);
+$('#cnav').addEventListener('click', e=>{ const b = e.target.closest('button[data-co]'); if (b) go(b.dataset.co); });
+$('#cnav').addEventListener('keydown', e=>{
+  if (e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+  const btns = $$('#cnav button'); const j = btns.indexOf(document.activeElement); if (j<0) return;
+  e.preventDefault(); const id = btns[(j + (e.key==='ArrowRight'?1:-1) + btns.length) % btns.length].dataset.co; go(id);
+  const nb = $(`#cnav button[data-co="${id}"]`); if (nb) nb.focus();
+});
+let qt; $('#q').addEventListener('input', e=>{ clearTimeout(qt); qt = setTimeout(()=>{ state.q = e.target.value.trim().toLowerCase(); $('#fclear').hidden = !anyFilter(); renderList(); }, 140); });
+$('#fclear').addEventListener('click', ()=>{ state.q = ''; $('#q').value = ''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); renderFilters(); renderList(); });
+document.addEventListener('click', e=>{
+  const t = e.target; if (!t.closest) return;
+  const a = t.closest('a[href^="#"]');
+  if (a){ const id = a.getAttribute('href').slice(1).toLowerCase(); if (COS[id] || id==='compare'){ e.preventDefault(); go(id); window.scrollTo({ top:0, behavior: reduced() ? 'auto' : 'smooth' }); } return; }
+  if (t.closest('a')) return;
+  const g = t.closest('[data-g]'); if (g){ setGroup(g.dataset.g); return; }
+  const v = t.closest('[data-v]'); if (v){ state.view = v.dataset.v; try { localStorage.setItem('tsmc-view', state.view); } catch(err){} renderList(); return; }
+  const jb = t.closest('[data-jump]'); if (jb){ const el = document.getElementById(jb.dataset.jump); if (el) el.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block:'start' }); return; }
+  const cg = t.closest('[data-go]'); if (cg){ go(cg.dataset.go); window.scrollTo({ top:0, behavior: reduced() ? 'auto' : 'smooth' }); return; }
+  const th = t.closest('#phTable th[data-k]'); if (th){ const k = th.dataset.k; state.sort = { k, dir: state.sort.k===k ? -state.sort.dir : 1 }; renderList(); return; }
+  if (t.closest('#drawer')) return;
+  const op = t.closest('[data-open]'); if (op){ openDrawer(op.dataset.open); }
+});
+document.addEventListener('keydown', e=>{ const r = e.target.closest && e.target.closest('.g-row[data-open]'); if (r && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); openDrawer(r.dataset.open); } });
+const onPointer = e=>{
+  const t = e.target; if (!t || !t.closest) return;
+  const st = t.closest('.strip[data-site],.g-track[data-site]'); if (st){ stripTip(st, e); return; }
+  const cw = t.closest('.cw[data-go]'); if (cw){ cwTip(cw.dataset.go, e); return; }
+  if (tipOwner==='strip' || tipOwner==='cw') hideTip();
+};
+document.addEventListener('pointermove', onPointer, { passive:true });
+document.addEventListener('pointerdown', e=>{ if (e.pointerType!=='mouse') onPointer(e); }, { passive:true });
+window.addEventListener('scroll', ()=>{ if (!tip.hidden) hideTip(); }, { passive:true });
+window.addEventListener('blur', ()=>hideTip());
+dlg.addEventListener('click', e=>{
+  if (e.target===dlg){ closeDrawer(); return; }
+  const nav = e.target.closest('[data-dnav]'); if (nav){ drNav(+nav.dataset.dnav); return; }
+  if (e.target.closest('[data-close]')) closeDrawer();
+});
+dlg.addEventListener('keydown', e=>{
+  if (e.key==='ArrowRight'){ e.preventDefault(); drNav(1); }
+  else if (e.key==='ArrowLeft'){ e.preventDefault(); drNav(-1); }
+  else if (e.key==='Escape'){ e.preventDefault(); closeDrawer(); }
+});
+dlg.addEventListener('close', cleanupDrawer);
 window.addEventListener('hashchange', route);
-document.addEventListener('click', e=>{ const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute('href').slice(1); if (COS[id] || id==='compare'){ e.preventDefault(); go(id); window.scrollTo({top:0,behavior:'smooth'}); } });
-state.co = null; route();
-let rt; const rebuild = ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ renderCompany(); setAsof(state.asof); }, 60); };
+route();
+let rt; const rebuild = ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ if (!state.co) return; renderCompany(); setAsof(state.asof); }, 60); };
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild); } catch(e){}
 new MutationObserver(rebuild).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ Object.values(charts).forEach(c=>{ try { c.update('none'); } catch(e){} }); });
 </script>
 </body>
 </html>
