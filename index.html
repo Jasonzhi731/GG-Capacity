@@ -15,8 +15,8 @@
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 </style>
-<title>台灣晶圓代工產能版圖</title>
-<meta name="description" content="台積電、聯電、世界先進、力積電四家晶圓代工廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
+<title>晶圓代工產能版圖</title>
+<meta name="description" content="台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Chivo+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
@@ -526,7 +526,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 <div class="wrap">
 <header class="rail" id="rail">
   <div class="rail-in">
-    <a class="brand" href="#tsmc" aria-label="台灣晶圓代工產能版圖">
+    <a class="brand" href="#tsmc" aria-label="晶圓代工產能版圖">
       <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.3" fill="none" stroke="currentColor" stroke-width="1.6"/><g fill="currentColor"><rect x="6.9" y="6.9" width="4" height="4" rx=".6"/><rect x="12" y="6.9" width="4" height="4" rx=".6"/><rect x="17.1" y="6.9" width="4" height="4" rx=".6"/><rect x="6.9" y="12" width="4" height="4" rx=".6"/><rect x="17.1" y="12" width="4" height="4" rx=".6"/><rect x="6.9" y="17.1" width="4" height="4" rx=".6"/><rect x="12" y="17.1" width="4" height="4" rx=".6"/><rect x="17.1" y="17.1" width="4" height="4" rx=".6"/></g><rect x="12" y="12" width="4" height="4" rx=".6" style="fill:var(--accent)"/></svg>
       <span><b>產能版圖</b><small>Foundry Capacity Atlas</small></span>
     </a>
@@ -547,8 +547,8 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
 <section class="mast inner">
   <div>
-    <h1>台灣晶圓代工產能版圖</h1>
-    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電四家晶圓代工廠（含海外據點與合資廠）的製程、產能與量產時程。用上方選單切換公司或看「四家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
+    <h1>晶圓代工產能版圖</h1>
+    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠（含海外據點與合資廠）的製程、產能與量產時程。用上方選單切換公司或看「五家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
   </div>
   <div class="notice" role="note"><span class="badge">AI 自動收集資料</span><p>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</p></div>
 </section>
@@ -635,11 +635,11 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
   <div id="cmpView" hidden>
     <section class="sec" id="cmpCharts">
-      <div class="sec-h"><div><h2>四家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；台積電以外三家的產能多為官方公布值。</p></div>
+      <div class="sec-h"><div><h2>五家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；聯電、世界先進、力積電多為官方公布值；台積電與中芯為逐廠推估。</p></div>
       <div class="sheet"><div class="pgrid">
         <div class="pan wide">
           <div class="pan-h"><div><h3>晶圓產能合計</h3><div class="sub">不含先進封裝；虛線為今天，斜線區為預估；點圖可跳到該季</div></div></div>
-          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="四家產能折線圖"></canvas></div>
+          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="五家產能折線圖"></canvas></div>
           <div class="lg" id="lgCmp"></div>
         </div>
         <div class="pan">
@@ -687,8 +687,9 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
    util: 產能利用率 [季, %, 註記]；BENCH：報導總量（◆）
    ===================================================================== */
 const NOW_Q = '2026Q3';
-const SITE_META = { version: 'v3.0', updated: '2026-09-25', checked: '2026-09-25' };
+const SITE_META = { version: 'v3.1', updated: '2026-09-25', checked: '2026-09-25' };
 const SITE_CHANGELOG = [
+  { d: '2026-09-25', t: 'v3.1：新增中芯國際（11 座晶圓廠逐廠推估，與 IC 製造資料庫 Excel 一致），比較頁改為五家；網站名稱改為「晶圓代工產能版圖」。' },
   { d: '2026-09-25', t: '聯電逐廠產能改用官方逐季值（原為年平均），並與 IC 製造資料庫 Excel 完成逐格比對；台積電、世界先進、力積電兩邊一致。' },
   { d: '2026-09-24', t: 'v3.0 版面改版：常駐時間尺（可逐季播放）、晶圓圖呈現產能組成、KPI 走勢線、各期產能時序條、新增「時程」檢視與廠區詳情側欄；資料內容不變。' },
   { d: '2026-09-23', t: 'v2.0 改版：由台積電單頁擴充為台積電、聯電、世界先進、力積電四家公司各自獨立頁面，加上「四家比較」頁；用上方選單切換。' }
@@ -1371,13 +1372,100 @@ return {
   ]
 };
 })();
+const SMIC = (() => {
+const META = { updated:'2026-09-25', checked:'2026-09-25', version:'v1.0' };
+const CHANGELOG = [
+  { d:'2026-09-25', t:'初版：中芯國際 11 座晶圓廠逐廠推估（上海、北京、天津、深圳），與 IC 製造資料庫 Excel 的 SMIC 逐廠表逐格一致；官方只公布合併總產能，逐廠加總與官方差 ±4% 內。' }
+];
+const SOURCES = {
+  m1:['中芯國際 2Q26 業績公告（港交所，月產能與利用率）','https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0813/2026081300353.pdf'],
+  m2:['與非網：中芯國際 Fab 廠布局（2025/4/27）','https://www.eefocus.com/article/1833533.html'],
+  m3:['芯查查：中國晶圓廠最新產線布局與產能全解析（2025）','https://www.xcc.com/news/detail/5573449'],
+  m4:['21 世紀經濟報道：中芯國際 88.7 億美元建上海臨港 12 吋線（2021/9/3）','https://m.21jingji.com/article/20210903/herald/8ba3afb8960410d91d3cce6ee5834a2c.html']
+};
+const SITES = [
+{ id:'SSH8', code:"Fab 1", name:"上海 8 吋廠", kind:'fab', region:'CN', loc:"上海 張江", wafer:8, since:"2001", adv:"0.11µm", owner:'中芯國際', grp:'SH',
+  desc:"中芯國際第一座晶圓廠（2001 年量產），8 吋成熟與特殊製程。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"0.35–0.11µm 邏輯、BCD、混合訊號", tech:["MAT8", "BCD"], mp:"2001 量產", ms:"—", full:"約 11.5 萬片（推估）", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:115}] }] },
+{ id:'STJ8', code:"Fab 7", name:"天津 8 吋廠（T1–T3）", kind:'fab', region:'CN', loc:"天津 西青", wafer:8, since:"2004", adv:"0.13µm", owner:'中芯國際', grp:'TJ',
+  desc:"中芯在天津的 8 吋基地（T1、T2、T3 廠房），是中芯最大的 8 吋產能來源。", warn:"「最高約 20 萬片」為產業報導的設計上限，實際裝機量未公布。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"0.35–0.13µm 邏輯、電源管理、CIS", tech:["MAT8", "BCD"], mp:"2004 量產", ms:"T1–T3 擴建", full:"最高約 20 萬片（報導）；本頁推估 17 萬片", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:170}] }] },
+{ id:'SSZ8', code:"Fab 15", name:"深圳 8 吋廠", kind:'fab', region:'CN', loc:"深圳 坪山", wafer:8, since:"2014", adv:"0.13µm", owner:'中芯國際', grp:'SZ',
+  desc:"中芯深圳 8 吋廠，2014 年量產。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"0.35–0.13µm 邏輯、電源管理", tech:["MAT8", "BCD"], mp:"2014 量產", ms:"—", full:"約 6.7 萬片（推估）", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:67}] }] },
+{ id:'SBJ12', code:"Fab 4／6", name:"北京 12 吋廠", kind:'fab', region:'CN', loc:"北京 亦莊", wafer:12, since:"2004", adv:"55nm", owner:'中芯國際', grp:'BJ',
+  desc:"中國大陸第一條 12 吋量產線（2004 年）。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"0.18µm–55nm 邏輯、CIS", tech:["MAT12"], mp:"2004 量產", ms:"—", full:"約 5.5 萬片（推估）", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:55}] }] },
+{ id:'SSMNC', code:"B2", name:"中芯北方（合資）", kind:'fab', region:'CN', loc:"北京 亦莊", wafer:12, since:"2016", adv:"28nm", owner:'中芯國際', grp:'BJ',
+  desc:"中芯與北京市政府合資的 12 吋廠（中芯持股約 51%），40nm 與 28nm 的主力產線之一。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"40／28nm 邏輯", tech:["L28", "MAT12"], mp:"2016 量產", ms:"兩期各 3.5 萬片", full:"約 7 萬片（報導）", conf:'rep',
+    cap:[{t:'2023Q1',n:'W',v:70}] }] },
+{ id:'SSH12', code:"Fab 8", name:"上海 12 吋廠", kind:'fab', region:'CN', loc:"上海 張江", wafer:12, since:"2000 年代", adv:"40nm", owner:'中芯國際', grp:'SH',
+  desc:"上海張江的 12 吋成熟製程線。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"0.13µm–40nm 邏輯", tech:["MAT12"], mp:"量產中", ms:"—", full:"約 2 萬片（推估）", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:20}] }] },
+{ id:'SSMSC', code:"SN1", name:"中芯南方（上海 FinFET）", kind:'fab', region:'CN', loc:"上海 張江", wafer:12, since:"2019", adv:"FinFET（14nm 及以下）", owner:'中芯國際', grp:'SH',
+  desc:"中芯南方為中芯與國家大基金、上海市基金合資的 FinFET 先進製程廠，SN1 已驗收量產，SN2 建設中。", warn:"先進製程產能受美國出口管制影響，實際可用產能未公布。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'op', nodes:"14nm 及以下 FinFET", tech:["FIN"], mp:"2019 量產", ms:"SN2 建設／驗證中", full:"SN1 規劃 3.5 萬片（公告）；本頁推估 3 萬片", conf:'est',
+    cap:[{t:'2023Q1',n:'W',v:22},{t:'2024Q1',n:'W',v:25},{t:'2025Q1',n:'W',v:28},{t:'2026Q1',n:'W',v:30}] }] },
+{ id:'SJC', code:"京城", name:"中芯京城（北京）", kind:'fab', region:'CN', loc:"北京 亦莊", wafer:12, since:"2022", adv:"28nm", owner:'中芯國際', grp:'BJ',
+  desc:"2020/12 公告、總投資約 76 億美元的 12 吋廠（中芯、北京亦莊國投、大基金二期合資），規劃 10 萬片；一期完工量產，二期視市場需求啟動。", warn:"爬坡時點為推估；中芯只公布合併總產能。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'ramp', nodes:"28nm 及以上 邏輯", tech:["L28", "MAT12"], mp:"一期 2022 年起量產", ms:"二期視需求啟動", full:"規劃 10 萬片（公告，一期約一半）", conf:'rep',
+    cap:[{t:'2023Q1',n:'W',v:10},{t:'2023Q3',n:'W',v:15},{t:'2024Q1',n:'W',v:20},{t:'2024Q3',n:'W',v:28},{t:'2025Q1',n:'W',v:33},{t:'2025Q3',n:'W',v:40},{t:'2026Q1',n:'W',v:43},{t:'2026Q2',n:'W',v:45},{t:'2026Q4',n:'W',v:50}] }] },
+{ id:'SLG', code:"臨港", name:"中芯東方（上海臨港）", kind:'fab', region:'CN', loc:"上海 臨港", wafer:12, since:"2023", adv:"28nm", owner:'中芯國際', grp:'SH',
+  desc:"2021/9 公告、投資約 88.7 億美元的上海臨港 12 吋廠，規劃 10 萬片 28nm 及以上製程。", warn:"爬坡時點為推估。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'ramp', nodes:"28nm 及以上 邏輯", tech:["L28", "MAT12"], mp:"2023 年底起投片（推估）", ms:"爬坡中", full:"規劃 10 萬片（公告）", conf:'rep',
+    cap:[{t:'2023Q1',n:'W',v:0},{t:'2023Q4',n:'W',v:3},{t:'2024Q2',n:'W',v:8},{t:'2024Q4',n:'W',v:18},{t:'2025Q2',n:'W',v:26},{t:'2025Q4',n:'W',v:34},{t:'2026Q2',n:'W',v:40},{t:'2026Q4',n:'W',v:50}] }] },
+{ id:'SXQ', code:"西青", name:"中芯西青（天津 12 吋）", kind:'fab', region:'CN', loc:"天津 西青", wafer:12, since:"2023", adv:"28nm", owner:'中芯國際', grp:'TJ',
+  desc:"2022/8 公告、投資約 75 億美元的天津 12 吋廠，規劃 10 萬片 28–180nm 製程。", warn:"爬坡時點為推估。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'ramp', nodes:"28–180nm 邏輯", tech:["L28", "MAT12"], mp:"2023 下半年起投片（推估）", ms:"爬坡中", full:"規劃 10 萬片（公告）", conf:'rep',
+    cap:[{t:'2023Q1',n:'W',v:0},{t:'2023Q3',n:'W',v:3},{t:'2024Q1',n:'W',v:6},{t:'2024Q3',n:'W',v:13},{t:'2024Q4',n:'W',v:20},{t:'2025Q2',n:'W',v:25},{t:'2025Q4',n:'W',v:32},{t:'2026Q1',n:'W',v:36},{t:'2026Q2',n:'W',v:40},{t:'2026Q4',n:'W',v:50}] }] },
+{ id:'SSZ12', code:"深圳 12 吋", name:"深圳 12 吋廠", kind:'fab', region:'CN', loc:"深圳 坪山", wafer:12, since:"2022", adv:"28nm", owner:'中芯國際', grp:'SZ',
+  desc:"2021/3 與深圳市政府合作公告的 12 吋廠，規劃 4 萬片 28nm 及以上製程。", warn:"爬坡時點為推估。", src:['m1','m2','m3','m4'],
+  phases:[{ id:'全廠', st:'ramp', nodes:"28nm 及以上 邏輯", tech:["L28", "MAT12"], mp:"2022–2023 起量產", ms:"接近規劃產能", full:"規劃 4 萬片（公告）", conf:'rep',
+    cap:[{t:'2023Q1',n:'W',v:5},{t:'2023Q3',n:'W',v:10},{t:'2024Q1',n:'W',v:14},{t:'2024Q4',n:'W',v:22},{t:'2025Q2',n:'W',v:26},{t:'2025Q4',n:'W',v:32},{t:'2026Q2',n:'W',v:35},{t:'2026Q4',n:'W',v:40}] }] }
+];
+const OFFICIAL_TOTAL = [["2023", "年底 月產能 805.5 千片約當 8 吋（約 358 千片 12 吋約當）"], ["2024", "年底 月產能 947.8 千片約當 8 吋（約 421 千片 12 吋約當）"], ["2025", "年底 月產能 1,058.8 千片約當 8 吋（約 471 千片 12 吋約當）"], ["2026", "2Q26 月產能 1,096.5 千片約當 8 吋（約 487 千片 12 吋約當）"]];
+return {
+  id:'smic', name:'中芯國際', en:'SMIC', ticker:'0981.HK／688981.SS', f8:1/2.25, f6:1/4,
+  summary:'中國大陸最大的晶圓代工廠，在上海、北京、天津、深圳共有 3 座 8 吋廠與 8 座 12 吋廠（含合資）。官方只公布合併月產能（2Q26 為 109.65 萬片約當 8 吋）與利用率，本頁逐廠產能為推估，錨點為各廠公告的規劃產能。擴產主力是京城、臨港、西青、深圳四座 28nm 及以上的 12 吋新廠。',
+  facts:[['2Q26 月產能（官方）','109.65 萬片約當 8 吋'],['2Q26 利用率','93.7%'],['2Q26 出貨','287 萬片約當 8 吋'],['2025 資本支出','81 億美元'],['晶圓廠','8吋×3・12吋×8']],
+  META, CHANGELOG, SOURCES, SITES, BENCH:{}, OFFICIAL_TOTAL,
+  regions:['CN'],
+  groupsDef:[ {id:'grp', l:'依城市', by:'grp', items:[["SH", "上海"], ["BJ", "北京"], ["TJ", "天津"], ["SZ", "深圳"]]}, {id:'wafer', l:'依尺寸', by:'wafer'} ],
+  tableGroup:'grp',
+  techOrder:['FIN','L28','MAT12','MAT8','BCD'],
+  techLabel:{ FIN:'FinFET（14nm 及以下）', L28:'28nm', MAT12:'12 吋成熟製程', MAT8:'8 吋成熟製程', BCD:'BCD／電源管理' },
+  focus:'util', packaging:false,
+  util:[["2023Q1", 68], ["2023Q2", 78.3], ["2023Q3", 77.1], ["2023Q4", 76.8], ["2024Q1", 80.8], ["2024Q2", 85.2], ["2024Q3", 90.4], ["2024Q4", 85.5], ["2025Q1", 89.6], ["2025Q2", 92.5], ["2025Q3", 95.8], ["2025Q4", 95.7], ["2026Q1", 93.1], ["2026Q2", 93.7]],
+  totalSub:'逐廠推估加總（中芯不公布逐廠產能）；與官方公布的合併月產能差 ±4% 內',
+  chartsNote:'逐廠產能為推估：錨點為公告的規劃產能（京城、臨港、西青各 10 萬片，深圳 12 吋 4 萬片，北方 7 萬片），爬坡時點推估；2026Q4 以後持平。',
+  cmp:{ fabs:'11（8吋 3・12吋 8）', adv:'FinFET（14nm 及以下）', capex:'約 81 億美元（2025）', focus:'28nm 以上成熟製程擴產（京城、臨港、西青、深圳）' },
+  notes:[
+    '<span class="conf c-est">推估</span> 中芯只公布合併月產能（約當 8 吋），不公布逐廠產能。本頁以公告的規劃產能為錨點，各期爬坡時點為推估，與 IC 製造資料庫 Excel 的 SMIC 逐廠表一致；各季逐廠加總與官方合併產能差距在 ±4% 以內。',
+    '官方月產能（千片約當 8 吋）：4Q23 805.5K、4Q24 947.8K、4Q25 1,058.8K、2Q26 1,096.5K。換算成本頁的 12 吋約當要除以 2.25。',
+    '8 吋總量沿用 Excel 的 35.2 萬片假設（上海、天津、深圳三廠）；天津 8 吋基地的「最高約 20 萬片」為報導的設計上限。',
+    '中芯的產能利用率以「產出÷產能」計算，出貨一直少於產出，所以用出貨÷利用率回推的產能比官方低 7–17%。'
+  ],
+  watch:[
+    '京城二期、臨港、西青的實際裝機進度（中芯每季約增加 2–4 萬片約當 8 吋）',
+    'FinFET（SN1／SN2）產能與美國出口管制',
+    '8 吋產能是否轉往 12 吋或縮減',
+    '官方利用率與出貨的落差（產出多於出貨）'
+  ]
+};
+})();
 /* ===================== END DATA ===================== */
 
 
 /* ===================== ENGINE ===================== */
-const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC };
-const ORDER = ['tsmc','umc','vis','psmc'];
-const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4' };
+const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC, smic:SMIC };
+const ORDER = ['tsmc','umc','vis','psmc','smic'];
+const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4', smic:'--s5' };
 const REG = { N:'北台灣', C:'中台灣', S:'南台灣', US:'美國', JP:'日本', DE:'德國', CN:'中國', SG:'新加坡', IN:'印度' };
 const STATUS = {
   op:{l:'量產中'}, ramp:{l:'爬坡中'}, build:{l:'建設／裝機'}, conv:{l:'轉換／移轉'},
@@ -1829,8 +1917,8 @@ function renderKPIs(){
   if (state.co==='compare'){
     const tots = ORDER.map(id=>({ id, v:totalOf(COS[id],i), pv: hasP ? totalOf(COS[id],p) : null }));
     const all = tots.reduce((a,b)=>a+b.v,0), allP = hasP ? tots.reduce((a,b)=>a+b.pv,0) : null;
-    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name+' 晶圓產能', v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占四家合計 ${fmt(all? t.v/all*100 : 0,1)}%`, spark:sparkHTML(QUARTERS.map(q=>totalOf(COS[t.id],q)), CO_COLOR[t.id]) })),
-      { key:'t-all', k:'四家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+totalOf(COS[id],q),0)), '--ink-2') } ];
+    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name+' 晶圓產能', v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占五家合計 ${fmt(all? t.v/all*100 : 0,1)}%`, spark:sparkHTML(QUARTERS.map(q=>totalOf(COS[t.id],q)), CO_COLOR[t.id]) })),
+      { key:'t-all', k:'五家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+totalOf(COS[id],q),0)), '--ink-2') } ];
   } else {
     const co = CO(); const tot = totalOf(co,i), totP = hasP ? totalOf(co,p) : null; const C = CO_COLOR[co.id];
     const totS = sparkHTML(QUARTERS.map(q=>totalOf(co,q)), C);
@@ -1952,7 +2040,7 @@ function renderCmpWafers(){
   const data = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6; return { id, co, w12, w86, tot:w12+w86 }; });
   const all = data.reduce((a,b)=>a+b.tot,0);
   el.innerHTML = data.map(x=>{ const need = Math.round(x.tot/10); const split = allocate([{k:'12',v:x.w12},{k:'86',v:x.w86}], need);
-    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(x.co.name)} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(x.co.name)}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占四家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
+    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(x.co.name)} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(x.co.name)}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占五家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
 }
 function cwTip(id, e){
   const co = COS[id]; const i = state.asof; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6;
@@ -1966,10 +2054,10 @@ function renderHero(){
   const el = $('#hero');
   if (state.co==='compare'){
     el.innerHTML = `<div class="hero-id">
-        <div class="eyebrow">TSMC × UMC × VIS × PSMC</div>
-        <h2 class="co-title"><span class="zh">四家比較</span><span class="en">Compare</span></h2>
-        <p class="lede">把四家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
-        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">四家產能比較${ARROW_D}</button></div>
+        <div class="eyebrow">TSMC × UMC × VIS × PSMC × SMIC</div>
+        <h2 class="co-title"><span class="zh">五家比較</span><span class="en">Compare</span></h2>
+        <p class="lede">把五家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
+        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">五家產能比較${ARROW_D}</button></div>
       </div>
       <figure class="wfig">
         <div class="wfig-h"><h3>產能規模 <span class="mono asofTxt">${qlab(state.asof)}</span></h3><span class="wkey"><i class="k12"></i>12 吋<i class="k86"></i>8／6 吋（約當）</span></div>
@@ -2263,7 +2351,7 @@ function updateCompare(){
 
 /* ---------- page chrome ---------- */
 function renderNav(){
-  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','四家比較','Compare']];
+  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','五家比較','Compare']];
   $('#cnav').innerHTML = items.map(([id,n,en])=>`<button type="button" role="tab" data-co="${id}" aria-selected="${state.co===id}" tabindex="${state.co===id?0:-1}">${id==='compare' ? `<i class="dots" aria-hidden="true">${ORDER.map(o=>`<span style="background:var(${CO_COLOR[o]})"></span>`).join('')}</i>` : `<i class="dot" style="background:var(${CO_COLOR[id]})" aria-hidden="true"></i>`}<b>${n}</b><small>${en}</small></button>`).join('');
   const sel = $('#cnav button[aria-selected="true"]'); if (sel && sel.scrollIntoView) { try { sel.scrollIntoView({ block:'nearest', inline:'nearest' }); } catch(e){} }
 }
