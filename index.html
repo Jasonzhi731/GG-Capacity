@@ -2363,7 +2363,7 @@ function renderStatic(){
   $('#watch').innerHTML = co.watch.map(w=>`<li>${esc(w)}</li>`).join('');
   $('#changelog').innerHTML = [...co.CHANGELOG, ...SITE_CHANGELOG].map(c=>`<li><span class="mono">${c.d}</span>${esc(c.t)}</li>`).join('');
   $('#srclist').innerHTML = Object.values(co.SOURCES).map(([t,u])=> u ? `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join('');
-  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
+  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : co.id==='smic' ? '搜尋廠名、城市、製程…（例：京城、臨港、FinFET、28nm）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
   $('#pAdv').hidden = co.focus!=='adv'; $('#pUtil').hidden = co.focus!=='util';
   $('#pCowos').hidden = !co.packaging; $('#pSoic').hidden = !co.packaging;
 }
