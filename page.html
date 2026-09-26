@@ -1,5 +1,5 @@
 <title>晶圓代工產能版圖</title>
-<meta name="description" content="台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
+<meta name="description" content="台積電、聯電、世界先進、力積電、中芯國際、三星電子（記憶體＋代工）、英特爾七家晶圓廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Chivo+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
@@ -86,13 +86,14 @@ p{text-wrap:pretty}
 .brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);line-height:1.3}
 .cnav{grid-area:tabs;display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none;padding-block:8px}
 .cnav::-webkit-scrollbar{display:none}
-.cnav button{flex:none;display:flex;align-items:center;gap:8px;border:0;background:transparent;border-radius:6px;padding:7px 12px;color:var(--ink-2);white-space:nowrap;transition:background-color .15s}
+.cnav button{flex:none;display:flex;align-items:center;gap:6px;border:0;background:transparent;border-radius:6px;padding:7px 9px;color:var(--ink-2);white-space:nowrap;transition:background-color .15s}
 .cnav button:hover{background:var(--surface-3)}
 .cnav .dot{width:9px;height:9px;border-radius:50%;flex:none}
-.cnav .dots{display:grid;grid-template-columns:repeat(2,4px);gap:1.5px;flex:none}
+.cnav .dots{display:grid;grid-template-columns:repeat(4,4px);gap:1.5px;flex:none}
 .cnav .dots span{width:4px;height:4px;border-radius:50%}
 .cnav b{font-size:14px;font-weight:700;color:var(--ink)}
-.cnav small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.02em}
+.cnav small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;display:none}
+.cnav button[aria-selected="true"] small{display:inline}
 .cnav button[aria-selected="true"]{background:var(--ink)}
 .cnav button[aria-selected="true"] b{color:var(--surface)}
 .cnav button[aria-selected="true"] small{color:color-mix(in srgb,var(--surface) 62%,transparent)}
@@ -195,6 +196,7 @@ p{text-wrap:pretty}
 
 /* ---------- KPI strip ---------- */
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:26px}
+.kpis[data-n="8"]{grid-template-columns:repeat(4,minmax(0,1fr))}
 .kpi{background:var(--surface);padding:14px 16px 12px;display:flex;flex-direction:column;min-width:0}
 .kpi .k{font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .kpi .k .q{font-family:var(--mono);font-size:10.5px;white-space:nowrap}
@@ -281,6 +283,30 @@ table{border-collapse:collapse;width:100%}
 .warn .wi{width:14px;height:14px;flex:none;margin-top:2px;color:var(--warn)}
 .warn b{color:var(--warn);margin-right:6px;font-weight:700}
 .warn-i{color:var(--warn);font-weight:700}
+.st-cancel{color:var(--st-exit)}
+.xci{width:13px;height:13px;flex:none;display:inline-block;vertical-align:-2px}
+.xc{display:inline-flex;align-items:center;gap:4px;font-size:11px;line-height:17px;color:var(--st-conv);border:1px solid color-mix(in srgb,var(--st-conv) 45%,transparent);border-radius:3px;padding:0 5px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.xc small{font-family:var(--mono);font-size:10px;opacity:.85}
+.xcw{margin-top:4px}
+.xcl{display:flex;gap:7px;align-items:flex-start;margin:8px 16px 0;padding:6px 9px;border-radius:6px;background:color-mix(in srgb,var(--st-conv) 10%,transparent);font-size:12px;line-height:1.55;color:var(--ink)}
+.xcl .xci{margin-top:2px;color:var(--st-conv)}
+.xcl b{color:var(--st-conv);margin-right:6px;font-weight:700}
+.dr-b > .xcl{margin:10px 0 0}
+.tag.dv{font-weight:700}
+.tag.dv-mem{color:var(--s1);border-color:color-mix(in srgb,var(--s1) 55%,transparent);background:color-mix(in srgb,var(--s1) 9%,transparent)}
+.tag.dv-fdy{color:var(--s6);border-color:color-mix(in srgb,var(--s6) 55%,transparent);background:color-mix(in srgb,var(--s6) 9%,transparent)}
+.tag.dv-mix{color:var(--ink);border-color:var(--line-strong);background:linear-gradient(90deg,color-mix(in srgb,var(--s1) 14%,transparent),color-mix(in srgb,var(--s6) 14%,transparent))}
+.tag.xct{color:var(--st-conv);border-color:color-mix(in srgb,var(--st-conv) 55%,transparent);display:inline-flex;align-items:center;gap:3px}
+.pt.rec{min-width:880px}
+.rec thead th{cursor:default}
+.rec tbody th{position:static;background:none;cursor:default;color:var(--ink);font-size:12.5px;font-weight:700;white-space:normal;min-width:140px}
+.rec td small{display:block;color:var(--ink-3);font-size:11.5px;line-height:1.5;margin-top:2px}
+.rec td.num{white-space:nowrap}
+.rec .srcn{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);text-decoration:none;margin-left:2px}
+.rec .srcn:hover{color:var(--ink);text-decoration:underline}
+.rec .d-ok{color:var(--st-op);font-weight:700}
+.rec .d-mid{color:var(--ink);font-weight:700}
+.rec .d-far{color:var(--warn);font-weight:700}
 
 /* ---------- filters ---------- */
 .fbar{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px}
@@ -466,8 +492,9 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
 /* ---------- responsive ---------- */
 @media (max-width:1100px){
-  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpis,.kpis[data-n="8"]{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kpi:first-child{grid-column:1/-1}
+  .kpis[data-n="8"] .kpi:first-child{grid-column:auto}
 }
 @media (max-width:980px){
   .hero{grid-template-columns:minmax(0,1fr)}
@@ -482,7 +509,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
   .rail-in{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"tabs tabs" "step ruler";column-gap:10px}
   .brand{display:none}
   .cnav{padding-block:6px 2px}
-  .cnav small{display:none}
+  .cnav small,.cnav button[aria-selected="true"] small{display:none}
   .stepper{gap:3px}
   .sbtn.reset,.sbtn.play span{display:none}
   .qbox{min-width:62px}
@@ -530,7 +557,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 <section class="mast inner">
   <div>
     <h1>晶圓代工產能版圖</h1>
-    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠（含海外據點與合資廠）的製程、產能與量產時程。用上方選單切換公司或看「五家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
+    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠，以及三星電子（記憶體＋代工，逐線標示並標出產線轉換）與英特爾（IDM）的製程、產能與量產時程（含海外據點與合資廠）。用上方選單切換公司或看「七家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
   </div>
   <div class="notice" role="note"><span class="badge">AI 自動收集資料</span><p>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</p></div>
 </section>
@@ -550,7 +577,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
           <p class="hint">點圖表任一處可跳到該季；點圖例可隱藏或顯示該組，滑過可單獨標示。斜線區為預估。</p>
         </div>
         <div class="pan" id="pAdv">
-          <div class="pan-h"><div><h3>先進節點產能</h3><div class="sub">千片／月；N5/N4、N3、N2 家族（含 N2P／A16）、A14。◆ 為媒體或公司報導的節點總量</div></div></div>
+          <div class="pan-h"><div><h3 id="hAdv">先進節點產能</h3><div class="sub" id="sAdv">千片／月；N5/N4、N3、N2 家族（含 N2P／A16）、A14。◆ 為媒體或公司報導的節點總量</div></div></div>
           <div class="cbox"><canvas id="cAdv" role="img" aria-label="先進節點產能折線圖"></canvas></div>
           <div class="lg" id="lgAdv"></div>
         </div>
@@ -577,6 +604,10 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
           <div class="pan-h"><div><h3>年底產能彙總表</h3><div class="sub">千片／月・12 吋約當；年底＝各年 Q4。醒目欄＝選定季所在年份，斜線欄＝預估</div></div></div>
           <div class="tscroll"><table class="ye" id="yeTable"></table></div>
         </div>
+        <div class="pan wide" id="pRec" hidden>
+          <div class="pan-h"><div><h3>官方與報導總量對照</h3><div class="sub">本頁逐廠加總與官方或媒體公布的總量比較；差異＝本頁相對於公布值。產量、投片量與產能比較時，改列隱含稼動率（公布值÷本頁產能）</div></div></div>
+          <div class="tscroll"><table class="pt rec" id="recTable"></table></div>
+        </div>
       </div></div>
     </section>
 
@@ -591,8 +622,10 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
           <button class="clear" id="fclear" type="button">清除篩選</button>
         </div>
         <div class="frow" id="fKind"><span class="fl">類型</span></div>
+        <div class="frow" id="fDiv" hidden><span class="fl">記憶體／代工</span></div>
         <div class="frow" id="fRegion"><span class="fl">地區</span></div>
         <div class="frow" id="fStatus"><span class="fl">狀態</span></div>
+        <div class="frow" id="fConv" hidden><span class="fl">產線轉換</span></div>
         <div class="frow" id="fTech"><span class="fl">製程／技術</span></div>
       </div>
       <div class="vwrap">
@@ -617,11 +650,11 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
   <div id="cmpView" hidden>
     <section class="sec" id="cmpCharts">
-      <div class="sec-h"><div><h2>五家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；聯電、世界先進、力積電多為官方公布值；台積電與中芯為逐廠推估。</p></div>
+      <div class="sec-h"><div><h2>七家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；聯電、世界先進、力積電多為官方公布值；台積電、中芯、三星、英特爾為逐廠推估。<b>三星只計代工線</b>（含 System LSI，不含記憶體）；英特爾為 IDM，含自家產品。</p></div>
       <div class="sheet"><div class="pgrid">
         <div class="pan wide">
           <div class="pan-h"><div><h3>晶圓產能合計</h3><div class="sub">不含先進封裝；虛線為今天，斜線區為預估；點圖可跳到該季</div></div></div>
-          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="五家產能折線圖"></canvas></div>
+          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="七家產能折線圖"></canvas></div>
           <div class="lg" id="lgCmp"></div>
         </div>
         <div class="pan">
@@ -630,7 +663,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
           <div class="lg" id="lgMix"></div>
         </div>
         <div class="pan">
-          <div class="pan-h"><div><h3>產能利用率</h3><div class="sub">公司公布值；台積電不公布季度利用率</div></div></div>
+          <div class="pan-h"><div><h3>產能利用率</h3><div class="sub">公司公布值（三星為媒體報導的代工稼動率）；台積電、英特爾不公布季度利用率</div></div></div>
           <div class="cbox"><canvas id="cUtilCmp" role="img" aria-label="產能利用率比較折線圖"></canvas></div>
           <div class="lg" id="lgUtilCmp"></div>
         </div>
@@ -651,26 +684,32 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 /* =====================================================================
-   DATA — 每家公司一個區塊（TSMC / UMC / VIS / PSMC）；更新時只改各區塊
+   DATA — 每家公司一個區塊（TSMC / UMC / VIS / PSMC / SAMSUNG / INTEL / SMIC）；更新時只改各區塊
    ---------------------------------------------------------------------
    SITES[]: 一個廠區（Fab / AP / 新基地 / 合作廠）
      kind: 'fab' | 'ap' | 'land' | 'partner'（partner 不計入產能）
-     region: N C S US JP DE CN SG IN   wafer: 12 | 8 | 6 | null(封裝)
+     region: N C S US JP DE CN SG IN KR IE IL MY VN CR PL   wafer: 12 | 8 | 6 | null(封裝)
      grp: 圖表「依廠區」分組用（省略時用 id）   seg: 自訂分組（如邏輯／記憶體）
+     div: mem 記憶體 | fdy 代工 | mix 記憶體＋代工 | rd 研發 | pkg 封裝測試（三星卡片標籤與篩選）
+     xconv: 產線轉換 { t, l 說明, d 時間 }；t = mem2fdy | fdy2mem | nand2dram | logic2mem | mem2logic | fab2pkg
+            可放在廠區或期別；廠區有任何期別標了 xconv 時，只有那些期別算轉換
      warn: 「⚠ 留意」註記   src: 來源 id 陣列
      phases[]: 各期
        st:  op 量產 | ramp 爬坡 | build 建設/裝機 | plan 規劃 | conv 轉換 | exit 淘汰
-            | sold 已出售 | rd 研發/非產能 | rumor 評估/傳聞
+            | sold 已出售 | cancel 已取消 | rd 研發/非產能 | rumor 評估/傳聞
        tech: 篩選用標籤（各公司 techOrder 定義）
        cap: 產能時間點（原生晶圓尺寸，千片/月），自該季起生效直到同 key 下一筆
-            台積電用節點 key（N2、N3…）；其他三家用 'W'。封裝用 {k:'CoWoS'|'SoIC'}
+            台積電用節點 key（N2、N3…）；三星用產品 key（DRAM、NAND、F8、FMAT、CIS、FADV）；
+            英特爾用製程 key（I14、I12、I7、I3、I18A、I14A）；其他用 'W'。封裝用 {k:'CoWoS'|'SoIC'}
             轉換＝同季舊 key 降、新 key 升；關廠／出售＝v:0
        conf: off 官方 | rep 報導 | est 推估     warn: 註記
    util: 產能利用率 [季, %, 註記]；BENCH：報導總量（◆）
+   選用：adv（先進節點圖設定）、cmpKeys（比較頁只計這些 key）、kpi（KPI 磚）、RECON（官方與報導總量對照）
    ===================================================================== */
 const NOW_Q = '2026Q3';
-const SITE_META = { version: 'v3.1', updated: '2026-09-25', checked: '2026-09-25' };
+const SITE_META = { version: 'v3.2', updated: '2026-09-26', checked: '2026-09-26' };
 const SITE_CHANGELOG = [
+  { d: '2026-09-26', t: 'v3.2：新增三星電子（記憶體＋代工，20 個廠區逐線盤點，卡片標示記憶體／代工並標出產線轉換，可用「記憶體／代工」「產線轉換」篩選）與英特爾（24 個據點，含取消、出售與封測據點）；兩家各有「官方與報導總量對照」表。比較頁改為七家，三星只計代工線。' },
   { d: '2026-09-25', t: 'v3.1：新增中芯國際（11 座晶圓廠逐廠推估，與 IC 製造資料庫 Excel 一致），比較頁改為五家；網站名稱改為「晶圓代工產能版圖」。' },
   { d: '2026-09-25', t: '聯電逐廠產能改用官方逐季值（原為年平均），並與 IC 製造資料庫 Excel 完成逐格比對；台積電、世界先進、力積電兩邊一致。' },
   { d: '2026-09-24', t: 'v3.0 版面改版：常駐時間尺（可逐季播放）、晶圓圖呈現產能組成、KPI 走勢線、各期產能時序條、新增「時程」檢視與廠區詳情側欄；資料內容不變。' },
@@ -1354,6 +1393,509 @@ return {
   ]
 };
 })();
+/* ---------------- 三星電子 Samsung（記憶體＋代工） ---------------- */
+const SAMSUNG = (() => {
+const META = { updated:'2026-09-26', checked:'2026-09-26', version:'v1.0' };
+const CHANGELOG = [
+  { d:'2026-09-26', t:'初版：記憶體（華城 12／13／15／16／17 線、平澤 P1–P5、西安 X1／X2）與代工（器興 8 吋 S6／S7／S8、S1、S3／V1、S4、平澤 S5、奧斯汀 S2、泰勒）逐線盤點，每條線標示記憶體／代工，並標出兩者之間的產線轉換；逐線加總與官方位元產能、業界總量對照。' }
+];
+const SOURCES = {
+  k1:['三星電子 2025 年 Business Report（官方：記憶體位元產能、稼動率、生產據點）','https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf'],
+  k2:['三星半導體官網：代工廠區（器興 8 吋、S1、S3、S5、奧斯汀 S2、泰勒）','https://semiconductor.samsung.com/kr/foundry/manufacturing/manufacturing-sites/'],
+  k3:['數位日報：SFF 2021 代工產能目標（2026 年為 2017 年 3.2 倍；2021 年約 12 吋 35 萬＋8 吋 30 萬片）','https://m.ddaily.co.kr/page/view/2021101510263890339'],
+  k4:['首爾經濟：三星半導體廠巡禮（各線用途與產能，2021/8/23）','https://www.sedaily.com/NewsView/22QASRKZ6L'],
+  k5:['namu.wiki：三星代工（各線產能與轉換沿革）','https://namu.wiki/w/%EC%82%BC%EC%84%B1%20%ED%8C%8C%EC%9A%B4%EB%93%9C%EB%A6%AC'],
+  k6:['TheElec：器興 8 吋 S7 下半年關閉、8 吋產能由 25 萬降至 20 萬片以下（2026/1/15）','https://www.thelec.net/news/articleView.html?idxno=5549'],
+  k7:['TheElec：華城 12 線 2D NAND 停產、改為 1c DRAM 後段 end-fab（2026）','https://www.thelec.kr/news/articleView.html?idxno=52724'],
+  k8:['ZDNet Korea：華城 end-fab 準備啟用（2026/7/28）','https://zdnet.co.kr/view/?no=20260728092014'],
+  k9:['首爾經濟：H1 老無塵室整頓為泛用 DRAM end-fab、月增產 20 萬片（2026/7/27）','https://www.sedaily.com/article/20072469'],
+  k10:['財經新聞：11 線已改為影像感測 S4、13 線月約 10 萬片 DRAM（2021/10/21）','https://www.fnnews.com/news/202110211733147293'],
+  k11:['ZDNet Korea：華城 H1（12、13 線）改封裝線計畫（2025/5/28）','https://zdnet.co.kr/view/?no=20250528082657'],
+  k12:['TrendForce：1c DRAM 2026 年底月 20 萬片、約總產出三分之一（總量 65–70 萬片）（2025/11/19）','https://www.trendforce.com/news/2025/11/19/news-samsung-reportedly-plans-200k-1c-dram-wafersmonth-by-2026-about-one-third-of-its-total-output/'],
+  k13:['環球經濟：平澤 P4 全面改 DRAM、2026 上半年 13–14 萬片、年底最高 20 萬片（2026/4/10）','https://www.g-enews.com/article/Global-Biz/2026/04/202604100642191639fbbec65dfb_1'],
+  k14:['數位日報：P4 DRAM 投資啟動、代工線延後（2025/11/7）','https://m.ddaily.co.kr/page/view/2025110714584155028'],
+  k15:['首爾經濟：平澤、華城 NAND 線轉 DRAM（2025/11/20）','https://www.sedaily.com/article/14146084'],
+  k16:['韓國經濟：P5 二廠提前動工、P5 兩廠合計月約 60 萬片（2026/6/21）','https://www.hankyung.com/article/2026062189891'],
+  k17:['Tom’s Hardware：三星晶圓廠路線圖（泰勒 2026/4 進機、月 5 萬片目標、P5 2029）（2026/8/19）','https://www.tomshardware.com/tech-industry/samsungs-fab-roadmap-examined'],
+  k18:['supple：泰勒二廠年底動工、2030 年量產目標（2026/7/30）','https://supple.kr/news/cms6xiron00og88t30xr1bblr'],
+  k19:['電子新聞：西安廠 V8（236 層）轉換完成、約占三星 NAND 40%（2026/3/27）','https://www.etnews.com/20260327000058'],
+  k20:['環球經濟：西安廠 NAND 產量減少（原約月 15 萬片）（2025/1/15）','https://www.g-enews.com/article/Global-Biz/2025/01/2025011500190043189a1f309431_1'],
+  k21:['Blocks & Files（引 Omdia）：三星 NAND 投片 2025 年 490 萬片、2026 年 468 萬片（2026/1/20）','https://www.blocksandfiles.com/ai-ml/2026/01/20/samsung-sk-hynix-cut-nand-wafer-output-to-shore-up-margins/4090555'],
+  k22:['今日財經：DRAM 年產量（300mm）三星 2026 年約 817.5 萬片、較前一年增 48 萬片（2026/2/19）','https://www.mt.co.kr/industry/2026/02/19/2026021914003472513'],
+  k23:['數位日報：P2 初期產能（DRAM 3.5–4 萬、代工 4 萬、NAND 2 萬片）（2021/4/19）','https://m.ddaily.co.kr/page/view/2021041900325111531'],
+  k24:['SemiMedia：P3 擴充計畫縮減（DRAM 8→5 萬、NAND 3→1 萬片）；P3 176 層 NAND 線 4–5 萬片','https://www.semimedia.cc/15455.html'],
+  k25:['TrendForce：華城 2nm 線 2025Q1 月 7,000 片、P2 1.4nm 線 2–3 千片（2024/12/3）','https://www.trendforce.com/news/2024/12/03/news-these-advanced-12-inch-wafer-fabs-enter-a-new-stage/'],
+  k26:['DIGITIMES：三星 2nm 2026 年底月 2.1 萬片（2025/11/21）','https://www.digitimes.com/news/a20251121PD240/samsung-2026-tsmc-2nm-qualcomm.html'],
+  k27:['亞洲今日（引 Knometa）：三星 2021 年底產能月 405.4 萬片（8 吋約當）（2022/4/15）','https://www.asiatoday.co.kr/kn/view.php?key=20220415010009081'],
+  k28:['經濟時報：2027 年三星 DRAM／NAND 月均 79 萬／40.3 萬片（分析師估）','https://www.ket.kr/news/article.html?no=38989'],
+  k29:['Daum／韓國經濟：三星 DRAM 月產能約 65 萬片、P5 二廠 7 月動工（2026/5/7）','https://v.daum.net/v/20260507181017224?f=p'],
+  k30:['Threads（產業研究整理）：2025 年底 DRAM 月產能 三星 65.5 萬、HBM 15 萬片','https://www.threads.com/@danny.research/post/DSeyRVtkWYd'],
+  k31:['數位時報：華城 16 線 NAND＋非記憶體混用','https://www.dt.co.kr/article/10767101'],
+  k32:['三星半導體新聞：平澤 2 線啟用（2020/8，官方）','https://semiconductor.samsung.com/kr/news-events/news/samsung-electronics-operates-the-worlds-largest-pyeongtaek-line-2/'],
+  k33:['三星新聞稿：平澤 EUV 代工線（2020/5，官方）','https://semiconductor.samsung.com/news-events/news/samsung-electronics-expands-its-foundry-capacity-with-a-new-production-line-in-pyeongtaek-korea/'],
+  k34:['TechPowerUp：三星把韓國各廠 NAND 產能轉往 DRAM（2025/11）','https://www.techpowerup.com/343119/samsung-reallocates-nand-production-to-dram-across-korean-fabs'],
+  k35:['BusinessKorea：P3 176 層 NAND 線（2021）','https://www.businesskorea.co.kr/news/articleView.html?idxno=77916']
+};
+const SITES = [
+/* ---------------- 華城 ---------------- */
+{ id:'KH12', code:'12 線', name:'華城 12 線（2D NAND → DRAM 後段 end-fab）', kind:'fab', region:'KR', loc:'京畿道 華城 第一園區（H1）', wafer:12, since:'2000 年代', adv:'2D NAND（SLC 等利基型）', owner:'三星電子', grp:'HS', div:'mem',
+  desc:'華城第一園區（H1）的 NAND 線，生產 SLC 等 2D NAND。三星 2002 年量產 1Gb NAND、2013 年量產 3D V-NAND，約 13 年後退出 2D NAND：本線 2026/3 起停產並移出設備，7 月進入 DRAM 後段（金屬配線等）end-fab 的準備階段，承接 15 線與 1c DRAM 的後段製程。',
+  xconv:{ t:'nand2dram', l:'NAND → DRAM 後段', d:'2026' }, src:['k7','k8','k9','k15'],
+  phases:[
+    { id:'2D NAND', st:'exit', nodes:'2D NAND（SLC 等）', tech:['NAND','N2D'], mp:'2000 年代起', ms:'2026/3 停產、設備移出', full:'月 8–10 萬片（報導）', conf:'rep', xconv:{ t:'nand2dram', l:'NAND → DRAM 後段', d:'2026/3' },
+      cap:[{t:'2023Q1',n:'NAND',v:80},{t:'2024Q2',n:'NAND',v:70},{t:'2025Q1',n:'NAND',v:60},{t:'2026Q2',n:'NAND',v:0}] },
+    { id:'DRAM end-fab', st:'conv', nodes:'DRAM 後段（BEOL，1c 等）', tech:['DRAM','D1C'], mp:'2026/7 起準備啟用', ms:'處理其他線投片後的後段製程，不另計投片產能', full:'不另計（後段）', conf:'rep', xconv:{ t:'nand2dram', l:'NAND → DRAM 後段', d:'2026' }, cap:[] }
+  ]},
+{ id:'KH13', code:'13 線', name:'華城 13 線（DRAM）', kind:'fab', region:'KR', loc:'京畿道 華城 第一園區（H1）', wafer:12, since:'2000 年代', adv:'DRAM（1x／1y 等泛用）', owner:'三星電子', grp:'HS', div:'mem',
+  desc:'華城 H1 的 DRAM 線，2019–2021 年報導月約 10 萬片。因影像感測器與 DRAM 約 80% 製程相同，2019、2021 年多次傳出改為 CIS，三星否認，最後未執行。2025/5 報導 H1 閒置空間將改為封裝線；2026/7 報導改為把 H1 的老無塵室整頓成泛用 DRAM 的 end-fab，整合原本分散在華城 H2 與天安的後段產線，並在空出的空間加裝設備（報導稱月增產約 20 萬片）。',
+  warn:'H1 用途兩度改口（2025/5 封裝線 → 2026/7 DRAM end-fab）；13 線前段產能自 2026 年起的縮減幅度未公布，本頁為推估。', src:['k10','k11','k9','k8','k4'],
+  phases:[
+    { id:'DRAM', st:'op', nodes:'DRAM（1x／1y 等泛用）', tech:['DRAM'], mp:'2000 年代起', ms:'2026 年起 H1 轉型為 end-fab，前段逐步縮減（推估）', full:'月約 10 萬片（2021 報導）', conf:'est',
+      cap:[{t:'2023Q1',n:'DRAM',v:100},{t:'2024Q2',n:'DRAM',v:90},{t:'2025Q2',n:'DRAM',v:75},{t:'2026Q2',n:'DRAM',v:60},{t:'2026Q4',n:'DRAM',v:50},{t:'2027Q4',n:'DRAM',v:40}] }
+  ]},
+{ id:'KH15', code:'15 線', name:'華城 15 線（DRAM）', kind:'fab', region:'KR', loc:'京畿道 華城', wafer:12, since:'2000 年代', adv:'DRAM', owner:'三星電子', grp:'HS', div:'mem',
+  desc:'華城的 DRAM 線；2026 年起 12 線改為本線的後段（BEOL）產線。單線產能未公布。', src:['k4','k7','k8'],
+  phases:[
+    { id:'DRAM', st:'op', nodes:'DRAM（泛用）', tech:['DRAM'], mp:'2000 年代起', ms:'2026 年 12 線改為其後段', full:'未公布（推估 5–8 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'DRAM',v:80},{t:'2024Q2',n:'DRAM',v:70},{t:'2025Q2',n:'DRAM',v:55},{t:'2027Q2',n:'DRAM',v:50}] }
+  ]},
+{ id:'KH16', code:'16 線', name:'華城 16 線（NAND 改 DRAM）', kind:'fab', region:'KR', loc:'京畿道 華城', wafer:12, since:'2011', adv:'DRAM', owner:'三星電子', grp:'HS', div:'mem',
+  desc:'原為 NAND 線（曾有 NAND 與非記憶體混用的報導），2018 年底三星公告改為 DRAM 線；報導 12 吋月產能 1 萬片以上。',
+  xconv:{ t:'nand2dram', l:'NAND → DRAM', d:'2018 年底' }, src:['k31','k4'],
+  phases:[
+    { id:'DRAM', st:'op', nodes:'DRAM', tech:['DRAM'], mp:'2019 起（DRAM）', ms:'—', full:'月 1 萬片以上（報導）', conf:'rep', xconv:{ t:'nand2dram', l:'NAND → DRAM', d:'2018 年底' },
+      cap:[{t:'2023Q1',n:'DRAM',v:20},{t:'2025Q2',n:'DRAM',v:15}] }
+  ]},
+{ id:'KH17', code:'17 線', name:'華城 17 線（DRAM，與 V1 相連）', kind:'fab', region:'KR', loc:'京畿道 華城', wafer:12, since:'2018', adv:'1c DRAM（EUV）', owner:'三星電子', grp:'HS', div:'mem',
+  desc:'華城最新的 DRAM 線，與三星第一條 EUV 專用線 V1 相連，可生產 EUV DRAM；與代工 S3 位於同一棟建物。2025–2026 年把既有 1x／1y／1z 產線轉換為 1c DRAM（HBM4 用），轉換期間產能暫降。',
+  src:['k4','k12','k15'],
+  phases:[
+    { id:'DRAM', st:'conv', nodes:'DRAM（1z／1a → 1c，EUV）', tech:['DRAM','D1C','HBM'], mp:'2018 起', ms:'2025–2026 轉換 1c（HBM4）', full:'月約 17 萬片（報導）', conf:'rep',
+      cap:[{t:'2023Q1',n:'DRAM',v:170},{t:'2024Q2',n:'DRAM',v:160},{t:'2025Q4',n:'DRAM',v:145},{t:'2026Q2',n:'DRAM',v:130},{t:'2027Q2',n:'DRAM',v:150}] }
+  ]},
+{ id:'KS3', code:'S3（含 V1）', name:'華城 S3／V1 代工線（先進製程）', kind:'fab', region:'KR', loc:'京畿道 華城', wafer:12, since:'2017', adv:'SF2（2nm GAA）', owner:'三星電子（代工事業部）', grp:'HS', div:'fdy',
+  desc:'代工主力線（官方列為成熟＋先進製程），2017 年起量產 10nm 以下，2019 年量產 EUV 7nm；V1（2020）是三星第一條 EUV 專用線。2nm（SF2）產線 2025Q1 月約 7,000 片、2026 年底目標 2.1 萬片（報導）；High-NA EUV 研發機台也放在華城。與 17 線 DRAM 位於同一棟建物。',
+  warn:'namu.wiki 等整理稱 S3 月 20 萬片，但與 2021 年代工 12 吋合計約 35 萬片的業界估計不符（S1、奧斯汀、S4 已占約 25 萬）；本頁以較低值推估，並把成熟與 EUV 線分開。', src:['k2','k5','k25','k26','k17'],
+  phases:[
+    { id:'S3 成熟線', st:'op', nodes:'14／10／8nm（FinFET）', tech:['FMAT'], mp:'2017 起', ms:'8nm 以下線 2026 年接近滿載（報導）', full:'未公布（推估 5 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'FMAT',v:50}] },
+    { id:'V1／EUV 線', st:'op', nodes:'7／5／4／3nm（EUV）→ SF2（2nm GAA）', tech:['FADV','GAA'], mp:'2019 EUV 7nm；2020 V1', ms:'2nm：2025Q1 月約 7,000 片、2026 年底 2.1 萬片（報導）', full:'未公布（推估 3–4.5 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'FADV',v:30},{t:'2025Q1',n:'FADV',v:35},{t:'2026Q2',n:'FADV',v:40},{t:'2026Q4',n:'FADV',v:45}] }
+  ]},
+{ id:'KS4', code:'S4', name:'華城 S4（影像感測，原記憶體 11 線）', kind:'fab', region:'KR', loc:'京畿道 華城', wafer:12, since:'2002（11 線）／2020（S4）', adv:'ISOCELL 影像感測', owner:'三星電子（代工事業部）', grp:'HS', div:'fdy',
+  desc:'原為記憶體 11 線（DRAM），2018 年起逐步改為 ISOCELL 影像感測線，2020 年完成，改隸代工事業部（S4）。2020 年底三星 CIS 產能約月 10 萬片（含其他線）。2026 年報導 CIS、DDI 等產品已大多移到 12 吋產線生產。',
+  xconv:{ t:'mem2fdy', l:'記憶體 → 代工（DRAM 11 線 → 影像感測 S4）', d:'2018–2020' }, src:['k10','k5','k6'],
+  phases:[
+    { id:'CIS', st:'op', nodes:'影像感測（ISOCELL）', tech:['CIS'], mp:'2020 完成轉換', ms:'—', full:'三星 CIS 合計約月 10 萬片（2020 年底報導）；本頁推估 S4 約 6 萬片', conf:'est', xconv:{ t:'mem2fdy', l:'DRAM 11 線 → 影像感測', d:'2018–2020' },
+      cap:[{t:'2023Q1',n:'CIS',v:60}] }
+  ]},
+/* ---------------- 器興 ---------------- */
+{ id:'KS1', code:'S1', name:'器興 S1 代工線（12 吋）', kind:'fab', region:'KR', loc:'京畿道 龍仁 器興', wafer:12, since:'1983（園區）／2005 擴建', adv:'8nm', owner:'三星電子（代工事業部）', grp:'GH', div:'fdy',
+  desc:'器興 12 吋代工線（官方：成熟製程），由記憶體事業部時期的 9 線與 14 線整併而成，2005 年擴建；65–8nm，生產行動平台、HPC、車用、IoT 等晶片。',
+  xconv:{ t:'mem2fdy', l:'記憶體 → 代工（9、14 線併入 S1）', d:'2000 年代' }, src:['k2','k5'],
+  phases:[
+    { id:'全線', st:'op', nodes:'65–8nm（邏輯、DDI、CIS 等）', tech:['FMAT'], mp:'2000 年代起', ms:'—', full:'月約 8.5 萬片（namu 整理）', conf:'rep', xconv:{ t:'mem2fdy', l:'9、14 線併入 S1', d:'2000 年代' },
+      cap:[{t:'2023Q1',n:'FMAT',v:85}] }
+  ]},
+{ id:'KG8', code:'器興 8 吋', name:'器興 8 吋代工（S6、S7、S8）', kind:'fab', region:'KR', loc:'京畿道 龍仁 器興', wafer:8, since:'1990 年代', adv:'65nm', owner:'三星電子（代工事業部）', grp:'GH', div:'fdy',
+  desc:'官方列為器興 8 吋代工（成熟製程：感測器、電源管理、分離式元件、eFlash、邏輯）。器興共有 S6、S7、S8 三座 8 吋廠；早期的 7、8 線併入這組產線。8 吋產能 2025 年約月 25 萬片、稼動率約 70%，S7（約 5 萬片）2026 下半年關閉，關閉後降至 20 萬片以下，客戶訂單移往其他廠。',
+  xconv:{ t:'mem2fdy', l:'記憶體 → 代工（7、8 線併入 8 吋代工）', d:'2000 年代' }, src:['k2','k5','k6'],
+  phases:[
+    { id:'S6', st:'op', nodes:'350–65nm 成熟製程', tech:['F8'], mp:'1990 年代', ms:'持續營運', full:'未公布（推估 10 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'F8',v:110},{t:'2025Q1',n:'F8',v:100}] },
+    { id:'S7', st:'exit', nodes:'350–65nm 成熟製程', tech:['F8'], mp:'1990 年代', ms:'2026 下半年關閉（報導）', full:'月約 5 萬片（報導）', conf:'rep',
+      cap:[{t:'2023Q1',n:'F8',v:60},{t:'2025Q1',n:'F8',v:50},{t:'2026Q4',n:'F8',v:0}] },
+    { id:'S8', st:'op', nodes:'350–65nm 成熟製程', tech:['F8'], mp:'1990 年代', ms:'持續營運', full:'未公布（推估 10 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'F8',v:110},{t:'2025Q1',n:'F8',v:100}] }
+  ]},
+{ id:'KNRD', code:'NRD-K', name:'器興 NRD-K 研發園區', kind:'fab', region:'KR', loc:'京畿道 龍仁 器興', wafer:12, since:'2022 動土', adv:'—', owner:'三星電子', grp:'GH', div:'rd',
+  desc:'約 20 兆韓元、分期投資到 2030 年的先進製程研發園區，負責 2nm 以下邏輯與次世代 DRAM 研發；不計入量產產能。', src:['k17'],
+  phases:[{ id:'研發', st:'rd', nodes:'次世代邏輯與 DRAM 研發', tech:['RD'], mp:'—', ms:'2025 年起陸續啟用', full:'研發，不計量產產能', conf:'rep', cap:[] }] },
+/* ---------------- 平澤 ---------------- */
+{ id:'KP1', code:'P1', name:'平澤 P1（DRAM＋NAND）', kind:'fab', region:'KR', loc:'京畿道 平澤 高德', wafer:12, since:'2017', adv:'1b DRAM／V10 NAND', owner:'三星電子', grp:'PT', div:'mem',
+  desc:'平澤第一座廠（2017），DRAM 與 NAND 複合廠。2021 年報導 DRAM 月約 10 萬、NAND 約 19 萬片。2025/11 起把部分 NAND 產能轉為 DRAM（設備投資 2026 上半年完成），減少的 NAND 由西安廠補上；同時導入 V10（400 層以上）NAND。',
+  src:['k4','k15','k34','k1'],
+  phases:[
+    { id:'DRAM', st:'op', nodes:'DRAM（1z／1a／1b）＋HBM', tech:['DRAM','HBM'], mp:'2017 起', ms:'2026 年起承接 NAND 轉 DRAM 的產能', full:'月約 10 萬片（2021 報導）', conf:'rep',
+      cap:[{t:'2023Q1',n:'DRAM',v:110},{t:'2025Q1',n:'DRAM',v:95},{t:'2026Q3',n:'DRAM',v:100},{t:'2026Q4',n:'DRAM',v:110},{t:'2027Q2',n:'DRAM',v:120}] },
+    { id:'NAND', st:'conv', nodes:'V-NAND（V7–V9）→ V10（400 層以上）', tech:['NAND','V10'], mp:'2017 起', ms:'2025/11 起部分轉為 DRAM', full:'月約 19 萬片（2021 報導）', conf:'rep', xconv:{ t:'nand2dram', l:'NAND → DRAM', d:'2025/11 起' },
+      cap:[{t:'2023Q1',n:'NAND',v:170},{t:'2024Q2',n:'NAND',v:160},{t:'2025Q1',n:'NAND',v:150},{t:'2026Q3',n:'NAND',v:140},{t:'2026Q4',n:'NAND',v:130},{t:'2027Q2',n:'NAND',v:125}] }
+  ]},
+{ id:'KP2', code:'P2', name:'平澤 P2（DRAM＋NAND＋代工 S5）', kind:'fab', region:'KR', loc:'京畿道 平澤 高德', wafer:12, since:'2020', adv:'1c DRAM／SF2', owner:'三星電子', grp:'PT', div:'mix',
+  desc:'2020/8 啟用（官方稱世界最大規模產線），上層為 EUV DRAM（1z 起），另有 NAND 與代工 EUV 線 S5（官方：5nm 以下，2021 下半年量產）。2021 年報導初期 DRAM 3.5–4 萬、代工 4 萬、NAND 2 萬片，之後陸續擴充；2025–2026 年導入 1c DRAM 設備（HBM4）；1.4nm 試產線月 2–3 千片（報導）。',
+  src:['k32','k33','k23','k25','k12'],
+  phases:[
+    { id:'DRAM', st:'conv', nodes:'DRAM（EUV 1z／1a／1b → 1c）＋HBM', tech:['DRAM','D1C','HBM'], mp:'2020/8 起', ms:'2025–2026 導入 1c', full:'初期 3.5–4 萬片（2021），之後擴充；本頁推估 13–16 萬片', conf:'est',
+      cap:[{t:'2023Q1',n:'DRAM',v:160},{t:'2024Q2',n:'DRAM',v:155},{t:'2025Q2',n:'DRAM',v:140},{t:'2026Q2',n:'DRAM',v:130},{t:'2027Q2',n:'DRAM',v:140}] },
+    { id:'NAND', st:'op', nodes:'V-NAND', tech:['NAND'], mp:'2021 起', ms:'—', full:'初期約 2 萬片（2021）；本頁推估 3–3.5 萬片', conf:'est',
+      cap:[{t:'2023Q1',n:'NAND',v:35},{t:'2025Q1',n:'NAND',v:30}] },
+    { id:'S5 代工（EUV）', st:'op', nodes:'5／4／3nm（EUV）、SF2；1.4nm 試產線', tech:['FADV','GAA'], mp:'2021 下半年量產（官方）', ms:'4nm 線 2026 年滿載（HBM4 基底晶粒等）；1.4nm 試產線月 2–3 千片（報導）', full:'初期約 4 萬片（2021）；本頁推估 5–6 萬片', conf:'est',
+      cap:[{t:'2023Q1',n:'FADV',v:50},{t:'2024Q1',n:'FADV',v:55},{t:'2026Q1',n:'FADV',v:60}] }
+  ]},
+{ id:'KP3', code:'P3', name:'平澤 P3（NAND＋DRAM＋代工）', kind:'fab', region:'KR', loc:'京畿道 平澤 高德', wafer:12, since:'2022', adv:'1c DRAM／3nm', owner:'三星電子', grp:'PT', div:'mix',
+  desc:'平澤最大廠房（單線長約 700m），設計為 NAND、DRAM、代工（3nm）複合廠。2022/9 起量產 NAND（176 層 V7），NAND 線月 4–5 萬片；2023 年報導 DRAM 擴充計畫由 8 萬降為 5 萬片、NAND 由 3 萬降為 1 萬片，代工線規模未公布。2025/11 報導也將在 P3 進行 1c 轉換投資。',
+  warn:'P3 代工線的實際規模未公布；2023–2025 年報導三星縮減代工投資，本頁以少量推估。', src:['k24','k35','k15','k12'],
+  phases:[
+    { id:'NAND', st:'op', nodes:'V-NAND（176 層 V7 → V8／V9）', tech:['NAND'], mp:'2022/9 起', ms:'—', full:'NAND 線月 4–5 萬片（報導）', conf:'rep',
+      cap:[{t:'2023Q1',n:'NAND',v:30},{t:'2023Q3',n:'NAND',v:40},{t:'2026Q3',n:'NAND',v:35}] },
+    { id:'DRAM', st:'op', nodes:'DRAM（1b → 1c）', tech:['DRAM','D1C'], mp:'2023 下半年起', ms:'2025/11 起 1c 轉換投資', full:'擴充計畫 5 萬片（報導，原 8 萬）', conf:'rep',
+      cap:[{t:'2023Q3',n:'DRAM',v:10},{t:'2024Q1',n:'DRAM',v:30},{t:'2024Q4',n:'DRAM',v:50},{t:'2026Q2',n:'DRAM',v:60}] },
+    { id:'代工（3nm）', st:'op', nodes:'SF3（3nm GAA）', tech:['FADV','GAA'], mp:'2024 起（推估）', ms:'規模未公布', full:'未公布（推估 1 萬片）', conf:'est',
+      cap:[{t:'2024Q2',n:'FADV',v:5},{t:'2024Q4',n:'FADV',v:10}] }
+  ]},
+{ id:'KP4', code:'P4', name:'平澤 P4（原複合廠 → DRAM 專用）', kind:'fab', region:'KR', loc:'京畿道 平澤 高德', wafer:12, since:'2024', adv:'1c DRAM', owner:'三星電子', grp:'PT', div:'mem',
+  desc:'原規劃為 NAND、DRAM、代工複合廠；因代工難取得大客戶，2024–2025 年陸續改為 DRAM 專用：Ph1 由 NAND＋DRAM 混合改為 DRAM，Ph2 原代工區改 DRAM，Ph3 為 DRAM，Ph4 原代工規劃改為 1c DRAM。官方未公布產能，報導 2026 上半年 13–14 萬、年底最高 20 萬片（以 1c 為主，含 HBM4）。',
+  xconv:{ t:'fdy2mem', l:'代工規劃 → DRAM（Ph2、Ph4）', d:'2025' }, src:['k13','k14','k12','k17','k29'],
+  phases:[
+    { id:'Ph1', st:'op', nodes:'DRAM（1b／1c）', tech:['DRAM'], mp:'2024 下半年起', ms:'原 NAND＋DRAM 混合線，改為 DRAM', full:'未公布（推估 4 萬片）', conf:'est', xconv:{ t:'nand2dram', l:'NAND 規劃 → DRAM', d:'2024–2025' },
+      cap:[{t:'2024Q3',n:'DRAM',v:10},{t:'2025Q1',n:'DRAM',v:25},{t:'2025Q3',n:'DRAM',v:40}] },
+    { id:'Ph3', st:'ramp', nodes:'1c DRAM（HBM4）', tech:['DRAM','D1C','HBM'], mp:'2025 下半年起', ms:'設備投資接近完成（2026/4）', full:'未公布（推估 9–10 萬片）', conf:'est',
+      cap:[{t:'2025Q3',n:'DRAM',v:20},{t:'2025Q4',n:'DRAM',v:40},{t:'2026Q1',n:'DRAM',v:60},{t:'2026Q2',n:'DRAM',v:80},{t:'2026Q4',n:'DRAM',v:90}] },
+    { id:'Ph4', st:'build', nodes:'1c DRAM', tech:['DRAM','D1C'], mp:'2026 夏季起裝機；2027Q1 全面運轉（報導）', ms:'2026/5–6 設備進廠', full:'月 10–12 萬片（報導）', conf:'rep', xconv:{ t:'fdy2mem', l:'代工規劃 → DRAM', d:'2025' },
+      cap:[{t:'2026Q3',n:'DRAM',v:10},{t:'2026Q4',n:'DRAM',v:25},{t:'2027Q1',n:'DRAM',v:55},{t:'2027Q3',n:'DRAM',v:85},{t:'2028Q1',n:'DRAM',v:100}] },
+    { id:'Ph2', st:'build', nodes:'1c DRAM（原代工區）', tech:['DRAM','D1C'], mp:'2026/11 前後裝機（報導）', ms:'2025/11 起無塵室工程；原規劃代工改 DRAM', full:'未公布（推估 5–6 萬片）', conf:'est', xconv:{ t:'fdy2mem', l:'代工規劃 → DRAM', d:'2025' },
+      cap:[{t:'2027Q2',n:'DRAM',v:15},{t:'2027Q4',n:'DRAM',v:40},{t:'2028Q2',n:'DRAM',v:60}] }
+  ]},
+{ id:'KP5', code:'P5', name:'平澤 P5（一廠、二廠）', kind:'fab', region:'KR', loc:'京畿道 平澤 高德', wafer:12, since:'建設中', adv:'—', owner:'三星電子', grp:'PT', div:'mix',
+  desc:'平澤最後一座廠。2024 年初暫停，2025 年底恢復工程；一廠目標 2028 年（次世代 HBM、1c DRAM），二廠 2026/7 動工（比原訂提前半年）、2029 年目標，產品含 HBM、DRAM、NAND 與先進代工。報導兩廠合計潛在月產能約 60 萬片、總投資約 120 兆韓元。',
+  warn:'各廠產品配置與爬坡時程未公布；本頁以 DRAM 推估，二廠實際可能混合 NAND 與代工。', src:['k16','k29','k17','k12'],
+  phases:[
+    { id:'一廠', st:'build', nodes:'次世代 HBM／1c DRAM', tech:['DRAM','HBM'], mp:'2028（報導）', ms:'2025 年底恢復工程', full:'兩廠合計月約 60 萬片（報導）', conf:'est',
+      cap:[{t:'2028Q2',n:'DRAM',v:10},{t:'2028Q4',n:'DRAM',v:30},{t:'2029Q2',n:'DRAM',v:60},{t:'2029Q4',n:'DRAM',v:90},{t:'2030Q4',n:'DRAM',v:120}] },
+    { id:'二廠', st:'build', nodes:'HBM、DRAM、NAND、先進代工（報導）', tech:['DRAM','NAND','FADV'], mp:'2029（報導）', ms:'2026/7 動工', full:'月 20–30 萬片（報導）', conf:'est',
+      cap:[{t:'2029Q3',n:'DRAM',v:10},{t:'2030Q2',n:'DRAM',v:30},{t:'2030Q4',n:'DRAM',v:60}] }
+  ]},
+/* ---------------- 海外 ---------------- */
+{ id:'KXA', code:'西安 X1／X2', name:'西安 NAND 一廠、二廠（SCS）', kind:'fab', region:'CN', loc:'中國陝西 西安 高新區', wafer:12, since:'2014／2020', adv:'V9（286 層）', owner:'三星（中國）半導體 SCS（100%）', grp:'XA', div:'mem',
+  desc:'三星唯一的海外記憶體廠，約占三星 NAND 產量 40%。一廠 2014 年、二廠 2020 年量產；2021 年報導兩廠月約 21 萬片。2024–2025 年由 128 層（V6）轉換到 236 層（V8）期間產量減少（報導原約月 15 萬片、年減 5–6%）；2026 年完成 V8，二廠年內導入 286 層 V9。平澤、華城 NAND 轉 DRAM 後，由西安補上 NAND 產量。',
+  warn:'兩廠逐廠產能未公布；2021 年報導合計 21 萬片，2025 年報導月產量約 15 萬片，本頁推估介於兩者。', src:['k4','k19','k20','k15','k1'],
+  phases:[
+    { id:'X1', st:'op', nodes:'V-NAND（V6 → V8）', tech:['NAND','V8'], mp:'2014', ms:'2026 年完成 V8', full:'未公布（推估 9–11 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'NAND',v:115},{t:'2024Q2',n:'NAND',v:105},{t:'2025Q1',n:'NAND',v:95},{t:'2026Q1',n:'NAND',v:100},{t:'2026Q4',n:'NAND',v:105},{t:'2027Q2',n:'NAND',v:110}] },
+    { id:'X2', st:'conv', nodes:'V-NAND（V6 → V9）', tech:['NAND','V9'], mp:'2020', ms:'2026 年導入 V9（286 層）', full:'未公布（推估 7–9 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'NAND',v:105},{t:'2024Q2',n:'NAND',v:95},{t:'2025Q1',n:'NAND',v:85},{t:'2026Q1',n:'NAND',v:90},{t:'2026Q4',n:'NAND',v:95},{t:'2027Q1',n:'NAND',v:100}] }
+  ]},
+{ id:'KS2', code:'S2 奧斯汀', name:'奧斯汀 S2（SAS）', kind:'fab', region:'US', loc:'美國德州 奧斯汀', wafer:12, since:'1996（園區）／2011（代工）', adv:'14nm', owner:'Samsung Austin Semiconductor（100%）', grp:'US', div:'fdy',
+  desc:'1996 年設立的記憶體廠，後由記憶體事業部移交代工事業部並改名 S2（官方：成熟製程 65–14nm），幾乎全為外部客戶代工；報導月約 10 萬片。2025/8 報導取得 Apple 影像感測器訂單，在奧斯汀生產。',
+  xconv:{ t:'mem2fdy', l:'記憶體 → 代工（改名 S2）', d:'2000 年代後期' }, src:['k2','k4','k5','k1'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'65–14nm（FinFET、28nm 等）', tech:['FMAT','CIS'], mp:'2011 起（代工）', ms:'2025/8 報導承接 Apple 影像感測器', full:'月約 10 萬片（報導）', conf:'rep', xconv:{ t:'mem2fdy', l:'記憶體廠 → 代工 S2', d:'2000 年代後期' },
+      cap:[{t:'2023Q1',n:'FMAT',v:100}] }
+  ]},
+{ id:'KTY', code:'泰勒', name:'泰勒 Fab 1／Fab 2（德州）', kind:'fab', region:'US', loc:'美國德州 泰勒', wafer:12, since:'建設中', adv:'SF2P（2nm）', owner:'三星電子', grp:'US', div:'fdy',
+  desc:'2021 年宣布、2022 年動工，原訂 2024 年完工，因客戶與良率問題延到 2026 年；2026/4 舉行設備進廠典禮，Fab 1 以第三代 2nm（SF2P+）在 2026 年底試產、2027 年量產，目標月約 5 萬片，主要客戶是 Tesla（AI6，2025/7 簽約 165 億美元、至 2033 年）。Fab 2 準備 2026 年底動工，2030 年量產目標。整個園區（兩座晶圓廠、先進封裝、研發中心）報導投資約 440 億美元，CHIPS 補助下修為最多 47.45 億美元。',
+  warn:'Tesla AI6 報導延後約半年、量產往 2027 年底移動；2nm 良率 2026/4 報導約 55%。', src:['k17','k18','k2'],
+  phases:[
+    { id:'Fab 1', st:'build', nodes:'SF2P／SF2P+（2nm GAA）', tech:['FADV','GAA'], mp:'2026 年底試產、2027 量產（報導）', ms:'2026/4 設備進廠', full:'月約 5 萬片（報導目標）', conf:'rep',
+      cap:[{t:'2026Q4',n:'FADV',v:3},{t:'2027Q2',n:'FADV',v:12},{t:'2027Q4',n:'FADV',v:25},{t:'2028Q2',n:'FADV',v:40},{t:'2028Q4',n:'FADV',v:50}] },
+    { id:'Fab 2', st:'plan', nodes:'2nm／1.4nm（未定）', tech:['FADV'], mp:'2030 量產目標（報導）', ms:'2026 年底動工準備', full:'未計入', conf:'rep', cap:[] }
+  ]},
+{ id:'KSZ', code:'蘇州', name:'蘇州封裝測試廠（SESS）', kind:'ap', region:'CN', loc:'中國江蘇 蘇州', wafer:null, since:'1990 年代', adv:'—', owner:'三星電子', grp:'XA', div:'pkg',
+  desc:'記憶體封裝與測試。不計入晶圓產能。', src:['k1'],
+  phases:[{ id:'全廠', st:'op', nodes:'封裝、測試', tech:['PKG'], mp:'營運中', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] }] },
+{ id:'KPKG', code:'溫陽／天安', name:'溫陽、天安封裝測試（含 HBM）', kind:'ap', region:'KR', loc:'忠清南道 牙山（溫陽）、天安', wafer:null, since:'1990 年代', adv:'—', owner:'三星電子', grp:'HS', div:'pkg',
+  desc:'記憶體與 HBM 的封裝測試（TSV、堆疊）。2026 年起部分 DRAM 後段整合到華城 H1。不計入晶圓產能。', src:['k1','k9'],
+  phases:[{ id:'全區', st:'op', nodes:'封裝、測試、HBM 堆疊', tech:['PKG','HBM'], mp:'營運中', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] }] }
+];
+
+/* 報導的總量（◆ 對照點；不是官方晶圓產能） */
+const BENCH = {
+  DRAM: [['2025Q4',655,'2025 年底 65.5 萬片（產業研究整理）'],['2026Q2',650,'約 65 萬片（2026/5 報導）'],['2026Q4',700,'65–70 萬片（TrendForce；1c 20 萬片約占三分之一）'],['2027Q3',790,'2027 年月均 79 萬片（分析師估）']],
+  NAND: [['2025Q2',408,'2025 年投片 490 萬片＝月均 40.8 萬（Omdia）'],['2026Q2',390,'2026 年投片 468 萬片＝月均 39 萬（Omdia）'],['2027Q3',403,'2027 年月均 40.3 萬片（分析師估）']]
+};
+/* 官方：記憶體位元產能（1Gb 約當，封裝後）＝產出 ÷ 稼動率；2025 年稼動率 100%（三班 365 天） */
+const OFFICIAL_BITS = [['2023',1926651546],['2024',2238240405],['2025',2245908090]];
+const OFFICIAL_TOTAL = [['2023','記憶體位元產能 1.93 兆 Gb'],['2024','2.24 兆 Gb'],['2025','2.25 兆 Gb（稼動率 100%）']];
+return {
+  id:'samsung', name:'三星電子', en:'Samsung', ticker:'005930.KS', f8:1/2.25, f6:1/4,
+  summary:'全球最大的記憶體廠，同時經營晶圓代工（含 System LSI 自家晶片）。產線集中在韓國華城、平澤、器興三個園區，海外有西安 NAND 廠、奧斯汀代工廠與建設中的泰勒 2nm 廠。本頁逐線標示記憶體或代工，並標出產線在兩者之間（及 NAND 與 DRAM 之間）的轉換；三星不公布晶圓產能，逐線數字為報導加推估。',
+  facts:[['記憶體位元產能（官方）','2.25 兆 Gb（2025，1Gb 約當）'],['DRAM 月產能（報導）','約 65 萬片（2025 年底）'],['NAND 投片（Omdia）','2025 年 490 萬片'],['代工 8 吋（報導）','約 25 萬片（S7 關閉後 < 20 萬）'],['2025 資本支出（官方）','約 52.7 兆韓元']],
+  META, CHANGELOG, SOURCES, SITES, BENCH, OFFICIAL_TOTAL, OFFICIAL_BITS,
+  NODES:[
+    { k:'DRAM', l:'DRAM（含 HBM）', c:'--s1' },
+    { k:'NAND', l:'NAND（V-NAND／2D）', c:'--s2' },
+    { k:'F8',   l:'代工 8 吋（12 吋約當）', c:'--s3' },
+    { k:'FMAT', l:'代工 12 吋成熟（8nm 以上）', c:'--s4' },
+    { k:'CIS',  l:'代工 影像感測', c:'--s5' },
+    { k:'FADV', l:'代工 先進（7nm 以下 EUV）', c:'--s6' }
+  ],
+  regions:['KR','CN','US'],
+  groupsDef:[
+    {id:'prod', l:'依產品', by:'cap'},
+    {id:'div', l:'記憶體／代工', by:'map', map:{DRAM:'MEM',NAND:'MEM',F8:'FDY',FMAT:'FDY',CIS:'FDY',FADV:'FDY'}, items:[['MEM','記憶體（DRAM＋NAND）','--s1'],['FDY','代工（含 System LSI）','--s6']]},
+    {id:'grp', l:'依園區', by:'grp', items:[['HS','華城'],['PT','平澤'],['GH','器興'],['XA','西安'],['US','美國（奧斯汀、泰勒）']]}
+  ],
+  tableGroup:'prod',
+  techOrder:['DRAM','D1C','HBM','NAND','V8','V9','V10','N2D','FADV','GAA','FMAT','CIS','F8','PKG','RD'],
+  techLabel:{ DRAM:'DRAM', D1C:'1c DRAM', HBM:'HBM', NAND:'NAND', V8:'V8（236 層）', V9:'V9（286 層）', V10:'V10（400 層以上）', N2D:'2D NAND', FADV:'代工 7nm 以下', GAA:'GAA（3nm／2nm）', FMAT:'代工 8nm 以上', CIS:'影像感測', F8:'8 吋代工', PKG:'封裝測試', RD:'研發' },
+  focus:'adv', packaging:false,
+  adv:{ title:'記憶體與代工產能', sub:'千片／月；代工含 8 吋（換算 12 吋約當）。◆ 為媒體、研究機構報導的總量（不是官方數字）',
+    keys:[ {k:'DRAM', l:'DRAM'}, {k:'NAND', l:'NAND'}, {k:'FDY', l:'代工合計（12 吋約當）', c:'--s6', keys:['F8','FMAT','CIS','FADV']} ] },
+  cmpKeys:['F8','FMAT','CIS','FADV'],
+  kpi:[ {key:'dram', k:'DRAM 月產能', keys:['DRAM'], s:'含 HBM'}, {key:'nand', k:'NAND 月產能', keys:['NAND']}, {key:'fdy', k:'代工（12 吋約當）', keys:['F8','FMAT','CIS','FADV'], s:'含 System LSI'} ],
+  totNote:'記憶體＋代工',
+  RECON:[
+    { l:'DRAM 月產能', when:'2025 年底', ref:655, refTxt:'65.5 萬片', conf:'rep', src:'k30', m:{keys:['DRAM'], q:'2025Q4'} },
+    { l:'DRAM 月產能', when:'2026/5', ref:650, refTxt:'約 65 萬片', conf:'rep', src:'k29', m:{keys:['DRAM'], q:'2026Q2'} },
+    { l:'DRAM 月產能', when:'2026 年底', ref:[650,700], refTxt:'65–70 萬片（TrendForce）', conf:'rep', src:'k12', m:{keys:['DRAM'], q:'2026Q4'} },
+    { l:'DRAM 月產能', when:'2027 年月均', ref:790, refTxt:'79 萬片（分析師估）', conf:'rep', src:'k28', m:{keys:['DRAM'], year:2027} },
+    { l:'DRAM 年產量（12 吋）', when:'2025 年', ref:7695, refTxt:'約 769.5 萬片（2026 年 817.5 萬片、年增 48 萬片）', conf:'rep', src:'k22', m:{keys:['DRAM'], year:2025}, kind:'out' },
+    { l:'DRAM 年產量（12 吋）', when:'2026 年', ref:8175, refTxt:'817.5 萬片', conf:'rep', src:'k22', m:{keys:['DRAM'], year:2026}, kind:'out' },
+    { l:'NAND 投片量', when:'2025 年', ref:4900, refTxt:'490 萬片（Omdia）', conf:'rep', src:'k21', m:{keys:['NAND'], year:2025}, kind:'out' },
+    { l:'NAND 投片量', when:'2026 年', ref:4680, refTxt:'468 萬片（Omdia）', conf:'rep', src:'k21', m:{keys:['NAND'], year:2026}, kind:'out' },
+    { l:'NAND 月產量', when:'2027 年月均', ref:403, refTxt:'40.3 萬片（分析師估）', conf:'rep', src:'k28', m:{keys:['NAND'], year:2027} },
+    { l:'代工 8 吋月產能', when:'2025 年', ref:250, refTxt:'約 25 萬片', conf:'rep', src:'k6', m:{keys:['F8'], q:'2025Q4', native:true} },
+    { l:'代工 8 吋月產能', when:'S7 關閉後（2026 年底）', ref:[0,200], refTxt:'20 萬片以下', conf:'rep', src:'k6', m:{keys:['F8'], q:'2026Q4', native:true} },
+    { l:'代工 12 吋月產能', when:'2021 年（本頁為 2023Q1）', ref:350, refTxt:'約 35 萬片', conf:'rep', src:'k3', m:{keys:['FMAT','CIS','FADV'], q:'2023Q1'}, note:'時點不同：2021 年之後新增平澤 S5 擴充與 P3 代工線' },
+    { l:'全公司晶圓產能', when:'2021 年底（本頁為 2023Q1）', ref:1802, refTxt:'405.4 萬片 8 吋約當＝約 180 萬片 12 吋約當（Knometa）', conf:'rep', src:'k27', m:{q:'2023Q1'}, note:'時點與口徑不同；記憶體製程微縮（EUV 層數、堆疊層數增加）會降低同一座廠可投的片數' },
+    { l:'記憶體位元產能（官方）', when:'2024 年', ref:16.2, refTxt:'年增 16.2%（1.93 → 2.24 兆 Gb）', conf:'off', src:'k1', m:{keys:['DRAM','NAND'], yoy:2024}, kind:'yoy' },
+    { l:'記憶體位元產能（官方）', when:'2025 年', ref:0.3, refTxt:'年增 0.3%（2.24 → 2.25 兆 Gb）', conf:'off', src:'k1', m:{keys:['DRAM','NAND'], yoy:2025}, kind:'yoy', note:'晶圓減少而位元持平：NAND 減產、DRAM 產能轉向 HBM（同樣位元數耗用更多晶圓）' }
+  ],
+  util:[['2024Q4',50,'代工約 50%（報導）'],['2025Q2',50,'代工一度低於 50%（報導）'],['2026Q1',80,'代工逾 80%（報導）']],
+  totalSub:'記憶體＋代工全部產線（8 吋換算 12 吋約當）；逐線為報導加推估，三星不公布晶圓產能',
+  chartsNote:'三星不公布晶圓產能：逐線數字取自韓國媒體的單線報導，再依業界總量與轉換消息推估各季。◆ 為報導的 DRAM、NAND 總量，用來對照逐線加總。',
+  cmp:{ fabs:'代工線：器興 S1＋8 吋 S6／S7／S8、華城 S3（V1）／S4、平澤 S5（P2）與 P3、奧斯汀 S2；泰勒建設中（本頁只計代工，不含記憶體）', adv:'SF2（2nm GAA，2025 量產）', capex:'未公布（2025 年全公司約 52.7 兆韓元）', focus:'泰勒 2nm（Tesla AI6）、S7 關閉；記憶體另有 P4／P5 1c DRAM 與 HBM4' },
+  notes:[
+    '<span class="conf c-off">官方</span> 三星<b>不公布逐線或全公司晶圓產能</b>。年報只揭露記憶體的「1Gb 約當位元產能」（封裝後產出 ÷ 稼動率）：2023 年 1.93 兆、2024 年 2.24 兆、2025 年 2.25 兆 Gb，2025 年以三班 365 天計稼動率 100%。這是位元數，不是晶圓片數，所以無法和本頁直接相減；兩者的年變化可以對照（見「官方與報導總量對照」）。',
+    '<span class="conf c-rep">報導</span> 逐線產能多取自 2019–2021 年韓國媒體：13 線約 10 萬、17 線約 17 萬、P1 DRAM 約 10 萬與 NAND 約 19 萬、P2 初期 DRAM 3.5–4 萬／代工 4 萬／NAND 2 萬、P3 NAND 線 4–5 萬、S1 約 8.5 萬、奧斯汀約 10 萬、器興 8 吋合計約 25 萬片；近年的 P4（2026 年底最高 20 萬）、泰勒（目標 5 萬）、P5（兩廠潛在 60 萬）也是報導值。',
+    '<span class="conf c-est">推估</span> 其餘各線與各季數字，是把上述單線數字依業界總量（DRAM 2025 年底約 65.5 萬、NAND 2025 年投片月均 40.8 萬）與轉換消息分配而來。',
+    '<b>記憶體／代工標記</b>：卡片右上角標示「記憶體」「代工」「複合」；<b>⇄</b> 表示產線曾在記憶體與代工之間轉換（或 NAND 與 DRAM 之間），可用上方「轉換」篩選。',
+    'HBM 晶圓屬於 DRAM 產能的一部分（2025 年底約 15 萬片，2026 年底目標約 25 萬片，報導），不另外相加。',
+    '代工口徑包含 System LSI 自家晶片（Exynos、ISOCELL、DDI）。比較頁只計代工線（8 吋、成熟、影像感測、先進），不含記憶體。',
+    '官方目標對照：SFF 2021 宣布 2026 年代工產能將達 2017 年的 3.2 倍；2023–2025 年三星縮減代工投資、P4 代工區改做 DRAM，本頁 2026 年代工產能（12 吋約當）約為 2021 年的 1.06 倍，遠低於原目標。',
+    '<span class="warn-i">⚠ 留意</span>：報導互相矛盾（例如 S3 單線產能、西安產量）或時程改變（H1 用途、P4 各期用途）的項目。'
+  ],
+  watch:[
+    'P4 Ph2／Ph4 裝機進度與 1c DRAM 2026 年底 20 萬片目標',
+    'P5 一廠 2028、二廠 2029 的產品配置（DRAM／NAND／代工）',
+    '華城 H1 end-fab 啟用後 13 線前段產能的去留',
+    '西安 V9 轉換進度與美國出口管制',
+    '泰勒 2nm 試產、Tesla AI6 時程與良率（2026/4 約 55%）',
+    '器興 S7 關閉後 8 吋客戶移轉；代工稼動率（2025 一度低於 50%，2026 初約 80%）'
+  ]
+};
+})();
+
+/* ---------------- 英特爾 Intel（IDM／Intel Foundry） ---------------- */
+const INTEL = (() => {
+const META = { updated:'2026-09-26', checked:'2026-09-26', version:'v1.0' };
+const CHANGELOG = [
+  { d:'2026-09-26', t:'初版：亞利桑那 Fab 12／22／32／42／52／62、奧勒岡 D1X、愛爾蘭 Fab 10／14／24／34、以色列 Fab 28／38、俄亥俄，以及封測、取消與已出售據點逐廠盤點；逐廠加總與官方「2024 年美國廠產出逾 100 萬片」對照。' }
+];
+const SOURCES = {
+  i1:['Intel：How Many Manufacturing Fabs Does Intel Have?（15 座量產晶圓廠、10 個據點，2025/2）','https://www.intel.com/content/www/us/en/support/articles/000089875/programs/intel-corporation.html'],
+  i2:['Intel CHIPS 設計與製造 Fact Sheet（2024 年美國廠產出逾 100 萬片晶圓，2025/4）','https://www.intel.com/content/dam/www/central-libraries/us/en/documents/2025-04/chips-design-manufacturing-fact-sheet.pdf'],
+  i3:['Tom’s Hardware：Intel 晶圓廠路線圖（Fab 52、Fab 62、俄亥俄、Fab 34、Fab 38、德波取消）（2026/6/18）','https://www.tomshardware.com/tech-industry/semiconductors/intels-fab-roadmap-examined'],
+  i4:['Tom’s Hardware：Fab 52 每週逾 1 萬片 18A 投片（CNBC 專訪 Intel 技術長，2025/12/24）','https://www.tomshardware.com/tech-industry/semiconductors/intels-fab-52-is-bigger-and-better-equipped-than-tsmcs-arizona-facilities-intels-production-volumes-dwarf-tsmcs-operations-in-the-u-s'],
+  i5:['Alex_Intel：Intel 各廠逐一分析（無塵室面積與 WSPM 模型）（2026/1/20）','https://alexintel.substack.com/p/the-definitive-edition-analysis-of'],
+  i6:['Wikipedia：List of Intel manufacturing sites','https://en.wikipedia.org/wiki/List_of_Intel_manufacturing_sites'],
+  i7:['聯電新聞稿：Intel 與聯電合作 12nm（Fab 12、22、32，2024/1/25）','https://www.umc.com/en/News/press_release/Content/corporate/20240125'],
+  i8:['Focus Taiwan：聯電稱 Intel 12nm 2027 年量產（2026/5/27）','https://focustaiwan.tw/business/202605270006'],
+  i9:['Intel 新聞稿：Intel 與 Tower 簽訂新墨西哥代工協議（2023/9/5）','https://www.intc.com/news-events/press-releases/detail/1643/intel-foundry-services-and-tower-semiconductor-announce-new'],
+  i10:['Evertiq：Intel 不履行與 Tower 的製造協議、進入調解（2026/2/16）','https://evertiq.com/design/2026-02-16-intel-backs-away-from-manufacturing-deal-with-tower-semiconductor'],
+  i11:['TrendForce：Fab 52 產能可比台積電亞利桑那一、二期合計（2025/12/24）','https://www.trendforce.com/news/2025/12/24/news-intel-fab-52-reportedly-rivals-tsmc-arizona-phase-1-and-2-combined-capacity-on-more-advanced-18a/'],
+  i12:['TechPowerUp：Intel 7 產能吃緊','https://www.techpowerup.com/342213/capacity-constraints-hit-intel-as-demand-outstrips-intel-10-7-node-supply']
+};
+const SITES = [
+/* ---------------- 亞利桑那（Chandler／Ocotillo） ---------------- */
+{ id:'IF12', code:'Fab 12', name:'亞利桑那 Fab 12', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'1997（8 吋）／2005（12 吋）', adv:'Intel 7', owner:'Intel', grp:'AZ',
+  desc:'1997 年以 8 吋廠啟用，2004–2005 年改為 12 吋。無塵室約 13.3–14 萬平方英尺，挑高不足以裝 EUV。支援 22nm、14nm、Intel 7；是 Intel 與聯電合作 12nm（Intel 12）的三座生產廠之一，2027 年量產。', src:['i5','i6','i7','i8'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'22／14nm、Intel 7；2027 起 Intel 12（聯電 12nm）', tech:['I14','I7','I12'], mp:'2005 起（12 吋）', ms:'14nm 移往愛爾蘭；2027 起加入 Intel 12', full:'依無塵室面積推估（亞利桑那非 EUV 三廠合計約 6 萬片 → 2.7 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'I7',v:8},{t:'2023Q1',n:'I14',v:9.5},{t:'2024Q4',n:'I14',v:5},{t:'2025Q1',n:'I14',v:0},{t:'2027Q3',n:'I12',v:2},{t:'2028Q2',n:'I12',v:5}] }
+  ]},
+{ id:'IF22', code:'Fab 22', name:'亞利桑那 Fab 22', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'2001', adv:'Intel 7', owner:'Intel', grp:'AZ',
+  desc:'2000 年動工、2001 年底啟用（當時 20 億美元），無塵室約 13.3 萬平方英尺，不能裝 EUV。支援 22nm、14nm、Intel 7；Intel 12（聯電 12nm）生產廠之一。', src:['i5','i6','i7'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'22／14nm、Intel 7；2027 起 Intel 12', tech:['I14','I7','I12'], mp:'2001 起', ms:'2027 起加入 Intel 12', full:'依無塵室面積推估', conf:'est',
+      cap:[{t:'2023Q1',n:'I7',v:8},{t:'2023Q1',n:'I14',v:9.5},{t:'2024Q4',n:'I14',v:5},{t:'2025Q1',n:'I14',v:0},{t:'2027Q3',n:'I12',v:2},{t:'2028Q2',n:'I12',v:5}] }
+  ]},
+{ id:'IF32', code:'Fab 32', name:'亞利桑那 Fab 32', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'2007', adv:'Intel 7', owner:'Intel', grp:'AZ',
+  desc:'2007 年啟用（30 億美元），無塵室 18.4 萬平方英尺，不能裝 EUV，主要生產 Intel 7。2024 年 Intel 7 產能過剩時部分停用；Intel 12（聯電 12nm）生產廠之一。', src:['i5','i6','i7','i12'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'Intel 7；2027 起 Intel 12', tech:['I7','I12'], mp:'2007 起', ms:'2024 年部分 Intel 7 產能停用；2025–2026 Intel 7 吃緊', full:'依無塵室面積推估', conf:'est',
+      cap:[{t:'2023Q1',n:'I7',v:24},{t:'2024Q4',n:'I7',v:18},{t:'2025Q1',n:'I7',v:11},{t:'2027Q3',n:'I12',v:2},{t:'2028Q2',n:'I12',v:5}] }
+  ]},
+{ id:'IF42', code:'Fab 42', name:'亞利桑那 Fab 42（Intel 7 → 18A 改裝）', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'2020', adv:'Intel 18A（改裝中）', owner:'Intel（100%）', grp:'AZ',
+  desc:'2011 年動工、原為 14nm 設計，2014 年一度封存，2017 年宣布投入 70 億美元，2020 年以 Intel 7 投產；無塵室 24 萬平方英尺，是 Intel 第一座挑高可裝 EUV 的量產廠。2024 年第 3 季 Intel 7 設備減損後停用，改裝 18A（Intel 全資，不在 Brookfield 合資範圍）。',
+  warn:'Intel 未公布 Fab 42 改裝時程與產能；18A 約 1.4 萬片是依無塵室面積比例的推估。', src:['i5','i6','i12'],
+  phases:[
+    { id:'Intel 7 → 18A', st:'conv', nodes:'Intel 7（2020–2024）→ Intel 18A', tech:['I7','I18A'], mp:'2020 起（Intel 7）', ms:'2024Q3 Intel 7 設備減損後停用，改裝 18A', full:'Intel 7 約 3.2 萬片（推估）→ 18A 約 1.4 萬片（推估）', conf:'est',
+      cap:[{t:'2023Q1',n:'I7',v:32},{t:'2024Q4',n:'I7',v:16},{t:'2025Q1',n:'I7',v:0},{t:'2026Q4',n:'I18A',v:5},{t:'2027Q2',n:'I18A',v:10},{t:'2027Q4',n:'I18A',v:14}] }
+  ]},
+{ id:'IF52', code:'Fab 52', name:'亞利桑那 Fab 52（18A）', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'2025', adv:'Intel 18A', owner:'Intel 51%／Brookfield 49%（合資）', grp:'AZ',
+  desc:'2021 年宣布的 200 億美元亞利桑那擴建第一座廠（與 Fab 62 原稱 52.1／52.2，兩廠合計無塵室約 68.5 萬平方英尺），2025/10 全面運轉，是 Intel 18A（RibbonFET＋PowerVia）的首座量產廠，生產 Panther Lake、Clearwater Forest。Intel 技術長 2025/12 表示本廠「每週可投片逾 1 萬片 18A」（約月 4 萬片）。',
+  warn:'官方的每週 1 萬片是滿載產能；Intel 在 18A 良率 2027 年初達到業界水準前限制產量，本頁各季爬坡為推估。分析師依 Intel 圖表解讀為 Fab 52＋62 合計 4 萬片，與技術長說法不同。', src:['i4','i3','i5','i11'],
+  phases:[
+    { id:'18A', st:'ramp', nodes:'Intel 18A（含 18A-P）', tech:['I18A'], mp:'2025/10 全面運轉', ms:'18A 良率每月改善 7–8%（2026/5）；2027 年初達業界水準', full:'每週逾 1 萬片（官方）≈ 月約 4 萬片', conf:'off',
+      cap:[{t:'2025Q2',n:'I18A',v:3},{t:'2025Q4',n:'I18A',v:12},{t:'2026Q2',n:'I18A',v:20},{t:'2026Q4',n:'I18A',v:27},{t:'2027Q2',n:'I18A',v:33},{t:'2027Q4',n:'I18A',v:40}] }
+  ]},
+{ id:'IF62', code:'Fab 62', name:'亞利桑那 Fab 62', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'建設中', adv:'—', owner:'Intel 51%／Brookfield 49%（合資）', grp:'AZ',
+  desc:'亞利桑那擴建的第二座廠，外殼已完成，預計 2028 年前後就緒；Intel 尚未指派製程（可做 18A；若俄亥俄趕不上，可能改做 14A）。',
+  warn:'製程與裝機時程取決於 14A 客戶（2026 下半年至 2027 上半年決定）與外部 18A 需求，本頁爬坡為推估。', src:['i3','i5'],
+  phases:[
+    { id:'全廠', st:'build', nodes:'未指派（18A 相容；可能 14A）', tech:['I18A','I14A'], mp:'約 2028（報導）', ms:'外殼完成，待指派製程', full:'未公布（推估 4 萬片）', conf:'est',
+      cap:[{t:'2028Q4',n:'I18A',v:10},{t:'2029Q4',n:'I18A',v:25},{t:'2030Q4',n:'I18A',v:40}] }
+  ]},
+/* ---------------- 奧勒岡（Hillsboro） ---------------- */
+{ id:'IOR', code:'D1X', name:'奧勒岡 D1X（研發＋初期量產）', kind:'fab', region:'US', loc:'美國奧勒岡州 希爾斯伯勒（Gordon Moore Park at Ronler Acres）', wafer:12, since:'2013', adv:'Intel 18A；14A 開發中', owner:'Intel', grp:'OR',
+  desc:'Intel 唯一的先進製程研發基地。D1X 三個模組（Mod 1 2013、Mod 2 2015、Mod 3 2022 宣布）合計約 75 萬平方英尺、全部可裝 EUV，放有業界第一台量產型 High-NA EUV（EXE:5200B）。Intel 4 的首批量產與 18A 的早期量產都在此進行，之後移轉到愛爾蘭與亞利桑那；14A 2028 年風險試產、2029 年量產（官方）。另有 D1B、D1C、D1D 等較早的研發廠。',
+  warn:'奧勒岡的量產是「開發→初期量產→移轉」的短期產能，各季數字為推估。', src:['i3','i5','i6'],
+  phases:[
+    { id:'Intel 4 初期量產', st:'exit', nodes:'Intel 4（EUV）', tech:['I3'], mp:'2022–2023', ms:'量產移往愛爾蘭 Fab 34', full:'推估約 1 萬片', conf:'est',
+      cap:[{t:'2023Q1',n:'I3',v:10},{t:'2024Q2',n:'I3',v:5},{t:'2025Q1',n:'I3',v:0}] },
+    { id:'18A 初期量產', st:'op', nodes:'Intel 18A', tech:['I18A'], mp:'2024 年底起', ms:'亞利桑那 Fab 52 爬坡期間支援', full:'推估約 0.5–0.8 萬片', conf:'est',
+      cap:[{t:'2024Q4',n:'I18A',v:3},{t:'2025Q2',n:'I18A',v:8},{t:'2026Q2',n:'I18A',v:5}] },
+    { id:'14A', st:'build', nodes:'Intel 14A（High-NA EUV）', tech:['I14A'], mp:'2028 風險試產、2029 量產（官方）', ms:'14A v0.9 PDK 2026/10 交給外部客戶', full:'推估 0.5–1.5 萬片', conf:'est',
+      cap:[{t:'2028Q2',n:'I14A',v:5},{t:'2029Q2',n:'I14A',v:15}] },
+    { id:'D1B／D1C／D1D', st:'rd', nodes:'製程研發（D1C 為全球第一座 12 吋廠）', tech:['RD'], mp:'1996–2003', ms:'—', full:'研發，不計量產產能', conf:'off', cap:[] }
+  ]},
+/* ---------------- 愛爾蘭（Leixlip） ---------------- */
+{ id:'IF34', code:'Fab 34', name:'愛爾蘭 Fab 34（Intel 4／3）', kind:'fab', region:'IE', loc:'愛爾蘭 萊克斯利普', wafer:12, since:'2023', adv:'Intel 3', owner:'Intel（2026/4 買回 Apollo 49% 股權）', grp:'IE',
+  desc:'2019 年動工、2023/9 開始量產（約 190 億美元），兩個模組合計 43 萬平方英尺，是 Intel 在歐洲唯一的 EUV 廠，生產 Intel 4、Intel 3（Core Ultra、Xeon 6）。2024 年把 49% 權益以 112 億美元賣給 Apollo，2026/4 以 142 億美元買回。',
+  warn:'月約 4 萬片是分析師依 Intel 2024 年圖表的推估（上限約 6.5 萬片，愛爾蘭非 EUV 廠的設備也支援 Intel 3）。', src:['i3','i5','i6'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'Intel 4／Intel 3（EUV）', tech:['I3'], mp:'2023/9 量產', ms:'—', full:'約 4 萬片（推估；上限約 6.5 萬）', conf:'est',
+      cap:[{t:'2023Q3',n:'I3',v:5},{t:'2023Q4',n:'I3',v:10},{t:'2024Q2',n:'I3',v:20},{t:'2024Q4',n:'I3',v:30},{t:'2025Q2',n:'I3',v:40}] }
+  ]},
+{ id:'IF24', code:'Fab 24', name:'愛爾蘭 Fab 24', kind:'fab', region:'IE', loc:'愛爾蘭 萊克斯利普', wafer:12, since:'2004', adv:'14nm', owner:'Intel', grp:'IE',
+  desc:'2004 年啟用，含 Module 2 合計約 19.5 萬平方英尺。生產 14nm、22nm 與 Intel 16，產量逐年縮減，部分設備用來支援 Fab 34 的 Intel 3。', src:['i5','i6'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'14nm、22nm、Intel 16', tech:['I14'], mp:'2004 起', ms:'14nm 逐年縮減；支援 Fab 34', full:'依無塵室面積推估（愛爾蘭非 EUV 三廠合計約 4.7 萬 → 1.6 萬片）', conf:'est',
+      cap:[{t:'2023Q1',n:'I14',v:26},{t:'2024Q1',n:'I14',v:20},{t:'2025Q1',n:'I14',v:11},{t:'2026Q1',n:'I14',v:9}] }
+  ]},
+{ id:'IF14', code:'Fab 14', name:'愛爾蘭 Fab 14', kind:'fab', region:'IE', loc:'愛爾蘭 萊克斯利普', wafer:12, since:'1998', adv:'14nm', owner:'Intel', grp:'IE',
+  desc:'1998 年啟用，無塵室約 9 萬平方英尺；分析師（2026/1）稱目前支援 Intel 16，並以既有設備協助 Fab 34 提高 Intel 3 產量。',
+  warn:'Wikipedia 列 Fab 14 於 2009 年關閉，與分析師說法不同；本頁採分析師說法並標為推估。', src:['i5','i6'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'Intel 16、14nm；支援 Fab 34', tech:['I14'], mp:'1998 起', ms:'—', full:'依無塵室面積推估', conf:'est',
+      cap:[{t:'2023Q1',n:'I14',v:12},{t:'2024Q1',n:'I14',v:9},{t:'2025Q1',n:'I14',v:5},{t:'2026Q1',n:'I14',v:4}] }
+  ]},
+{ id:'IF10', code:'Fab 10', name:'愛爾蘭 Fab 10', kind:'fab', region:'IE', loc:'愛爾蘭 萊克斯利普', wafer:12, since:'1993', adv:'14nm', owner:'Intel', grp:'IE',
+  desc:'1993 年啟用，無塵室約 7 萬平方英尺；分析師（2026/1）稱目前支援 Intel 16，並協助 Fab 34 的 Intel 3。', warn:'官方未公布本廠現況；Wikipedia 列為「狀態不明」。', src:['i5','i6'],
+  phases:[
+    { id:'全廠', st:'op', nodes:'Intel 16、14nm；支援 Fab 34', tech:['I14'], mp:'1993 起', ms:'—', full:'依無塵室面積推估', conf:'est',
+      cap:[{t:'2023Q1',n:'I14',v:9},{t:'2024Q1',n:'I14',v:7},{t:'2025Q1',n:'I14',v:4},{t:'2026Q1',n:'I14',v:3}] }
+  ]},
+/* ---------------- 以色列（Kiryat Gat） ---------------- */
+{ id:'IF28', code:'Fab 28', name:'以色列 Fab 28（含 Fab 18）', kind:'fab', region:'IL', loc:'以色列 基里亞特加特', wafer:12, since:'2008', adv:'Intel 7', owner:'Intel', grp:'IL',
+  desc:'2008 年啟用（35 億美元），無塵室約 20 萬平方英尺；Fab 42 停用 Intel 7 後，成為 Intel 7／10nm 的主力廠。相鄰的 Fab 18 原為 8 吋 NAND 廠，2014 年改裝支援 Fab 28 的 22nm，現在支援 10nm。',
+  src:['i5','i6','i12'],
+  phases:[
+    { id:'Fab 28', st:'op', nodes:'Intel 7／10nm', tech:['I7'], mp:'2008 起', ms:'2025–2026 Intel 7 供不應求', full:'約 4 萬片（推估）', conf:'est',
+      cap:[{t:'2023Q1',n:'I7',v:40},{t:'2028Q2',n:'I7',v:30},{t:'2029Q2',n:'I7',v:25}] },
+    { id:'Fab 18', st:'op', nodes:'支援 Fab 28（原 8 吋 NAND 廠）', tech:['I7'], mp:'1999（8 吋）', ms:'2014 年改裝支援 Fab 28', full:'併入 Fab 28', conf:'rep', xconv:{ t:'mem2logic', l:'記憶體 → 邏輯（NAND 廠改支援 Fab 28）', d:'2014' }, cap:[] }
+  ]},
+{ id:'IF38', code:'Fab 38', name:'以色列 Fab 38（暫停）', kind:'fab', region:'IL', loc:'以色列 基里亞特加特', wafer:12, since:'暫停', adv:'—', owner:'Intel', grp:'IL',
+  desc:'2023 年宣布的 250 億美元擴建（以色列政府補助 32 億美元），規模與 Fab 52／62 相當（68.5 萬平方英尺）。2024 年中起暫停，外殼慢速施工，尚未宣布復工；分析師推估若復工可做約 3.6 萬片 14A。', src:['i3','i5'],
+  phases:[{ id:'全廠', st:'plan', nodes:'原規劃 18A 世代之後（可能 14A）', tech:['I14A'], mp:'未定', ms:'2024 年中起暫停', full:'未計入（分析師推估約 3.6 萬片）', conf:'rep', cap:[] }] },
+{ id:'IJM', code:'耶路撒冷', name:'耶路撒冷（原 Fab 8）晶粒準備與測試', kind:'ap', region:'IL', loc:'以色列 耶路撒冷', wafer:null, since:'1985', adv:'—', owner:'Intel', grp:'IL',
+  desc:'1985 年 Intel 第一座海外晶圓廠，2008–2009 年停產晶圓，改為晶粒準備（die prep）與測試。', xconv:{ t:'fab2pkg', l:'晶圓廠 → 晶粒準備／測試', d:'2008–2009' }, src:['i6','i1'],
+  phases:[{ id:'全廠', st:'op', nodes:'晶粒準備、測試', tech:['PKG'], mp:'2009 起', ms:'—', full:'不計入晶圓產能', conf:'rep', xconv:{ t:'fab2pkg', l:'晶圓廠 → 晶粒準備／測試', d:'2008–2009' }, cap:[] }] },
+/* ---------------- 新墨西哥（Rio Rancho） ---------------- */
+{ id:'INM', code:'Fab 9／11X', name:'新墨西哥 Fab 9／11X（先進封裝）', kind:'ap', region:'US', loc:'美國新墨西哥州 里奧蘭喬', wafer:null, since:'2024（Fab 9）', adv:'—', owner:'Intel', grp:'NM',
+  desc:'Fab 11X（1995／2002 年擴建）原為 45／32nm 邏輯與 Optane 研發製造，2021 年起投資 35 億美元改建先進封裝；Fab 9 於 2024/1 啟用，是美國唯一大量生產 Foveros 3D 封裝的基地，與 Fab 11X 一起運作，也生產 EMIB 與矽光子。',
+  xconv:{ t:'fab2pkg', l:'晶圓廠 → 先進封裝', d:'2021–2024' }, src:['i3','i5','i6'],
+  phases:[
+    { id:'Fab 9', st:'op', nodes:'Foveros 3D 堆疊', tech:['PKG'], mp:'2024/1 啟用', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] },
+    { id:'Fab 11X', st:'conv', nodes:'先進封裝（原 45／32nm 邏輯）', tech:['PKG'], mp:'2002 起', ms:'2021 年起改為封裝', full:'不計入晶圓產能', conf:'rep', xconv:{ t:'fab2pkg', l:'晶圓廠 → 先進封裝', d:'2021–2024' }, cap:[] }
+  ]},
+{ id:'ITWR', code:'Tower＠11X', name:'Tower 於 Fab 11X 的代工產能走廊', kind:'partner', region:'US', loc:'美國新墨西哥州 里奧蘭喬（Fab 11X）', wafer:12, since:'2023/9 協議', adv:'65nm BCD', owner:'Tower 自有設備、Intel 提供廠房', grp:'NM',
+  desc:'2023/9 協議：Tower 投資最多 3 億美元購置並自有設備，裝在 Intel Fab 11X，取得每月逾 60 萬道光罩層的產能走廊（65nm 電源管理 BCD 等）。產能屬 Tower，不計入 Intel。',
+  warn:'2026/2 報導 Intel 表示不履行協議，雙方進入調解，產能能否啟用不確定。', src:['i9','i10'],
+  phases:[{ id:'65nm BCD 等', st:'plan', nodes:'65nm BCD 等（Tower 製程）', tech:['TWR'], mp:'原規劃 2024–2025 起', ms:'2026/2 進入調解', full:'每月逾 60 萬道光罩層（協議）', conf:'off', cap:[] }] },
+/* ---------------- 俄亥俄、取消與已出售 ---------------- */
+{ id:'IOH', code:'Ohio One', name:'俄亥俄 Ohio One（Mod 1／Mod 2）', kind:'fab', region:'US', loc:'美國俄亥俄州 新奧爾巴尼（Licking County）', wafer:12, since:'建設中', adv:'—', owner:'Intel', grp:'OH',
+  desc:'2022 年動工，第一階段 280 億美元以上，園區約 1,000 英畝、可容納 8 座廠，規劃做 14A 及之後的製程。2025/2 Intel 把 Mod 1 完工延到 2030 年（2030–2031 營運）、Mod 2 延到 2031 年（2032 營運），並保留視需求加速的彈性；截至 2025/3 已投入約 50 億美元。', src:['i3','i5'],
+  phases:[
+    { id:'Mod 1', st:'build', nodes:'14A 及後續', tech:['I14A'], mp:'2030–2031 營運（官方）', ms:'施工中', full:'未計入（分析師推估約 3.6 萬片）', conf:'off', cap:[] },
+    { id:'Mod 2', st:'build', nodes:'14A 及後續', tech:['I14A'], mp:'2032 營運（官方）', ms:'施工中', full:'未計入', conf:'off', cap:[] }
+  ]},
+{ id:'IMD', code:'馬德堡', name:'德國馬德堡 Fab 29（已取消）', kind:'fab', region:'DE', loc:'德國 馬德堡', wafer:12, since:'已取消', adv:'—', owner:'Intel', grp:'DE',
+  desc:'原規劃 300 億歐元（德國補助約 100 億歐元）的 14A 世代廠；2024/11 延後到 2029–2030 年，2025/7 取消，補助回收。', src:['i3'],
+  phases:[{ id:'Fab 29.1／29.2', st:'cancel', nodes:'原規劃 14A 世代', tech:['I14A'], mp:'—', ms:'2025/7 取消', full:'不計入', conf:'off', cap:[] }] },
+{ id:'IPL', code:'弗羅茨瓦夫', name:'波蘭弗羅茨瓦夫封測廠（已取消）', kind:'ap', region:'PL', loc:'波蘭 弗羅茨瓦夫', wafer:null, since:'已取消', adv:'—', owner:'Intel', grp:'DE',
+  desc:'46 億美元的封裝測試廠，2025/7 與馬德堡同日取消。', src:['i3'],
+  phases:[{ id:'全廠', st:'cancel', nodes:'封裝測試', tech:['PKG'], mp:'—', ms:'2025/7 取消', full:'不計入', conf:'off', cap:[] }] },
+{ id:'IDL', code:'大連 Fab 68', name:'大連 Fab 68（已售予 SK hynix）', kind:'fab', region:'CN', loc:'中國遼寧 大連', wafer:12, since:'2010', adv:'3D NAND', owner:'2021/12 起為 SK hynix（Solidigm）', grp:'CN',
+  desc:'2010 年以 65nm 晶片組量產，2015–2016 年改為 3D NAND（邏輯 → 記憶體）；2021/12 隨 NAND 事業第一階段交割移轉 SK hynix，其餘資產於 2025 年完成第二階段交割。2023 年起不屬於 Intel，不計入產能。',
+  xconv:{ t:'logic2mem', l:'邏輯 → 記憶體（65nm 晶片組 → 3D NAND）', d:'2015–2016' }, src:['i6'],
+  phases:[{ id:'全廠', st:'sold', nodes:'3D NAND（原 65nm 晶片組）', tech:['NAND'], mp:'2010 量產；2016 改 NAND', ms:'2021/12 移轉 SK hynix', full:'不計入', conf:'rep', xconv:{ t:'logic2mem', l:'65nm 晶片組 → 3D NAND', d:'2015–2016' }, cap:[] }] },
+/* ---------------- 封裝測試 ---------------- */
+{ id:'IMY', code:'檳城／居林', name:'馬來西亞檳城、居林（封測＋Pelican 先進封裝）', kind:'ap', region:'MY', loc:'馬來西亞 檳城、居林', wafer:null, since:'1972', adv:'—', owner:'Intel', grp:'MY',
+  desc:'檳城（PGAT）與居林的封裝、測試、晶粒分類。70 億美元的 Pelican 先進封裝廠（兩層、約 71 萬平方英尺無塵室）2025 年初擱置後重啟，建設約 99% 完成，2026 下半年首期封測運轉（報導）。2025 年哥斯大黎加封測整併到馬來西亞與越南。', src:['i3','i5','i6'],
+  phases:[
+    { id:'封裝測試', st:'op', nodes:'封裝、測試、晶粒分類', tech:['PKG'], mp:'營運中', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] },
+    { id:'Pelican', st:'build', nodes:'先進封裝（Foveros、EMIB 等）', tech:['PKG'], mp:'2026 下半年首期（報導）', ms:'2025 年初擱置後重啟', full:'不計入晶圓產能', conf:'rep', cap:[] }
+  ]},
+{ id:'IVN', code:'胡志明市', name:'越南胡志明市封測廠（VNAT）', kind:'ap', region:'VN', loc:'越南 胡志明市', wafer:null, since:'2010', adv:'—', owner:'Intel', grp:'MY',
+  desc:'Intel 最大的封裝測試廠之一；2025 年承接哥斯大黎加移出的封測作業。', src:['i1','i3','i6'],
+  phases:[{ id:'全廠', st:'op', nodes:'封裝、測試', tech:['PKG'], mp:'2010 起', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] }] },
+{ id:'ICD', code:'成都', name:'中國成都封測廠（CDAT）', kind:'ap', region:'CN', loc:'中國四川 成都', wafer:null, since:'2003', adv:'—', owner:'Intel', grp:'CN',
+  desc:'封裝、測試。', src:['i1','i6'],
+  phases:[{ id:'全廠', st:'op', nodes:'封裝、測試', tech:['PKG'], mp:'2003 起', ms:'—', full:'不計入晶圓產能', conf:'off', cap:[] }] },
+{ id:'ICR', code:'哥斯大黎加', name:'哥斯大黎加封測（CRAT）', kind:'ap', region:'CR', loc:'哥斯大黎加 埃雷迪亞', wafer:null, since:'1997', adv:'—', owner:'Intel', grp:'MY',
+  desc:'1997–2014 年營運，2020 年重啟；2025 年封測作業整併到越南與馬來西亞（報導）。', src:['i3','i6'],
+  phases:[{ id:'全廠', st:'exit', nodes:'封裝、測試', tech:['PKG'], mp:'1997 起', ms:'2025 年整併到越南、馬來西亞', full:'不計入晶圓產能', conf:'rep', cap:[] }] }
+];
+const BENCH = {};
+const OFFICIAL_TOTAL = [['2024','美國廠產出逾 100 萬片／年（官方）'],['2025','15 座量產晶圓廠、10 個據點（官方，2025/2）']];
+return {
+  id:'intel', name:'英特爾', en:'Intel', ticker:'INTC', f8:1/2.25, f6:1/4,
+  summary:'整合元件製造商（IDM），2024 年起晶圓製造歸 Intel Foundry，同時生產 Intel 自家晶片與外部代工（18A、Intel 3、聯電合作的 Intel 12）。量產晶圓廠集中在美國亞利桑那、奧勒岡與愛爾蘭、以色列；俄亥俄延到 2030 年後，德國與波蘭已取消，NAND 事業（大連廠）已售予 SK hynix。Intel 不公布逐廠產能，本頁數字多為依無塵室面積的推估。',
+  facts:[['量產晶圓廠（官方）','15 座、10 個據點（2025/2）'],['2024 美國廠產出（官方）','逾 100 萬片'],['最先進量產','Intel 18A（Fab 52，2025/10）'],['Fab 52 產能（官方）','每週逾 1 萬片 18A'],['股東','美國政府 9.9%（2025/8）']],
+  META, CHANGELOG, SOURCES, SITES, BENCH, OFFICIAL_TOTAL,
+  NODES:[
+    { k:'I14',  l:'14nm／22nm／Intel 16', c:'--s1' },
+    { k:'I12',  l:'Intel 12（聯電合作 12nm）', c:'--s2' },
+    { k:'I7',   l:'Intel 7（10nm SuperFin）', c:'--s3' },
+    { k:'I3',   l:'Intel 4／Intel 3（EUV）', c:'--s4' },
+    { k:'I18A', l:'Intel 18A（含 18A-P）', c:'--s5' },
+    { k:'I14A', l:'Intel 14A', c:'--s6' }
+  ],
+  regions:['US','IE','IL','CN','MY','VN','CR','DE','PL'],
+  groupsDef:[
+    {id:'node', l:'依製程', by:'cap'},
+    {id:'grp', l:'依廠區', by:'grp', items:[['AZ','亞利桑那'],['OR','奧勒岡'],['IE','愛爾蘭'],['IL','以色列'],['OH','俄亥俄']]}
+  ],
+  tableGroup:'node',
+  techOrder:['I14A','I18A','I3','I7','I12','I14','TWR','NAND','PKG','RD'],
+  techLabel:{ I14A:'14A', I18A:'18A', I3:'Intel 4／3', I7:'Intel 7', I12:'Intel 12（聯電）', I14:'14nm／22nm／16', TWR:'Tower 65nm BCD 等', NAND:'NAND（已出售）', PKG:'封裝測試', RD:'研發' },
+  focus:'adv', packaging:false,
+  adv:{ title:'先進製程產能', sub:'千片／月；Intel 7、Intel 4／3、18A、14A。Intel 不公布逐廠產能，全部為推估',
+    keys:[ {k:'I7'}, {k:'I3'}, {k:'I18A'}, {k:'I14A'} ] },
+  kpi:[ {key:'i7', k:'Intel 7', keys:['I7']}, {key:'i3', k:'Intel 4／3（EUV）', keys:['I3']}, {key:'i18', k:'18A／14A', keys:['I18A','I14A'], s:'Fab 52 官方：每週逾 1 萬片'} ],
+  totNote:'官方：2024 年美國廠產出逾 100 萬片',
+  RECON:[
+    { l:'美國廠年產出（官方）', when:'2024 年', ref:1000, refTxt:'逾 100 萬片', conf:'off', src:'i2', m:{region:'US', year:2024}, kind:'out', note:'美國廠＝亞利桑那＋奧勒岡；隱含稼動率＝官方產出÷本頁產能' },
+    { l:'Fab 52 18A 產能（官方）', when:'滿載', ref:43.3, refTxt:'每週逾 1 萬片（≈ 月 4.3 萬片）', conf:'off', src:'i4', m:{site:'IF52', q:'2027Q4'}, note:'本頁 2027 年底爬坡到 4 萬片；官方數字為可投片上限，分析師另解讀為 Fab 52＋62 合計' },
+    { l:'亞利桑那非 EUV 三廠（Fab 12／22／32）', when:'2025 年起', ref:27, refTxt:'約 2.7 萬片 Intel 7（分析師估）', conf:'rep', src:'i5', m:{sites:['IF12','IF22','IF32'], q:'2025Q2'} },
+    { l:'全公司晶圓產能', when:'2021 年底（本頁為 2023Q1）', ref:180, refTxt:'約 18 萬片 Intel 7 約當（分析師估）', conf:'rep', src:'i5', m:{q:'2023Q1'}, note:'本頁 2023Q1 含 14nm 與 Intel 4 產能，並非全部換算成 Intel 7' },
+    { l:'量產晶圓廠數（官方）', when:'2025/2', refTxt:'15 座、10 個據點（含封測）', conf:'off', src:'i1', kind:'text', mtxt:'奧勒岡 4（D1B／D1C／D1D／D1X）＋亞利桑那 4（Fab 12／22／32／42）＋新墨西哥 2（Fab 9／11X）＋愛爾蘭 4（Fab 10／14／24／34）＋以色列 1（Fab 28）＝15；Fab 52 於 2025/10 加入', dtxt:'可以對上（對應方式為本頁推論）' }
+  ],
+  util:[],
+  totalSub:'全部量產晶圓廠（12 吋）；奧勒岡只計初期量產，不含研發；封測、先進封裝不計入',
+  chartsNote:'Intel 不公布逐廠產能：本頁依無塵室面積與 Intel 2024 年的每週投片圖表推估（分析師 Alex_Intel，2026/1），並以官方「Fab 52 每週逾 1 萬片」「2024 年美國廠產出逾 100 萬片」對照。',
+  cmp:{ fabs:'亞利桑那 6（含 Fab 62 建設中）、奧勒岡 D1X、愛爾蘭 4、以色列 Fab 28（Fab 38 暫停、俄亥俄建設中）；IDM，含自家產品', adv:'Intel 18A（2025/10 量產）', capex:'未列', focus:'Fab 52 18A 爬坡、14A（2028 風險試產）、聯電 12nm（2027）' },
+  notes:[
+    '<span class="conf c-off">官方</span> Intel 只公布：15 座量產晶圓廠、分布 10 個據點（2025/2）；2024 年美國廠產出逾 100 萬片晶圓；Fab 52「每週可投片逾 1 萬片 18A」（技術長，2025/12）；俄亥俄 Mod 1 2030–2031、Mod 2 2032 營運；14A 2028 年風險試產、2029 年量產。',
+    '<span class="conf c-est">推估</span> 逐廠產能取自分析師 Alex_Intel（2026/1）的模型：以無塵室面積換算，並對照 Intel 2024 年 Foundry 活動的每週投片圖表。亞利桑那非 EUV 三廠（Fab 12／22／32）2021 年約 6 萬片、2025 年起約 2.7 萬片 Intel 7；以色列約 4 萬片 Intel 7；愛爾蘭 Fab 34 約 4 萬片 Intel 3；愛爾蘭非 EUV 三廠由約 4.7 萬片降到 1.6 萬片；2021 年底全公司約 18 萬片 Intel 7 約當。',
+    '外包不計入：Intel 另向台積電採購 N3B、N6 等晶片塊（分析師估 2025 年初約 3.5 萬片），不在本頁產能內。',
+    '封裝測試與先進封裝（新墨西哥、馬來西亞、越南、成都、哥斯大黎加、耶路撒冷）列在清單中，不計入晶圓產能。',
+    '<b>轉換</b>：大連 Fab 68 曾由邏輯改做 3D NAND（2015–2016，已出售）；以色列 Fab 18 由 NAND 廠改支援邏輯（2014）；新墨西哥 Fab 11X 與耶路撒冷 Fab 8 由晶圓廠改為封裝或晶粒準備。',
+    '<span class="warn-i">⚠ 留意</span>：官方數字與分析師解讀不同（Fab 52 的產能）、或官方說法與其他資料不一致（愛爾蘭 Fab 10、14 的現況）的項目。'
+  ],
+  watch:[
+    'Fab 52 18A 良率（2027 年初達業界水準）與實際投片',
+    'Fab 62 指派製程；14A 客戶在 2026 下半年至 2027 上半年的決定',
+    '俄亥俄是否加速、以色列 Fab 38 是否復工',
+    '聯電 Intel 12 在 Fab 12／22／32 的 2027 年量產',
+    'Tower 新墨西哥協議的調解結果',
+    '馬來西亞 Pelican 先進封裝 2026 下半年啟用'
+  ]
+};
+})();
+
 const SMIC = (() => {
 const META = { updated:'2026-09-25', checked:'2026-09-25', version:'v1.0' };
 const CHANGELOG = [
@@ -1445,14 +1987,16 @@ return {
 
 
 /* ===================== ENGINE ===================== */
-const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC, smic:SMIC };
-const ORDER = ['tsmc','umc','vis','psmc','smic'];
-const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4', smic:'--s5' };
-const REG = { N:'北台灣', C:'中台灣', S:'南台灣', US:'美國', JP:'日本', DE:'德國', CN:'中國', SG:'新加坡', IN:'印度' };
+const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC, smic:SMIC, samsung:SAMSUNG, intel:INTEL };
+const ORDER = ['tsmc','umc','vis','psmc','smic','samsung','intel'];
+const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4', smic:'--s5', samsung:'--s7', intel:'--s6' };
+const REG = { N:'北台灣', C:'中台灣', S:'南台灣', KR:'韓國', US:'美國', JP:'日本', DE:'德國', PL:'波蘭', IE:'愛爾蘭', IL:'以色列', CN:'中國', SG:'新加坡', MY:'馬來西亞', VN:'越南', IN:'印度', CR:'哥斯大黎加' };
 const STATUS = {
   op:{l:'量產中'}, ramp:{l:'爬坡中'}, build:{l:'建設／裝機'}, conv:{l:'轉換／移轉'},
-  plan:{l:'規劃中'}, exit:{l:'淘汰中'}, sold:{l:'已出售'}, rd:{l:'研發／非產能'}, rumor:{l:'評估／傳聞'}
+  plan:{l:'規劃中'}, exit:{l:'淘汰中'}, sold:{l:'已出售'}, cancel:{l:'已取消'}, rd:{l:'研發／非產能'}, rumor:{l:'評估／傳聞'}
 };
+const DIVS = { mem:'記憶體', fdy:'代工', mix:'記憶體＋代工', rd:'研發', pkg:'封裝測試' };
+const XCONV = { mem2fdy:'記憶體 → 代工', fdy2mem:'代工 → 記憶體', nand2dram:'NAND → DRAM', logic2mem:'邏輯 → 記憶體', mem2logic:'記憶體 → 邏輯', fab2pkg:'晶圓廠 → 封裝' };
 const KINDS = { fab:'晶圓廠', land:'新基地（未編號）', ap:'先進封裝', partner:'合作／非自有' };
 const CONF_L = { off:'官方', rep:'報導', est:'推估' };
 const MONO = '"Chivo Mono", ui-monospace, monospace';
@@ -1469,7 +2013,7 @@ ORDER.forEach(id=>{
     if (g.by==='cap') items = (g.only ? co.NODES.filter(n=>g.only.includes(n.k)) : co.NODES).map(n=>({k:n.k,l:n.l,c:n.c}));
     else if (g.by==='region') items = co.regions.filter(r=>co.SITES.some(s=>s.region===r && s.kind!=='ap' && s.kind!=='partner' && s.phases.some(p=>(p.cap||[]).length))).map((r,i)=>({k:r,l:REG[r],c:'--s'+(i+1)}));
     else if (g.by==='wafer') items = [['12','12 吋'],['8','8 吋'],['6','6 吋']].filter(([k])=>co.SITES.some(s=>String(s.wafer)===k && s.kind!=='ap' && s.kind!=='partner' && s.phases.some(p=>(p.cap||[]).length))).map(([k,l],i)=>({k,l,c:'--s'+(i+1)}));
-    else items = g.items.map(([k,l],i)=>({k,l,c:'--s'+(i+1)}));
+    else items = g.items.map(([k,l,c],i)=>({k,l,c:c||'--s'+(i+1)}));
     return { ...g, items };
   });
 });
@@ -1498,6 +2042,7 @@ function keyFnOf(g){
     case 'region': return s=>s.region;
     case 'wafer': return s=>String(s.wafer);
     case 'seg': return s=>s.seg;
+    case 'map': return (s,n)=>g.map[n]||n;
     default: return s=>s.grp||s.id;
   }
 }
@@ -1508,13 +2053,16 @@ function waferBy(co, i, keyFn){
       for (const n in m){ if (n==='CoWoS'||n==='SoIC') continue; const k = keyFn(s,n); out[k] = (out[k]||0) + m[n]*f; } } }
   return out;
 }
-function nativeBy(co, i){
+function nativeBy(co, i, keys){
   const out = {12:0,8:0,6:0};
   for (const s of co.SITES){ if (!counted(s)) continue;
-    for (const ph of s.phases){ const m = capAt(ph,i); for (const n in m){ if (n==='CoWoS'||n==='SoIC') continue; out[s.wafer] = (out[s.wafer]||0) + m[n]; } } }
+    for (const ph of s.phases){ const m = capAt(ph,i); for (const n in m){ if (n==='CoWoS'||n==='SoIC' || (keys && !keys.includes(n))) continue; out[s.wafer] = (out[s.wafer]||0) + m[n]; } } }
   return out;
 }
 const totalOf = (co,i) => sum(waferBy(co,i,()=> 't'));
+/* compare view: Samsung counts foundry keys only (co.cmpKeys) */
+function cmpTotal(co, i){ if (!co.cmpKeys) return totalOf(co,i); const o = waferBy(co,i,(s,n)=>n); return co.cmpKeys.reduce((a,k)=>a+(o[k]||0),0); }
+const cmpName = co => co.name + (co.cmpKeys ? '（代工）' : '');
 function apBy(co, i, kind){
   const out = {};
   for (const s of co.SITES){ if (s.kind!=='ap') continue;
@@ -1539,7 +2087,7 @@ function allocate(list, N){
   return list.map((x,i)=>({ ...x, n:base[i] }));
 }
 function techL(co,t){ return (co.techLabel||{})[t]||t; }
-function keyLabel(co, s, k){ if (s.kind==='ap') return k; if (k==='W') return `${s.wafer} 吋`; return techL(co,k) + (s.wafer && s.wafer!==12 ? `（${s.wafer} 吋）` : ''); }
+function keyLabel(co, s, k){ if (s.kind==='ap') return k; if (k==='W') return `${s.wafer} 吋`; const l = techL(co,k); return l + (s.wafer && s.wafer!==12 && !l.includes('吋') ? `（${s.wafer} 吋）` : ''); }
 function keyColor(co, s, key){
   if (s.kind==='ap'){ const a = (co.AP_SITES||[]).find(x=>x[0]===s.id); return a ? a[1] : CO_COLOR[co.id]; }
   if (co.NODES){ const nd = co.NODES.find(n=>n.k===key); if (nd) return nd.c; }
@@ -1553,7 +2101,7 @@ function rgba(hex, a){ const h = String(hex).replace('#',''); if (!/^[0-9a-f]{3,
 function mixHex(a, b, t){ const pa = parseInt(a.replace('#','').slice(0,6),16), pb = parseInt(b.replace('#','').slice(0,6),16); const m = s => Math.round((pa>>s&255)*t + (pb>>s&255)*(1-t)); return '#' + [16,8,0].map(s=>m(s).toString(16).padStart(2,'0')).join(''); }
 
 /* ---------- state ---------- */
-const state = { co:null, asof:NOW_I, group:null, view:'cards', q:'', kind:new Set(), region:new Set(), status:new Set(), tech:new Set(), sort:{k:null,dir:1}, drawer:null, visibleIds:[], wl:null };
+const state = { co:null, asof:NOW_I, group:null, view:'cards', q:'', kind:new Set(), div:new Set(), region:new Set(), status:new Set(), conv:new Set(), tech:new Set(), sort:{k:null,dir:1}, drawer:null, visibleIds:[], wl:null };
 try { const v = localStorage.getItem('tsmc-view'); if (['cards','gantt','table'].includes(v)) state.view = v; } catch(e){}
 const CO = () => COS[state.co];
 const curGroup = co => co.groups.find(g=>g.id===state.group) || co.groups[0];
@@ -1583,6 +2131,7 @@ function glyph(st){
     case 'plan': g = '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.6 2.1"/>'; break;
     case 'exit': g = ring + '<path d="M3.9 12.1 12.1 3.9" stroke="currentColor" stroke-width="1.6"/>'; break;
     case 'sold': g = ring + '<path d="M5.6 10.4 10.3 5.7M7 5.6h3.4V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'; break;
+    case 'cancel': g = ring + '<path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'; break;
     case 'rd': g = '<path d="M8 1.8 14.2 8 8 14.2 1.8 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/>'; break;
     default: g = '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray=".1 2.9" stroke-linecap="round"/>';
   }
@@ -1592,6 +2141,13 @@ const pill = st => `<span class="pill">${glyph(st)}${STATUS[st].l}</span>`;
 const conf = c => `<span class="conf c-${c}" title="資料可信度：${CONF_L[c]}">${CONF_L[c]}</span>`;
 const WARN_ICO = '<svg class="wi" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.3v3.4M8 11.7v.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
 const warnHTML = t => `<p class="warn">${WARN_ICO}<span><b>留意</b>${esc(t)}</span></p>`;
+/* memory / foundry tag and line-conversion badges */
+const XC_ICO = '<svg class="xci" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 5.2h10.2M10.2 2.7l2.5 2.5-2.5 2.5M13.5 10.8H3.3M5.8 8.3l-2.5 2.5 2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function phaseConv(s, p){ return p.xconv ? [p.xconv] : (s.phases.some(q=>q.xconv) ? [] : (s.xconv ? [s.xconv] : [])); }
+function siteConvs(s){ const a = s.xconv ? [s.xconv] : []; s.phases.forEach(p=>{ if (p.xconv && !a.some(x=>x.t===p.xconv.t)) a.push(p.xconv); }); return a; }
+const xcBadge = x => `<span class="xc" title="產線轉換：${esc(x.l)}（${esc(x.d)}）">${XC_ICO}${esc(XCONV[x.t]||x.l)}<small>${esc(x.d)}</small></span>`;
+const xcLine = x => `<p class="xcl">${XC_ICO}<span><b>產線轉換</b>${esc(x.l)}・${esc(x.d)}</span></p>`;
+const divTag = s => s.div && DIVS[s.div] ? `<span class="tag dv dv-${s.div}">${DIVS[s.div]}</span>` : '';
 
 /* ---------- chart plumbing ---------- */
 const charts = {};
@@ -1752,16 +2308,19 @@ function buildTotal(){
   legendChips($('#lgTotal'), charts.total, g.items.map((it,gi)=>({ label:it.l, color:css(it.c), ds:gi })).reverse());
 }
 
+const ADV_DEF = { title:'先進節點產能', sub:'千片／月；N5/N4、N3、N2 家族（含 N2P／A16）、A14。◆ 為媒體或公司報導的節點總量', keys:[{k:'N5'},{k:'N3'},{k:'N2'},{k:'A14'}] };
 function buildAdv(){
-  const co = CO(); const labels = QUARTERS.map(qlab); const keys = ['N5','N3','N2','A14'];
+  const co = CO(); const cfg = co.adv || ADV_DEF; const labels = QUARTERS.map(qlab); const B = co.BENCH || {};
   const series = QUARTERS.map(i=>waferBy(co,i,(s,n)=>n)); const surf = css('--surface'); const datasets = [], items = [];
-  keys.forEach(k=>{
-    const nd = co.NODES.find(n=>n.k===k); const col = css(nd.c); const di = datasets.length;
-    datasets.push({ label:nd.l, data:series.map(o=>o[k] ? +o[k].toFixed(1) : 0), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col });
+  cfg.keys.forEach(kc=>{
+    const k = kc.k, nd = co.NODES.find(n=>n.k===k) || {}; const col = css(kc.c || nd.c); const lab = kc.l || nd.l || k; const di = datasets.length;
+    const val = o => kc.keys ? kc.keys.reduce((a,x)=>a+(o[x]||0),0) : (o[k]||0);
+    datasets.push({ label:lab, data:series.map(o=>{ const v = val(o); return v ? +v.toFixed(1) : 0; }), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col });
+    if (!(B[k]||[]).length){ items.push({ label:lab, color:col, ds:di, shape:'ln' }); return; }
     const bm = labels.map(()=>null), notes = {};
-    (co.BENCH[k]||[]).forEach(([t,v,txt])=>{ const idx = qi(t)-I0; if (idx>=0 && idx<NQ){ bm[idx] = v; notes[idx] = txt; } });
-    datasets.push({ label:nd.l+'（報導）', data:bm, showLine:false, order:-1, pointStyle:'rectRot', pointRadius:6, pointHoverRadius:7, pointBorderWidth:2, pointBackgroundColor:surf, borderColor:col, backgroundColor:col, _notes:notes, _bench:true, _c:col });
-    items.push({ label:nd.l, color:col, ds:di, also:[di+1], shape:'ln' });
+    B[k].forEach(([t,v,txt])=>{ const idx = qi(t)-I0; if (idx>=0 && idx<NQ){ bm[idx] = v; notes[idx] = txt; } });
+    datasets.push({ label:lab+'（報導）', data:bm, showLine:false, order:-1, pointStyle:'rectRot', pointRadius:6, pointHoverRadius:7, pointBorderWidth:2, pointBackgroundColor:surf, borderColor:col, backgroundColor:col, _notes:notes, _bench:true, _c:col });
+    items.push({ label:lab, color:col, ds:di, also:[di+1], shape:'ln' });
   });
   const o = baseOpts(); quarterAxis(o); o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0);
   o.plugins.tooltip.filter = it => it.parsed.y != null && !(!it.dataset._bench && it.parsed.y===0);
@@ -1769,7 +2328,7 @@ function buildAdv(){
     label: c => c.dataset._bench ? ` ◆ ${c.dataset._notes[c.dataIndex]}　${c.dataset.label}` : ` ${fmt(c.parsed.y)}　${c.dataset.label}` });
   o.onClick = clickQuarter;
   mk('adv','cAdv',{ type:'line', data:{ labels, datasets }, options:o });
-  legendChips($('#lgAdv'), charts.adv, items, '<span><i class="dia"></i>報導值</span>');
+  legendChips($('#lgAdv'), charts.adv, items, datasets.some(d=>d._bench) ? '<span><i class="dia"></i>報導值</span>' : '');
 }
 
 function buildUtil(){
@@ -1849,11 +2408,49 @@ function buildYeTable(){
   const selY = Math.floor(state.asof/4); const vals = {}; YEARS.forEach(y=>{ vals[y] = waferBy(co, y*4+3, keyFn); });
   const rows = g.items.slice().reverse().map(it=>({ l:esc(it.l), c:`var(${it.c})`, f:y=>vals[y][it.k]||0 }));
   rows.push({ l:'晶圓合計（12 吋約當）', f:y=>totalOf(co, y*4+3), tot:true });
+  co.groups.filter(x=>x.by==='map' && x!==g).forEach(mg=>{ const kf = keyFnOf(mg); const mv = {}; YEARS.forEach(y=>{ mv[y] = waferBy(co, y*4+3, kf); });
+    mg.items.forEach((it,j)=>rows.push({ l:esc(it.l), c:`var(${it.c})`, f:y=>mv[y][it.k]||0, sep:j===0 })); });
   if (co.packaging) rows.push({ l:'CoWoS（晶圓片數）', f:y=>sum(apBy(co,y*4+3,'CoWoS')), sep:true }, { l:'SoIC（晶圓片數）', f:y=>sum(apBy(co,y*4+3,'SoIC')) });
   let h = '<thead><tr><th scope="col">千片／月（年底）</th>' + YEARS.map(y=>{ const fc = y*4+3 > NOW_I; return `<th scope="col" class="${fc?'fc':''}${y===selY?' sel':''}">${y}${fc?'<small>預估</small>':''}</th>`; }).join('') + '</tr></thead><tbody>';
   rows.forEach(r=>{ const mx = Math.max(1e-9, ...YEARS.map(y=>r.f(y)));
     h += `<tr class="${r.tot?'tot':''}${r.sep?' sep':''}"><th scope="row" style="font-weight:${r.tot?700:400};text-align:left">${r.c?`<i style="background:${r.c}"></i>`:''}${r.l}</th>` + YEARS.map(y=>{ const v = r.f(y); return `<td class="${y===selY?'sel':''}" style="--w:${(v/mx*55).toFixed(1)}%;--bar:${r.c||'var(--ink-3)'}">${fmt(v)}</td>`; }).join('') + '</tr>'; });
   $('#yeTable').innerHTML = h + '</tbody>';
+}
+
+/* ---------- official / reported totals vs. per-site sum ---------- */
+function reconVal(co, m){
+  const pick = s => counted(s) && (!m.region || s.region===m.region) && (!m.site || s.id===m.site) && (!m.sites || m.sites.includes(s.id));
+  const at = i => { let t = 0; for (const s of co.SITES){ if (!pick(s)) continue; const f = m.native ? 1 : fac(co,s);
+    for (const ph of s.phases){ const c = capAt(ph,i); for (const n in c){ if (n==='CoWoS'||n==='SoIC' || (m.keys && !m.keys.includes(n))) continue; t += c[n]*f; } } } return t; };
+  const avg = y => [0,1,2,3].reduce((a,k)=>a+at(y*4+k),0)/4;
+  if (m.yoy) return (avg(m.yoy)/avg(m.yoy-1) - 1)*100;
+  if (m.year) return avg(m.year);
+  return at(qi(m.q));
+}
+function buildRecon(){
+  const co = CO(); const pan = $('#pRec'); if (!pan) return;
+  if (!co.RECON){ pan.hidden = true; $('#recTable').innerHTML = ''; return; }
+  pan.hidden = false; const keys = Object.keys(co.SOURCES); const wan = v => fmt(v/10, v/10 < 100 ? 1 : 0);
+  const pct = d => `${d>0?'+':d<0?'−':''}${fmt(Math.abs(d),1)}%`;
+  const cls = d => Math.abs(d) <= 3 ? 'd-ok' : Math.abs(d) <= 10 ? 'd-mid' : 'd-far';
+  let h = '<thead><tr><th scope="col">項目</th><th scope="col">時點</th><th scope="col">官方／報導的數字</th><th scope="col" class="num">本頁逐廠加總</th><th scope="col">差異</th></tr></thead><tbody>';
+  co.RECON.forEach(r=>{
+    const kind = r.kind || 'cap'; let mv = '', dv = '';
+    if (kind==='text'){ mv = esc(r.mtxt); dv = `<span class="d-ok">${esc(r.dtxt||'')}</span>`; }
+    else {
+      const v = reconVal(co, r.m);
+      if (kind==='yoy'){ const bw = ((1 + r.ref/100)/(1 + v/100) - 1)*100; mv = `晶圓 ${pct(v)}`; dv = `隱含每片位元數 ${pct(bw)}`; }
+      else if (kind==='out'){ const u = r.ref/(v*12)*100; mv = `${wan(v*12)} 萬片／年<small>月均 ${wan(v)} 萬片 × 12</small>`; dv = `<span class="${u>100.5?'d-far':u>=80?'d-ok':'d-mid'}">隱含稼動率 ${fmt(u,0)}%</span>`; }
+      else {
+        mv = `${wan(v)} 萬片／月`;
+        if (Array.isArray(r.ref)){ const [lo,hi] = r.ref; dv = v>=lo && v<=hi ? '<span class="d-ok">在區間內</span>' : v>hi ? `<span class="${cls((v/hi-1)*100)}">高於上限 ${pct((v/hi-1)*100)}</span>` : `<span class="${cls((v/lo-1)*100)}">低於下限 ${pct((v/lo-1)*100)}</span>`; }
+        else { const d = (v/r.ref - 1)*100; dv = Math.abs(d) < .05 ? '<span class="d-ok">一致</span>' : `<span class="${cls(d)}">${pct(d)}</span>`; }
+      }
+    }
+    const src = co.SOURCES[r.src]; const sidx = keys.indexOf(r.src) + 1;
+    h += `<tr><th scope="row">${esc(r.l)}</th><td>${esc(r.when)}</td><td>${esc(r.refTxt)} ${conf(r.conf)}${src ? ` <a class="srcn" href="${esc(src[1])}" target="_blank" rel="noopener" title="${esc(src[0])}">[${sidx}]</a>` : ''}</td><td class="${kind==='text'?'':'num'}">${mv}</td><td>${dv}${r.note ? `<small>${esc(r.note)}</small>` : ''}</td></tr>`;
+  });
+  $('#recTable').innerHTML = h + '</tbody>';
 }
 
 /* ---------- KPI strip ---------- */
@@ -1897,10 +2494,19 @@ function renderKPIs(){
   const i = state.asof, p = i - 4, hasP = p >= I0, pl = hasP ? qlab(p) : ''; let tiles;
   const dP = (a,b) => hasP ? deltaTxt(a,b,pl) : '<span>無去年同季資料</span>';
   if (state.co==='compare'){
-    const tots = ORDER.map(id=>({ id, v:totalOf(COS[id],i), pv: hasP ? totalOf(COS[id],p) : null }));
+    const tots = ORDER.map(id=>({ id, v:cmpTotal(COS[id],i), pv: hasP ? cmpTotal(COS[id],p) : null }));
     const all = tots.reduce((a,b)=>a+b.v,0), allP = hasP ? tots.reduce((a,b)=>a+b.pv,0) : null;
-    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name+' 晶圓產能', v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占五家合計 ${fmt(all? t.v/all*100 : 0,1)}%`, spark:sparkHTML(QUARTERS.map(q=>totalOf(COS[t.id],q)), CO_COLOR[t.id]) })),
-      { key:'t-all', k:'五家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+totalOf(COS[id],q),0)), '--ink-2') } ];
+    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name + (COS[t.id].cmpKeys ? ' 代工產能' : ' 晶圓產能'), v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占七家合計 ${fmt(all? t.v/all*100 : 0,1)}%${COS[t.id].cmpKeys ? '・不含記憶體' : ''}`, spark:sparkHTML(QUARTERS.map(q=>cmpTotal(COS[t.id],q)), CO_COLOR[t.id]) })),
+      { key:'t-all', k:'七家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+cmpTotal(COS[id],q),0)), '--ink-2') } ];
+  } else if (CO().kpi){
+    const co = CO(); const tot = totalOf(co,i), totP = hasP ? totalOf(co,p) : null; const C = CO_COLOR[co.id];
+    const bn = q => waferBy(co,q,(s,n)=>n); const b = bn(i), bp = hasP ? bn(p) : {}; const byQ = QUARTERS.map(bn);
+    const val = (o,t) => t.keys.reduce((a,k)=>a+(o[k]||0),0);
+    tiles = [
+      { key:'tot', k:'晶圓產能（12 吋約當）', v:Math.round(tot), u:'千片／月', d:dP(tot,totP), s:`年化約 ${fmt(tot*12/1000,1)} 百萬片${co.totNote ? '；'+esc(co.totNote) : ''}`, spark:sparkHTML(byQ.map(o=>sum(o)), C) },
+      ...co.kpi.map(t=>{ const v = val(b,t); return { key:t.key, k:esc(t.k), v:Math.round(v), u:'千片／月', d:dP(v, hasP ? val(bp,t) : null), s:`占晶圓產能 ${fmt(tot ? v/tot*100 : 0,0)}%${t.s ? '・'+esc(t.s) : ''}`, spark:sparkHTML(byQ.map(o=>val(o,t)), C) }; }),
+      phaseTile(co)
+    ];
   } else {
     const co = CO(); const tot = totalOf(co,i), totP = hasP ? totalOf(co,p) : null; const C = CO_COLOR[co.id];
     const totS = sparkHTML(QUARTERS.map(q=>totalOf(co,q)), C);
@@ -1928,7 +2534,7 @@ function renderKPIs(){
       ];
     }
   }
-  const el = $('#kpis'); el.innerHTML = tiles.map(kpiTile).join('');
+  const el = $('#kpis'); el.dataset.n = tiles.length; el.innerHTML = tiles.map(kpiTile).join('');
   el.querySelectorAll('[data-tw]').forEach(s=>{ const key = state.co+':'+s.dataset.tw, to = +s.dataset.to; tween(s, kpiPrev[key], to, +s.dataset.dec); kpiPrev[key] = to; });
 }
 
@@ -2019,14 +2625,14 @@ function cwSVG(id, need, split){
 }
 function renderCmpWafers(){
   const el = $('#cwafers'); if (!el) return; const i = state.asof;
-  const data = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6; return { id, co, w12, w86, tot:w12+w86 }; });
+  const data = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i,co.cmpKeys); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6; return { id, co, w12, w86, tot:w12+w86 }; });
   const all = data.reduce((a,b)=>a+b.tot,0);
   el.innerHTML = data.map(x=>{ const need = Math.round(x.tot/10); const split = allocate([{k:'12',v:x.w12},{k:'86',v:x.w86}], need);
-    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(x.co.name)} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(x.co.name)}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占五家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
+    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(cmpName(x.co))} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(cmpName(x.co))}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占七家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
 }
 function cwTip(id, e){
-  const co = COS[id]; const i = state.asof; const n = nativeBy(co,i); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6;
-  showTip(`<div class="tt-h">${qlab(i)}${i>NOW_I?'・預估':''}</div><div class="tt-t">${esc(co.name)} ${esc(co.en)}</div><div class="tt-r"><i style="background:var(${CO_COLOR[id]})"></i><b>${fmt(w12+w86)}</b><span>千片／月（12 吋約當）</span></div><div class="muted">12 吋 ${fmt(w12)}・8／6 吋約當 ${fmt(w86)}・${Math.round((w12+w86)/10)} 顆晶粒</div><div class="muted">點一下切換到${esc(co.name)}頁</div>`, e, 'cw');
+  const co = COS[id]; const i = state.asof; const n = nativeBy(co,i,co.cmpKeys); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6;
+  showTip(`<div class="tt-h">${qlab(i)}${i>NOW_I?'・預估':''}</div><div class="tt-t">${esc(cmpName(co))} ${esc(co.en)}</div><div class="tt-r"><i style="background:var(${CO_COLOR[id]})"></i><b>${fmt(w12+w86)}</b><span>千片／月（12 吋約當）</span></div><div class="muted">12 吋 ${fmt(w12)}・8／6 吋約當 ${fmt(w86)}・${Math.round((w12+w86)/10)} 顆晶粒</div><div class="muted">點一下切換到${esc(co.name)}頁</div>`, e, 'cw');
 }
 
 /* ---------- hero ---------- */
@@ -2036,10 +2642,10 @@ function renderHero(){
   const el = $('#hero');
   if (state.co==='compare'){
     el.innerHTML = `<div class="hero-id">
-        <div class="eyebrow">TSMC × UMC × VIS × PSMC × SMIC</div>
-        <h2 class="co-title"><span class="zh">五家比較</span><span class="en">Compare</span></h2>
-        <p class="lede">把五家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
-        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">五家產能比較${ARROW_D}</button></div>
+        <div class="eyebrow">TSMC × UMC × VIS × PSMC × SMIC × Samsung × Intel</div>
+        <h2 class="co-title"><span class="zh">七家比較</span><span class="en">Compare</span></h2>
+        <p class="lede">把七家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電、中芯、三星、英特爾的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。三星只計代工線（不含記憶體）；英特爾是 IDM，產能大多生產自家產品。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
+        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">七家產能比較${ARROW_D}</button></div>
       </div>
       <figure class="wfig">
         <div class="wfig-h"><h3>產能規模 <span class="mono asofTxt">${qlab(state.asof)}</span></h3><span class="wkey"><i class="k12"></i>12 吋<i class="k86"></i>8／6 吋（約當）</span></div>
@@ -2066,16 +2672,19 @@ function renderHero(){
 }
 
 /* ---------- filters ---------- */
-function phaseText(co,s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,s.warn||'',p.warn||'',p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],REG[s.region]||'',...(p.tech||[]).map(t=>techL(co,t)+' '+t)].join(' ').toLowerCase(); }
+function phaseText(co,s,p){ return [s.code,s.name,s.loc,s.desc,s.owner,s.warn||'',p.warn||'',p.id,p.nodes,p.mp,p.ms,p.full,STATUS[p.st].l,KINDS[s.kind],REG[s.region]||'',DIVS[s.div]||'',...phaseConv(s,p).map(x=>`轉換 ${x.l} ${XCONV[x.t]||''} ${x.d}`),...(p.tech||[]).map(t=>techL(co,t)+' '+t)].join(' ').toLowerCase(); }
 function phaseMatch(co,s,p){
   if (state.kind.size && !state.kind.has(s.kind)) return false;
+  if (state.div.size && !state.div.has(s.div)) return false;
   if (state.region.size && !state.region.has(s.region)) return false;
   if (state.status.size && !state.status.has(p.st)) return false;
+  if (state.conv.size && !phaseConv(s,p).some(x=>state.conv.has(x.t))) return false;
   if (state.tech.size && !(p.tech||[]).some(t=>state.tech.has(t))) return false;
   if (state.q){ const t = phaseText(co,s,p); if (!state.q.split(/\s+/).every(w=>t.includes(w))) return false; }
   return true;
 }
-const anyFilter = () => !!(state.q || state.kind.size || state.region.size || state.status.size || state.tech.size);
+const FILTER_SETS = ['kind','div','region','status','conv','tech'];
+const anyFilter = () => !!(state.q || FILTER_SETS.some(k=>state[k].size));
 function chipRow(elId, entries, set, withGlyph){
   const el = document.getElementById(elId); el.querySelectorAll('.chip').forEach(c=>c.remove());
   el.hidden = !entries.length;
@@ -2089,8 +2698,10 @@ function chipRow(elId, entries, set, withGlyph){
 function renderFilters(){
   const co = CO(); const all = []; co.SITES.forEach(s=>s.phases.forEach(p=>all.push([s,p]))); const cnt = fn => all.filter(([s,p])=>fn(s,p)).length;
   chipRow('fKind', Object.entries(KINDS).map(([k,l])=>[k,l,cnt(s=>s.kind===k)]).filter(e=>e[2]), state.kind);
+  chipRow('fDiv', Object.entries(DIVS).map(([k,l])=>[k,l,cnt(s=>s.div===k)]).filter(e=>e[2]), state.div);
   chipRow('fRegion', Object.keys(REG).map(r=>[r,REG[r],cnt(s=>s.region===r)]).filter(e=>e[2]), state.region);
   chipRow('fStatus', Object.entries(STATUS).map(([k,v])=>[k,v.l,cnt((s,p)=>p.st===k)]).filter(e=>e[2]), state.status, true);
+  chipRow('fConv', Object.entries(XCONV).map(([k,l])=>[k,l,cnt((s,p)=>phaseConv(s,p).some(x=>x.t===k))]).filter(e=>e[2]), state.conv);
   chipRow('fTech', co.techOrder.map(t=>[t,techL(co,t),cnt((s,p)=>(p.tech||[]).includes(t))]).filter(e=>e[2]), state.tech);
   $('#fclear').hidden = !anyFilter();
 }
@@ -2132,7 +2743,7 @@ function phaseRowHTML(co, s, p, pi, match, i){
   const strip = stripData(co,s,p);
   return `<li class="ph${match?'':' dim'}">
     <div class="ph-id"><b>${esc(p.id)}</b>${pill(p.st)}</div>
-    <div class="ph-d"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'；'+esc(p.ms):''}</div><div class="full">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div>${p.warn?warnHTML(p.warn):''}</div>
+    <div class="ph-d"><div class="nodes">${esc(p.nodes)}</div><div class="when">${esc(p.mp)}${p.ms&&p.ms!=='—'?'；'+esc(p.ms):''}</div><div class="full">滿載／設計：${esc(p.full)} ${conf(p.conf)}</div>${p.xconv ? `<div class="xcw">${xcBadge(p.xconv)}</div>` : ''}${p.warn?warnHTML(p.warn):''}</div>
     <div class="ph-c js-now" data-site="${esc(s.id)}" data-ph="${pi}">${capCell(co,s,p,i)}</div>
     ${strip?`<div class="strip" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>`:''}
   </li>`;
@@ -2142,8 +2753,9 @@ function cardHTML(co, s, m, i){
   const meta = [esc(s.loc), `投產 ${esc(s.since)}`, s.adv && s.adv!=='—' ? `最先進量產 ${esc(s.adv)}` : ''].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
   return `<article class="fab" data-site="${esc(s.id)}">
     <header class="fab-h"><button type="button" class="fab-title" data-open="${esc(s.id)}"><span class="fab-code">${esc(s.code)}</span><span class="fab-name">${esc(s.name)}</span></button>
-      <div class="fab-tags"><span class="tag">${KINDS[s.kind]}</span>${REG[s.region]?`<span class="tag">${REG[s.region]}</span>`:''}${s.wafer?`<span class="tag">${s.wafer} 吋</span>`:''}</div></header>
+      <div class="fab-tags">${divTag(s)}${siteConvs(s).length ? `<span class="tag xct" title="曾有產線轉換：${esc(siteConvs(s).map(x=>x.l+'（'+x.d+'）').join('；'))}">${XC_ICO}轉換</span>` : ''}<span class="tag">${KINDS[s.kind]}</span>${REG[s.region]?`<span class="tag">${REG[s.region]}</span>`:''}${s.wafer?`<span class="tag">${s.wafer} 吋</span>`:''}</div></header>
     <div class="fab-meta">${meta}</div>
+    ${s.xconv ? xcLine(s.xconv) : ''}
     ${s.warn?warnHTML(s.warn):''}
     <div class="fab-cap"><div class="capnow js-now" data-site="${esc(s.id)}">${capNowHTML(co,s,i)}</div>${cardSpark(co,s)}</div>
     <ol class="phs">${s.phases.map((p,pi)=>phaseRowHTML(co,s,p,pi,m[pi],i)).join('')}</ol>
@@ -2163,7 +2775,7 @@ function ganttHTML(co, vis, i){
     list.forEach(({s,m})=>{ let first = true;
       s.phases.forEach((p,pi)=>{ if (!m[pi]) return; const strip = stripData(co,s,p);
         h += `<div class="g-row${first?' first':''}" data-open="${esc(s.id)}" tabindex="0" role="button" aria-label="${esc(s.code+' '+p.id)}：開啟廠區詳情">
-          <div class="g-label"><span class="g-site">${first?esc(s.code):''}</span><span class="g-ph">${glyph(p.st)}${esc(p.id)}</span></div>
+          <div class="g-label"><span class="g-site">${first?esc(s.code):''}</span><span class="g-ph">${glyph(p.st)}${esc(p.id)}${phaseConv(s,p).length ? `<span class="st-conv" title="產線轉換：${esc(phaseConv(s,p).map(x=>x.l).join('；'))}">${XC_ICO}</span>` : ''}</span></div>
           ${strip ? `<div class="g-track" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>` : `<div class="g-track none">${STATUS[p.st].l}・${esc(p.mp)}</div>`}
           <div class="g-val js-now" data-site="${esc(s.id)}" data-ph="${pi}" data-mode="g">${ganttVal(co,s,p,i)}</div></div>`;
         first = false; }); }); });
@@ -2172,12 +2784,21 @@ function ganttHTML(co, vis, i){
 function tableHTML(co, vis, i){
   const rows = [];
   vis.forEach(({s,m})=>s.phases.forEach((p,pi)=>{ if (!m[pi]) return;
-    rows.push({ id:s.id, site:s.code, ph:p.id, kind:KINDS[s.kind], region:REG[s.region]||'', wafer:s.wafer ? s.wafer+' 吋' : '封裝', nodes:p.nodes, st:p.st, mp:p.mp,
+    const xc = phaseConv(s,p);
+    rows.push({ id:s.id, site:s.code, ph:p.id, kind:KINDS[s.kind], div:DIVS[s.div]||'', region:REG[s.region]||'', wafer:s.wafer ? s.wafer+' 吋' : '封裝', nodes:p.nodes, st:p.st, xc:xc.map(x=>`${x.l}（${x.d}）`).join('；'), mp:p.mp,
       ms:[p.ms, p.warn&&('⚠ '+p.warn), s.warn&&('⚠ '+s.warn)].filter(Boolean).join('　'), now:Object.values(capAt(p,i)).reduce((a,v)=>a+v,0), max:Object.values(phaseMax(p)).reduce((a,b)=>a+b,0), conf:p.conf }); }));
-  const cols = [['site','廠區'],['ph','期別'],['kind','類型'],['region','地區'],['wafer','尺寸'],['nodes','製程／技術'],['st','狀態'],['mp','量產時間'],['now',qlab(i)+' 產能',1],['max','模型滿載',1],['conf','可信度'],['ms','進度／備註']];
+  const hasDiv = co.SITES.some(s=>s.div), hasXc = co.SITES.some(s=>siteConvs(s).length);
+  const cols = [
+    ['site','廠區',0,r=>`<td class="site">${esc(r.site)}</td>`], ['ph','期別',0,r=>`<td>${esc(r.ph)}</td>`], ['kind','類型',0,r=>`<td>${r.kind}</td>`],
+    hasDiv && ['div','記憶體／代工',0,r=>`<td>${r.div}</td>`],
+    ['region','地區',0,r=>`<td>${r.region}</td>`], ['wafer','尺寸',0,r=>`<td>${r.wafer}</td>`], ['nodes','製程／技術',0,r=>`<td>${esc(r.nodes)}</td>`], ['st','狀態',0,r=>`<td>${pill(r.st)}</td>`],
+    hasXc && ['xc','產線轉換',0,r=>`<td style="min-width:150px;color:var(--st-conv)">${esc(r.xc)}</td>`],
+    ['mp','量產時間',0,r=>`<td>${esc(r.mp)}</td>`], ['now',qlab(i)+' 產能',1,r=>`<td class="num">${r.now?fmt(r.now,1):'—'}</td>`], ['max','模型滿載',1,r=>`<td class="num">${r.max?fmt(r.max,1):'—'}</td>`],
+    ['conf','可信度',0,r=>`<td>${conf(r.conf)}</td>`], ['ms','進度／備註',0,r=>`<td style="min-width:280px;color:var(--ink-2)">${esc(r.ms)}</td>`]
+  ].filter(Boolean);
   if (state.sort.k){ const k = state.sort.k, d = state.sort.dir; rows.sort((a,b)=>(typeof a[k]==='number' ? a[k]-b[k] : String(a[k]).localeCompare(String(b[k]),'zh-Hant'))*d); }
   let h = '<thead><tr>' + cols.map(([k,l,num])=>`<th scope="col" class="${num?'num':''}" data-k="${k}"${state.sort.k===k?` aria-sort="${state.sort.dir>0?'ascending':'descending'}"`:''}>${l}</th>`).join('') + '</tr></thead><tbody>';
-  rows.forEach(r=>{ h += `<tr data-open="${esc(r.id)}"><td class="site">${esc(r.site)}</td><td>${esc(r.ph)}</td><td>${r.kind}</td><td>${r.region}</td><td>${r.wafer}</td><td>${esc(r.nodes)}</td><td>${pill(r.st)}</td><td>${esc(r.mp)}</td><td class="num">${r.now?fmt(r.now,1):'—'}</td><td class="num">${r.max?fmt(r.max,1):'—'}</td><td>${conf(r.conf)}</td><td style="min-width:280px;color:var(--ink-2)">${esc(r.ms)}</td></tr>`; });
+  rows.forEach(r=>{ h += `<tr data-open="${esc(r.id)}">${cols.map(c=>c[3](r)).join('')}</tr>`; });
   return h + '</tbody>';
 }
 function renderList(){
@@ -2227,7 +2848,7 @@ function drPhase(co, s, p, pi, i){
   return `<li class="dr-ph">
     <div class="dr-ph-h"><b>${esc(p.id)}</b>${pill(p.st)}${conf(p.conf)}<span class="now">${capCell(co,s,p,i)}</span></div>
     <div class="nodes">${esc(p.nodes)}</div>
-    <dl class="kv"><dt>量產時程</dt><dd>${esc(p.mp)}</dd><dt>進度</dt><dd>${esc(p.ms)}</dd><dt>滿載／設計</dt><dd>${esc(p.full)}</dd>${(p.tech||[]).length?`<dt>技術標籤</dt><dd>${p.tech.map(t=>esc(techL(co,t))).join('、')}</dd>`:''}</dl>
+    <dl class="kv"><dt>量產時程</dt><dd>${esc(p.mp)}</dd><dt>進度</dt><dd>${esc(p.ms)}</dd><dt>滿載／設計</dt><dd>${esc(p.full)}</dd>${p.xconv?`<dt>產線轉換</dt><dd style="color:var(--st-conv)">${esc(p.xconv.l)}（${esc(p.xconv.d)}）</dd>`:''}${(p.tech||[]).length?`<dt>技術標籤</dt><dd>${p.tech.map(t=>esc(techL(co,t))).join('、')}</dd>`:''}</dl>
     ${p.warn?warnHTML(p.warn):''}
     ${tl ? `<div class="cps"><span class="cps-l">模型產能時間點（千片／月，自該季起生效；外框＝選定季適用的數值，斜線＝預估）</span>${tl}</div>` : '<div class="cps none">未計入產能模型</div>'}
     ${strip?`<div class="strip" data-site="${esc(s.id)}" data-ph="${pi}" style="--data:${strip}"></div>`:''}
@@ -2241,12 +2862,13 @@ function renderDrawer(){
   if (charts.drawer){ charts.drawer.destroy(); delete charts.drawer; }
   const sb = dlg.querySelector('.dr-b'); const keepScroll = sb && sb.dataset.site===s.id ? sb.scrollTop : 0;
   dlg.innerHTML = `<header class="dr-h">
-      <div><div class="eyebrow">${esc(co.en)}・${esc(KINDS[s.kind])}${REG[s.region]?'・'+esc(REG[s.region]):''}${s.wafer?`・${s.wafer} 吋`:''}</div>
+      <div><div class="eyebrow">${esc(co.en)}・${esc(KINDS[s.kind])}${DIVS[s.div]?'・'+esc(DIVS[s.div]):''}${REG[s.region]?'・'+esc(REG[s.region]):''}${s.wafer?`・${s.wafer} 吋`:''}</div>
         <h3 id="dTitle"><span class="fab-code">${esc(s.code)}</span><span>${esc(s.name)}</span></h3></div>
       <div class="dr-nav"><button type="button" class="sbtn" data-dnav="-1" aria-label="上一個廠區"${pos<=0?' disabled':''}><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="mono">${pos+1}／${ids.length}</span><button type="button" class="sbtn" data-dnav="1" aria-label="下一個廠區"${pos>=ids.length-1?' disabled':''}><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="sbtn" data-close aria-label="關閉"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
     </header>
     <div class="dr-b" data-site="${esc(s.id)}">
-      <dl class="spec dr-spec"><div><dt>位置</dt><dd>${esc(s.loc)}</dd></div><div><dt>投產</dt><dd>${esc(s.since)}</dd></div><div><dt>最先進量產</dt><dd>${esc(s.adv||'—')}</dd></div><div><dt>持有</dt><dd>${esc(s.owner)}</dd></div><div><dt>${qlab(i)} 產能${i>NOW_I?'（預估）':''}</dt><dd>${nowTxt}</dd></div></dl>
+      <dl class="spec dr-spec"><div><dt>位置</dt><dd>${esc(s.loc)}</dd></div><div><dt>投產</dt><dd>${esc(s.since)}</dd></div><div><dt>最先進量產</dt><dd>${esc(s.adv||'—')}</dd></div><div><dt>持有</dt><dd>${esc(s.owner)}</dd></div>${DIVS[s.div]?`<div><dt>記憶體／代工</dt><dd>${esc(DIVS[s.div])}</dd></div>`:''}<div><dt>${qlab(i)} 產能${i>NOW_I?'（預估）':''}</dt><dd>${nowTxt}</dd></div></dl>
+      ${siteConvs(s).map(xcLine).join('')}
       ${s.warn?warnHTML(s.warn):''}
       <section class="dr-sec"><h4>產能演進<span class="mono">${esc(unit)}</span></h4><div class="cbox dr-chart"><canvas id="cDrawer" role="img" aria-label="${esc(s.code)} 產能演進圖"></canvas></div><div class="lg" id="lgDrawer"></div></section>
       <section class="dr-sec"><h4>廠區說明</h4><p>${esc(s.desc)}</p></section>
@@ -2284,16 +2906,16 @@ function drNav(d){
 }
 
 /* ---------- compare view ---------- */
-function mixData(i){ return ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i); return { id, w12:n[12]||0, w86:(n[8]||0)*co.f8 + (n[6]||0)*co.f6 }; }); }
+function mixData(i){ return ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i,co.cmpKeys); return { id, w12:n[12]||0, w86:(n[8]||0)*co.f8 + (n[6]||0)*co.f6 }; }); }
 function buildCompare(){
   const labels = QUARTERS.map(qlab);
-  const ds = ORDER.map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); return { label:co.name, data:QUARTERS.map(i=>+totalOf(co,i).toFixed(1)), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col }; });
+  const ds = ORDER.map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); return { label:cmpName(co), data:QUARTERS.map(i=>+cmpTotal(co,i).toFixed(1)), borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:0, pointHoverRadius:4, pointHitRadius:8, tension:0, _c:col }; });
   const o = baseOpts(); quarterAxis(o); o.plugins.cursor = cursorOpt(state.asof - I0, NOW_I - I0); o.plugins.endLabels = { on:true, ink:css('--ink') };
   o.plugins.tooltip.itemSort = (a,b) => b.parsed.y - a.parsed.y;
   Object.assign(o.plugins.tooltip.callbacks, { title:titleQ, labelColor:lineKey, label: c => ` ${fmt(c.parsed.y)}　${c.dataset.label}` });
   o.onClick = clickQuarter;
   mk('cmp','cCmp',{ type:'line', data:{ labels, datasets:ds }, options:o });
-  legendChips($('#lgCmp'), charts.cmp, ORDER.map((id,j)=>({ label:COS[id].name+' '+COS[id].en, color:css(CO_COLOR[id]), ds:j, shape:'ln' })));
+  legendChips($('#lgCmp'), charts.cmp, ORDER.map((id,j)=>({ label:cmpName(COS[id])+' '+COS[id].en, color:css(CO_COLOR[id]), ds:j, shape:'ln' })));
 
   const surf = css('--surface'); const cols = ORDER.map(id=>css(CO_COLOR[id])); const tints = cols.map(c=>mixHex(c, surf, .42)); const mix = mixData(state.asof);
   const o2 = baseOpts(); o2.indexAxis = 'y'; o2.interaction = { mode:'nearest', intersect:true, axis:'y' }; o2.layout.padding = { top:4, right:46 };
@@ -2302,13 +2924,13 @@ function buildCompare(){
   o2.plugins.valueLabels = { on:true, ink:css('--ink-2') };
   Object.assign(o2.plugins.tooltip.callbacks, { label: c => ` ${fmt(c.parsed.x,1)}　${c.dataset.label}`, labelColor: c => { const b = c.dataset.backgroundColor[c.dataIndex]; return { borderColor:b, backgroundColor:b, borderWidth:3 }; } });
   const bar = (label, key, bg) => ({ label, data:mix.map(m=>+m[key].toFixed(1)), backgroundColor:bg, borderColor:surf, borderWidth:{ right:2, left:0, top:0, bottom:0 }, borderSkipped:false, borderRadius:3, barThickness:18 });
-  mk('mix','cMix',{ type:'bar', data:{ labels:ORDER.map(id=>COS[id].name), datasets:[ bar('12 吋','w12',cols), bar('8／6 吋（12 吋約當）','w86',tints) ] }, options:o2 });
+  mk('mix','cMix',{ type:'bar', data:{ labels:ORDER.map(id=>cmpName(COS[id])), datasets:[ bar('12 吋','w12',cols), bar('8／6 吋（12 吋約當）','w86',tints) ] }, options:o2 });
   const ink2 = css('--ink-2');
   legendChips($('#lgMix'), charts.mix, [{ label:'深色：12 吋', color:ink2, ds:0 }, { label:'淺色：8／6 吋（12 吋約當）', color:mixHex(ink2, surf, .42), ds:1 }]);
 
   const uq = [...new Set(ORDER.flatMap(id=>(COS[id].util||[]).map(u=>u[0])))].sort((a,b)=>qi(a)-qi(b));
   const uds = ORDER.filter(id=>(COS[id].util||[]).length).map(id=>{ const co = COS[id]; const col = css(CO_COLOR[id]); const m = {}; co.util.forEach(u=>m[u[0]] = u);
-    return { label:co.name, data:uq.map(q=>m[q] ? m[q][1] : null), _u:uq.map(q=>m[q]), spanGaps:true, borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:4, pointHoverRadius:6, pointBorderColor:surf, pointBorderWidth:2, tension:0, _c:col }; });
+    return { label:cmpName(co), data:uq.map(q=>m[q] ? m[q][1] : null), _u:uq.map(q=>m[q]), spanGaps:true, borderColor:col, backgroundColor:col, borderWidth:2, pointRadius:4, pointHoverRadius:6, pointBorderColor:surf, pointBorderWidth:2, tension:0, _c:col }; });
   const o3 = baseOpts(); o3.scales.y.beginAtZero = false; o3.scales.y.suggestedMin = 60; o3.scales.y.suggestedMax = 100; o3.scales.y.ticks.callback = v => v + '%';
   o3.plugins.cursor = cursorOpt(uq.indexOf(qlab(state.asof)), uq.indexOf(NOW_Q), { fc:null });
   Object.assign(o3.plugins.tooltip.callbacks, { labelColor:lineKey, label: c => ` ${fmt(c.parsed.y,1)}%　${c.dataset.label}` + (c.dataset._u[c.dataIndex] && c.dataset._u[c.dataIndex][2] ? `（${c.dataset._u[c.dataIndex][2]}）` : '') });
@@ -2319,9 +2941,9 @@ function buildCompare(){
 function buildCmpTable(){
   const i = state.asof; const cols = ['公司','營運中晶圓廠','建設／規劃中 phase','晶圓產能（12 吋約當）','12 吋','8／6 吋（原生）','最新利用率','最先進量產','2026 資本支出','擴產重點'];
   let h = '<thead><tr>' + cols.map((c,ci)=>`<th scope="col" class="${ci>=2&&ci<=5?'num':''}">${c}</th>`).join('') + '</tr></thead><tbody>';
-  ORDER.forEach(id=>{ const co = COS[id]; const n = nativeBy(co,i); const u = utilAt(co,i); const pipe = co.SITES.reduce((a,s)=>a+s.phases.filter(p=>['build','plan'].includes(p.st)).length,0);
-    h += `<tr><td><a href="#${id}" class="site"><i class="cdot" style="background:var(${CO_COLOR[id]})"></i>${esc(co.name)}</a> <span class="mono" style="color:var(--ink-3)">${esc(co.en)}</span></td><td>${esc(co.cmp.fabs)}</td><td class="num">${pipe}</td>
-      <td class="num"><b>${fmt(totalOf(co,i))}</b></td><td class="num">${fmt(n[12])}</td><td class="num">${fmt(n[8])}${n[6]?' ／ '+fmt(n[6]):''}</td>
+  ORDER.forEach(id=>{ const co = COS[id]; const n = nativeBy(co,i,co.cmpKeys); const u = utilAt(co,i); const pipe = co.SITES.reduce((a,s)=>a+s.phases.filter(p=>['build','plan'].includes(p.st) && (!co.cmpKeys || (p.tech||[]).some(t=>co.cmpKeys.includes(t)))).length,0);
+    h += `<tr><td><a href="#${id}" class="site"><i class="cdot" style="background:var(${CO_COLOR[id]})"></i>${esc(cmpName(co))}</a> <span class="mono" style="color:var(--ink-3)">${esc(co.en)}</span></td><td>${esc(co.cmp.fabs)}</td><td class="num">${pipe}</td>
+      <td class="num"><b>${fmt(cmpTotal(co,i))}</b></td><td class="num">${fmt(n[12])}</td><td class="num">${fmt(n[8])}${n[6]?' ／ '+fmt(n[6]):''}</td>
       <td>${u?`${fmt(u[1],1)}%<br><small style="color:var(--ink-3)">${u[0]}${u[2]?'・'+esc(u[2]):''}</small>`:'<span style="color:var(--ink-3)">未公布</span>'}</td>
       <td>${esc(co.cmp.adv)}</td><td>${esc(co.cmp.capex)}</td><td style="min-width:240px;color:var(--ink-2)">${esc(co.cmp.focus)}</td></tr>`; });
   $('#cmpTable').innerHTML = h + '</tbody>';
@@ -2333,7 +2955,7 @@ function updateCompare(){
 
 /* ---------- page chrome ---------- */
 function renderNav(){
-  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','五家比較','Compare']];
+  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','七家比較','Compare']];
   $('#cnav').innerHTML = items.map(([id,n,en])=>`<button type="button" role="tab" data-co="${id}" aria-selected="${state.co===id}" tabindex="${state.co===id?0:-1}">${id==='compare' ? `<i class="dots" aria-hidden="true">${ORDER.map(o=>`<span style="background:var(${CO_COLOR[o]})"></span>`).join('')}</i>` : `<i class="dot" style="background:var(${CO_COLOR[id]})" aria-hidden="true"></i>`}<b>${n}</b><small>${en}</small></button>`).join('');
   const sel = $('#cnav button[aria-selected="true"]'); if (sel && sel.scrollIntoView) { try { sel.scrollIntoView({ block:'nearest', inline:'nearest' }); } catch(e){} }
 }
@@ -2345,7 +2967,8 @@ function renderStatic(){
   $('#watch').innerHTML = co.watch.map(w=>`<li>${esc(w)}</li>`).join('');
   $('#changelog').innerHTML = [...co.CHANGELOG, ...SITE_CHANGELOG].map(c=>`<li><span class="mono">${c.d}</span>${esc(c.t)}</li>`).join('');
   $('#srclist').innerHTML = Object.values(co.SOURCES).map(([t,u])=> u ? `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join('');
-  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : co.id==='smic' ? '搜尋廠名、城市、製程…（例：京城、臨港、FinFET、28nm）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
+  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : co.id==='smic' ? '搜尋廠名、城市、製程…（例：京城、臨港、FinFET、28nm）' : co.id==='samsung' ? '搜尋廠名、園區、產品…（例：P4、1c、HBM、泰勒、轉換）' : co.id==='intel' ? '搜尋廠名、城市、製程…（例：18A、Fab 52、愛爾蘭、聯電、取消）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
+  const adv = co.adv || ADV_DEF; $('#hAdv').textContent = adv.title; $('#sAdv').textContent = adv.sub; $('#cAdv').setAttribute('aria-label', adv.title + '折線圖');
   $('#pAdv').hidden = co.focus!=='adv'; $('#pUtil').hidden = co.focus!=='util';
   $('#pCowos').hidden = !co.packaging; $('#pSoic').hidden = !co.packaging;
 }
@@ -2377,7 +3000,7 @@ function renderCompany(){
   if (co.focus==='adv') buildAdv(); else buildUtil();
   buildSite();
   if (co.packaging){ buildAP('CoWoS','cCowos','lgCowos'); buildAP('SoIC','cSoic','lgSoic'); }
-  renderFilters(); renderList();
+  buildRecon(); renderFilters(); renderList();
 }
 function setAsof(i){
   state.asof = Math.max(I0, Math.min(IN, i));
@@ -2398,7 +3021,7 @@ function go(id, fromHash){
   const next = COS[id] ? id : (id==='compare' ? 'compare' : (state.co || 'tsmc'));
   if (!fromHash){ try { history.replaceState(null, '', '#'+next); } catch(e){} }
   closeDrawer();
-  if (next !== state.co){ state.co = next; state.q = ''; $('#q').value = ''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); state.sort = { k:null, dir:1 }; state.group = null; }
+  if (next !== state.co){ state.co = next; state.q = ''; $('#q').value = ''; FILTER_SETS.forEach(k=>state[k].clear()); state.sort = { k:null, dir:1 }; state.group = null; }
   renderCompany(); setAsof(state.asof);
 }
 function route(){ const h = (location.hash||'').replace('#','').toLowerCase(); if (COS[h] || h==='compare') go(h, true); else if (!state.co) go('tsmc', true); }
@@ -2431,7 +3054,7 @@ $('#cnav').addEventListener('keydown', e=>{
   const nb = $(`#cnav button[data-co="${id}"]`); if (nb) nb.focus();
 });
 let qt; $('#q').addEventListener('input', e=>{ clearTimeout(qt); qt = setTimeout(()=>{ state.q = e.target.value.trim().toLowerCase(); $('#fclear').hidden = !anyFilter(); renderList(); }, 140); });
-$('#fclear').addEventListener('click', ()=>{ state.q = ''; $('#q').value = ''; ['kind','region','status','tech'].forEach(k=>state[k].clear()); renderFilters(); renderList(); });
+$('#fclear').addEventListener('click', ()=>{ state.q = ''; $('#q').value = ''; FILTER_SETS.forEach(k=>state[k].clear()); renderFilters(); renderList(); });
 document.addEventListener('click', e=>{
   const t = e.target; if (!t.closest) return;
   const a = t.closest('a[href^="#"]');
