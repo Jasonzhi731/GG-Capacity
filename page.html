@@ -1,5 +1,5 @@
 <title>晶圓代工產能版圖</title>
-<meta name="description" content="台積電、聯電、世界先進、力積電、中芯國際、三星電子（記憶體＋代工）、英特爾七家晶圓廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
+<meta name="description" content="台積電、聯電、世界先進、力積電、中芯國際、格羅方德、三星電子（記憶體＋代工）、英特爾八家晶圓廠逐廠逐期盤點：製程、產能、量產時程與產能演進圖表（AI 自動收集資料，不代表官方實際資料）">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Chivo+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
@@ -197,6 +197,7 @@ p{text-wrap:pretty}
 /* ---------- KPI strip ---------- */
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:26px}
 .kpis[data-n="8"]{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpis[data-n="9"]{grid-template-columns:repeat(3,minmax(0,1fr))}
 .kpi{background:var(--surface);padding:14px 16px 12px;display:flex;flex-direction:column;min-width:0}
 .kpi .k{font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .kpi .k .q{font-family:var(--mono);font-size:10.5px;white-space:nowrap}
@@ -492,7 +493,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
 /* ---------- responsive ---------- */
 @media (max-width:1100px){
-  .kpis,.kpis[data-n="8"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpis,.kpis[data-n="8"],.kpis[data-n="9"]{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kpi:first-child{grid-column:1/-1}
   .kpis[data-n="8"] .kpi:first-child{grid-column:auto}
 }
@@ -557,7 +558,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 <section class="mast inner">
   <div>
     <h1>晶圓代工產能版圖</h1>
-    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際五家晶圓代工廠，以及三星電子（記憶體＋代工，逐線標示並標出產線轉換）與英特爾（IDM）的製程、產能與量產時程（含海外據點與合資廠）。用上方選單切換公司或看「七家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
+    <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際、格羅方德六家晶圓代工廠，以及三星電子（記憶體＋代工，逐線標示並標出產線轉換）與英特爾（IDM）的製程、產能與量產時程（含海外據點與合資廠）。用上方選單切換公司或看「八家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
   </div>
   <div class="notice" role="note"><span class="badge">AI 自動收集資料</span><p>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</p></div>
 </section>
@@ -650,11 +651,11 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 
   <div id="cmpView" hidden>
     <section class="sec" id="cmpCharts">
-      <div class="sec-h"><div><h2>七家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；聯電、世界先進、力積電多為官方公布值；台積電、中芯、三星、英特爾為逐廠推估。<b>三星只計代工線</b>（含 System LSI，不含記憶體）；英特爾為 IDM，含自家產品。</p></div>
+      <div class="sec-h"><div><h2>八家產能比較</h2><span class="meta">千片／月・12 吋約當・2023Q1–2030Q4</span></div><p>各公司逐期模型加總（12 吋約當）；聯電、世界先進、力積電多為官方公布值；台積電、中芯、三星、英特爾為逐廠推估；格羅方德為官方各據點產能加上擴建推估。<b>三星只計代工線</b>（含 System LSI，不含記憶體）；英特爾為 IDM，含自家產品。</p></div>
       <div class="sheet"><div class="pgrid">
         <div class="pan wide">
           <div class="pan-h"><div><h3>晶圓產能合計</h3><div class="sub">不含先進封裝；虛線為今天，斜線區為預估；點圖可跳到該季</div></div></div>
-          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="七家產能折線圖"></canvas></div>
+          <div class="cbox tall"><canvas id="cCmp" role="img" aria-label="八家產能折線圖"></canvas></div>
           <div class="lg" id="lgCmp"></div>
         </div>
         <div class="pan">
@@ -684,11 +685,11 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 /* =====================================================================
-   DATA — 每家公司一個區塊（TSMC / UMC / VIS / PSMC / SAMSUNG / INTEL / SMIC）；更新時只改各區塊
+   DATA — 每家公司一個區塊（TSMC / UMC / VIS / PSMC / SAMSUNG / INTEL / SMIC / GF）；更新時只改各區塊
    ---------------------------------------------------------------------
    SITES[]: 一個廠區（Fab / AP / 新基地 / 合作廠）
      kind: 'fab' | 'ap' | 'land' | 'partner'（partner 不計入產能）
-     region: N C S US JP DE CN SG IN KR IE IL MY VN CR PL   wafer: 12 | 8 | 6 | null(封裝)
+     region: N C S US JP DE FR CN SG IN KR IE IL MY VN CR PL   wafer: 12 | 8 | 6 | null(封裝)
      grp: 圖表「依廠區」分組用（省略時用 id）   seg: 自訂分組（如邏輯／記憶體）
      div: mem 記憶體 | fdy 代工 | mix 記憶體＋代工 | rd 研發 | pkg 封裝測試（三星卡片標籤與篩選）
      xconv: 產線轉換 { t, l 說明, d 時間 }；t = mem2fdy | fdy2mem | nand2dram | logic2mem | mem2logic | fab2pkg
@@ -707,8 +708,9 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
    選用：adv（先進節點圖設定）、cmpKeys（比較頁只計這些 key）、kpi（KPI 磚）、RECON（官方與報導總量對照）
    ===================================================================== */
 const NOW_Q = '2026Q4';
-const SITE_META = { version: 'v3.2', updated: '2026-10-05', checked: '2026-10-05' };
+const SITE_META = { version: 'v3.3', updated: '2026-10-05', checked: '2026-10-05' };
 const SITE_CHANGELOG = [
+  { d: '2026-10-05', t: 'v3.3：新增格羅方德（GlobalFoundries，德勒斯登、Malta、新加坡、佛蒙特共 11 個據點，含已出售、擱置與取消的廠區），各據點產能採官網與 20-F 官方值，並與官方全公司產能對照；比較頁改為八家。IC 製造資料庫 Excel 的 GF 分頁新增逐廠產能表。' },
   { d: '2026-10-05', t: '每週更新：台積電德州達拉斯第二園區傳聞與 Musk Terafab 洽談（列入觀察）；世界先進 VSMC 第二期有望提前啟動、工期挑戰 18 個月。逐廠產能數字未變動；季度切換至 2026Q4。' },
   { d: '2026-10-01', t: '台積電官方總量校準改為逐季平滑，消除每年 Q1 的假性產能下滑；Excel 與財報網站同步。' },
   { d: '2026-09-29', t: '每週更新：台積電 2nm 年底月產能新報導（上看 12 萬片，與先前 9–10 萬片說法並列）；聯電新加坡 12i P3／P4 進度；世界先進 VSMC 新加坡廠 9/28 開幕、評估二廠；三星平澤 P5 一廠設備進廠提前至 2027Q2、溫陽 HBM 新廠、泰勒廠試產時程。逐廠產能數字未變動。' },
@@ -2019,14 +2021,147 @@ return {
   ]
 };
 })();
+
+/* ---------------- 格羅方德 GlobalFoundries ---------------- */
+const GF = (() => {
+const META = { updated:'2026-10-05', checked:'2026-10-05', version:'v1.0' };
+const CHANGELOG = [
+  { d:'2026-10-05', t:'初版：德勒斯登 Fab 1、紐約 Malta Fab 8、新加坡 Fab 7（含 7H）與 8 吋 Fab 2／Fab 3/5、佛蒙特 Fab 9 逐廠盤點，另收錄 Malta 先進封裝與光子中心、新加坡 AMF 矽光子廠、中國在地代工夥伴、已出售的 Fab 10、擱置的法國 Crolles 合資廠與取消的成都廠；逐廠加總與 20-F 官方年產能對照。' }
+];
+const SOURCES = {
+  g1:['GlobalFoundries Form 20-F FY2025（2026/2/27；2025 年底裝機產能約 280 萬片／年、利用率 86%、出貨 230 萬片）','https://www.sec.gov/Archives/edgar/data/1709048/000170904826000022/gfs-20251231.htm'],
+  g2:['GlobalFoundries Form 20-F FY2024（2025/3/20；2024 年底基礎產能 280 萬片／年、7H 2024 下半年出貨、利用率 77%）','https://www.sec.gov/Archives/edgar/data/1709048/000170904825000024/gfs-20241231.htm'],
+  g3:['GlobalFoundries Form 20-F FY2023（2024/4/29；2023 年底裝機產能 2,618 千片／年、利用率 81%、Crolles 合資廠）','https://www.sec.gov/Archives/edgar/data/1709048/000170904824000013/gfs-20231231.htm'],
+  g4:['GF 官網：Dresden manufacturing（年產能 95 萬片 300mm 約當）','https://gf.com/manufacturing/dresden/'],
+  g5:['GF 官網：Malta, New York manufacturing（年產能 40 萬片 300mm 約當）','https://gf.com/manufacturing/malta/'],
+  g6:['GF 官網：Singapore manufacturing（年產能 150 萬片 300mm 約當）','https://gf.com/manufacturing/singapore/'],
+  g7:['GF 官網：Burlington, Vermont manufacturing（年產能 60 萬片 200mm）','https://gf.com/manufacturing/burlington/'],
+  g8:['CNBC：GF 新加坡 40 億美元擴建廠開幕（現有 72 萬片 300mm＋69.2 萬片 200mm、7H 年增 45 萬片）（2023/9/12）','https://www.cnbc.com/2023/09/12/globalfoundries-singapore-expansion.html'],
+  g9:['Tom’s Hardware：GF 新加坡 7H 動工，年 45 萬片 300mm、完工後新加坡逾 150 萬片（2021/6/23）','https://www.tomshardware.com/news/globalfoundries-constructs-new-fab-in-singapore'],
+  g10:['Evertiq：德勒斯登 11 億歐元擴建（Project SPRINT）動土，年增逾 11 萬片、總產能逾 100 萬片，2026 年首批機台進駐（2026/3/18）','https://evertiq.com/design/2026-03-18-globalfoundries-breaks-ground-on-11bn-dresden-expansion'],
+  g11:['GF 新聞稿：德勒斯登十億歐元擴建計畫（2025/10）','https://gf.com/gf-press-release/globalfoundries-plans-billion-euro-investment-to-expand-chip-manufacturing-in-germany/'],
+  g12:['GF 新聞稿：CHIPS 法案直接補助協議（Malta Fab 8 擴建、Malta 新廠、Vermont Fab 9 現代化）（2024/11）','https://gf.com/news-and-events/news/globalfoundries-and-u-s-department-of-commerce-announce-award-agreement-on-chips-act-funding-for-essential-chip-manufacturing/'],
+  g13:['Manufacturing Dive：GF 與商務部確定 15 億美元補助，Malta 兩項計畫 10 年以上使園區產能增為三倍（2024）','https://www.manufacturingdive.com/news/globalfoundries-malta-new-york-expansion-1-point-5-billion-chips-and-science-act-semiconductors/707885/'],
+  g14:['Times Union：GF 在 Malta 興建 5.75 億美元先進封裝與光子中心（2025）','https://www.timesunion.com/business/article/globalfoundries-build-575-million-chip-packaging-20040185.php'],
+  g15:['Motley Fool：GF 2Q26 法說會逐字稿（出貨約 62.5 萬片、利用率 high 80s、擴產在既有廠房內進行）（2026/8/12）','https://www.fool.com/earnings/call-transcripts/2026/08/12/globalfoundries-gfs-q2-2026-earnings-call-transcript/'],
+  g16:['TrendForce：GF 與中國在地代工廠合作生產車用 CMOS（China-for-China）（2025/8/6）','https://www.trendforce.com/news/2025/08/06/news-globalfoundries-partners-with-chinese-foundry-for-localized-automotive-grade-cmos-production/'],
+  g17:['eeNews Europe：ST 與 GF 擱置 Crolles 合資 FD-SOI 晶圓廠','https://www.eenewseurope.com/en/st-glofo-suspend-plan-for-joint-wafer-fab-say-reports/'],
+  g18:['Wikipedia：GlobalFoundries（各廠沿革、Fab 10 出售、成都廠取消、AMF／MIPS 收購）','https://en.wikipedia.org/wiki/GlobalFoundries'],
+  g19:['Semiconductor Today：GF 追加 30 億美元投資矽光子、先進封裝與 GaN（2025/6）','https://www.semiconductor-today.com/news_items/2025/jun/globalfoundries-300625.shtml']
+};
+const SITES = [
+{ id:'GF1', code:'Fab 1', name:'德勒斯登 Fab 1（德國）', kind:'fab', region:'DE', loc:'德國 薩克森邦 德勒斯登', wafer:12, since:'2009（原 AMD Fab 30／36）', adv:'22FDX（22nm FD-SOI）', owner:'格羅方德', grp:'DD',
+  desc:'2009 年格羅方德成立時由 AMD 移轉而來，是歐洲最大的晶圓廠；官網列年產能 95 萬片（300mm 約當），以 22FDX（FD-SOI）、28–55nm 特色 CMOS、RF-SOI 與 BCD 電源製程為主。2025/10 宣布 11 億歐元的 Project SPRINT 擴建，2026/3/18 動土，年產能增加逾 11 萬片、總計逾 100 萬片，2026 年首批機台進駐。', src:['g4','g10','g11','g1','g18'],
+  phases:[
+    { id:'既有產能', st:'op', nodes:'22FDX、28–55nm 特色 CMOS、RF-SOI、BCD', tech:['FDX','CMOS','RFSOI','BCD'], mp:'2009 起（代工）', ms:'—', full:'年 95 萬片＝月約 7.9 萬片（官方）', conf:'off',
+      cap:[{t:'2023Q1',n:'W',v:79.2}] },
+    { id:'SPRINT 擴建', st:'build', nodes:'FDX、特色 CMOS（車用、工業、連網）', tech:['FDX','CMOS'], mp:'2028 年前後完成（推估）', ms:'2025/10 宣布 11 億歐元；2026/3/18 動土；2026 年首批機台進駐', full:'年增逾 11 萬片＝月約 0.9 萬片（官方）', conf:'off',
+      warn:'官方只公布增加的年產能與「2026 年首批機台」，爬坡時點為推估。',
+      cap:[{t:'2027Q1',n:'W',v:3},{t:'2027Q3',n:'W',v:6},{t:'2028Q2',n:'W',v:9.2}] }
+  ]},
+{ id:'GF8', code:'Fab 8', name:'紐約 Malta Fab 8（總部）', kind:'fab', region:'US', loc:'美國紐約州 Malta（Luther Forest 科技園區）', wafer:12, since:'2012', adv:'12LP+（12nm FinFET）', owner:'格羅方德', grp:'NY',
+  desc:'格羅方德總部與最先進的量產廠，2009 年動工、2012 年量產；官網列年產能 40 萬片（300mm 約當），生產 14／12nm FinFET、FDX、RF-SOI 與矽光子。2024 年 CHIPS 法案補助 15 億美元（另有紐約州 5.7 億美元），支持 Fab 8 擴建與園區內新建一座晶圓廠，兩項計畫在 10 年以上使 Malta 園區產能增為三倍；美國兩地合計投資計畫已上修至 160 億美元以上。2024 年第 4 季對 Malta 舊有產能提列減損。', src:['g5','g12','g13','g1','g15'],
+  warn:'擴建時程與規模視需求與補助里程碑而定；20-F 未公布 Fab 8 擴建與新廠的產能時程，本頁暫不計入。',
+  phases:[
+    { id:'既有產能', st:'op', nodes:'14／12nm FinFET、22FDX、RF-SOI、矽光子', tech:['FIN','FDX','RFSOI','SiPh'], mp:'2012 起', ms:'2026 法說：矽光子產能在既有廠房內擴充', full:'年 40 萬片＝月約 3.3 萬片（官方）', conf:'off',
+      cap:[{t:'2023Q1',n:'W',v:33.3}] },
+    { id:'Fab 8 擴建', st:'build', nodes:'特色製程（車用、IoT、國防）', tech:['FDX','RFSOI','SiPh'], mp:'未公布', ms:'2025 年達成 CHIPS 補助前兩個里程碑', full:'未公布（不計入）', conf:'off', cap:[] },
+    { id:'園區新廠', st:'plan', nodes:'未公布', tech:['CMOS'], mp:'未公布', ms:'CHIPS 補助項目之一；與 Fab 8 擴建合計 10 年以上使 Malta 產能增為三倍', full:'未計入', conf:'off', cap:[] }
+  ]},
+{ id:'GF7', code:'Fab 7／7H', name:'新加坡 Fab 7（12 吋，含 7H 擴建）', kind:'fab', region:'SG', loc:'新加坡 兀蘭（Woodlands）', wafer:12, since:'2005（Fab 7）／2023（7H）', adv:'40nm', owner:'格羅方德', grp:'SG7',
+  desc:'原特許半導體（Chartered）的 12 吋廠，2010 年併入格羅方德；原 8 吋 Fab 6 改為 12 吋後併入 Fab 7。生產 130–40nm 特色 CMOS、RF-SOI、BCD、SiGe 與矽光子。7H 擴建投資約 40 億美元，2021/6 動工、2023/9/12 開幕、2024 下半年開始商業出貨，滿載後年增 45 萬片（月約 3.75 萬片）。2023 年開幕時新加坡現有 12 吋產能年 72 萬片（月 6 萬片），擴建後新加坡合計逾 150 萬片（300mm 約當）。', src:['g6','g8','g9','g2','g15'],
+  phases:[
+    { id:'Fab 7（含原 Fab 6）', st:'op', nodes:'130–40nm 特色 CMOS、RF-SOI、BCD、SiGe、矽光子', tech:['CMOS','RFSOI','BCD','SiGe','SiPh'], mp:'2005 起', ms:'2026 年驗證 300mm SiGe 平台', full:'年 72 萬片＝月 6 萬片（2023 年開幕時公布）', conf:'rep',
+      cap:[{t:'2023Q1',n:'W',v:60}] },
+    { id:'7H 擴建', st:'ramp', nodes:'40–130nm 特色製程（車用、5G、安全）', tech:['CMOS','RFSOI','BCD'], mp:'2024 下半年商業出貨（官方）', ms:'2023/9/12 開幕；20-F：2025 年完成技術移轉，總產能與 2024 年持平', full:'年 45 萬片＝月 3.75 萬片（官方）', conf:'est',
+      warn:'爬坡曲線為推估：官方只說 2024 下半年開始出貨、滿載年 45 萬片；新加坡廠長 2023 年稱 2025–2026 年滿載。',
+      cap:[{t:'2024Q3',n:'W',v:5},{t:'2024Q4',n:'W',v:10},{t:'2025Q2',n:'W',v:15},{t:'2025Q4',n:'W',v:20},{t:'2026Q2',n:'W',v:25},{t:'2026Q4',n:'W',v:30},{t:'2027Q2',n:'W',v:37.5}] }
+  ]},
+{ id:'GFSG8', code:'Fab 2／3/5', name:'新加坡 8 吋廠（Fab 2、Fab 3/5）', kind:'fab', region:'SG', loc:'新加坡 兀蘭（Woodlands）', wafer:8, since:'1995 起（特許半導體）', adv:'0.18µm', owner:'格羅方德', grp:'SG8',
+  desc:'原特許半導體的 8 吋廠：Fab 2（600–350nm）與 Fab 3/5（350–180nm），生產 BCD、RF、混合訊號與 MEMS 等。2023 年開幕時公布新加坡 8 吋產能年 69.2 萬片（月約 5.8 萬片）。另一座 8 吋 Fab 3E 已於 2019 年售予世界先進（現為世界先進 VS1）。', warn:'兩廠拆分未公布，本卡以合計列示。', src:['g8','g6','g18'],
+  phases:[
+    { id:'Fab 2', st:'op', nodes:'600–350nm', tech:['S8','BCD'], mp:'1995 起', ms:'—', full:'未公布（併入合計）', conf:'rep', cap:[] },
+    { id:'Fab 3/5', st:'op', nodes:'350–180nm', tech:['S8','BCD','RFSOI'], mp:'1990 年代起', ms:'—', full:'未公布（併入合計）', conf:'rep', cap:[] },
+    { id:'兩廠合計', st:'op', nodes:'8 吋 600–180nm', tech:['S8'], mp:'—', ms:'—', full:'年 69.2 萬片＝月約 5.8 萬片（2023 年公布）', conf:'rep',
+      cap:[{t:'2023Q1',n:'W',v:57.7}] }
+  ]},
+{ id:'GF9', code:'Fab 9', name:'佛蒙特 Fab 9（Essex Junction）', kind:'fab', region:'US', loc:'美國佛蒙特州 Essex Junction（伯靈頓）', wafer:8, since:'2015（原 IBM，1957 年設廠）', adv:'90nm', owner:'格羅方德', grp:'VT',
+  desc:'2015 年收購 IBM 微電子事業取得的 8 吋廠，是美國兩座 8 吋 Trusted Foundry 之一；官網列年產能 60 萬片 200mm，生產 SiGe、RF-SOI、BCD 與特色 CMOS。CHIPS 補助支持把本廠現代化為量產 200mm 矽基氮化鎵（GaN-on-Si）的基地；2026 年因資料中心光通訊需求擴充 SiGe 產能。', src:['g7','g12','g19','g15','g18'],
+  phases:[
+    { id:'既有產能', st:'op', nodes:'SiGe、RF-SOI、BCD、350–90nm CMOS', tech:['S8','SiGe','RFSOI','BCD'], mp:'2015 納入格羅方德', ms:'2026 法說：SiGe 擴產中，2027 年全年供不應求', full:'年 60 萬片 8 吋＝月 5 萬片（官方）', conf:'off',
+      cap:[{t:'2023Q1',n:'W',v:50}] },
+    { id:'GaN 量產線（現代化）', st:'build', nodes:'200mm GaN-on-Si（功率、RF）', tech:['GaN'], mp:'未公布', ms:'CHIPS 補助的現代化項目；2024 年收購 Tagore 的 GaN IP', full:'未公布（不計入）', conf:'off', cap:[] }
+  ]},
+{ id:'GFAMF', code:'AMF', name:'新加坡 AMF 矽光子廠', kind:'fab', region:'SG', loc:'新加坡', wafer:8, since:'2025/11 收購', adv:'矽光子', owner:'格羅方德（2025/11 收購 Advanced Micro Foundry）', grp:'SG8',
+  desc:'2025/11/17 收購的新加坡矽光子代工廠 Advanced Micro Foundry（AMF），強化資料中心光通訊（可插拔光模組、NPO／CPO）的產能。產能未公布，不計入。', src:['g6','g18'],
+  phases:[{ id:'全廠', st:'op', nodes:'矽光子', tech:['SiPh'], mp:'2025/11 納入格羅方德', ms:'—', full:'未公布（不計入）', conf:'rep', cap:[] }] },
+{ id:'GFAP', code:'NY APPC', name:'Malta 先進封裝與光子中心', kind:'ap', region:'US', loc:'美國紐約州 Malta（Fab 8 園區）', wafer:null, since:'2025 宣布', adv:'—', owner:'格羅方德', grp:'NY',
+  desc:'2025 年宣布的 5.75 億美元先進封裝與測試中心，處理矽光子與國防等關鍵晶片的封裝；CHIPS 補助 2025/1 追加 7,500 萬美元。不計入晶圓產能。', src:['g14','g12','g1'],
+  phases:[{ id:'全區', st:'build', nodes:'先進封裝、測試、光子', tech:['PKG','SiPh'], mp:'未公布', ms:'2025 年宣布', full:'不計入晶圓產能', conf:'off', cap:[] }] },
+{ id:'GFCN', code:'中國夥伴', name:'中國在地代工夥伴（China-for-China）', kind:'partner', region:'CN', loc:'中國（合作廠名稱官方未公布）', wafer:12, since:'2025 宣布', adv:'—', owner:'合作夥伴（非全資）', grp:'CN',
+  desc:'2025 年宣布與中國本土代工廠合作，以格羅方德的製程（車用等級 CMOS、BCD）在中國生產，供應中國內需客戶，格羅方德保留 IP 與品質控管。20-F（FY2025）的廠區表把此廠列為「非全資」。產能屬合作廠，不計入。', warn:'合作廠名稱官方未公布，部分報導指為廣州的代工廠。', src:['g16','g1'],
+  phases:[{ id:'合作生產', st:'ramp', nodes:'車用 CMOS、BCD', tech:['CMOS','BCD'], mp:'2025 起導入', ms:'—', full:'未公布（不計入）', conf:'rep', cap:[] }] },
+{ id:'GF10', code:'Fab 10', name:'紐約 East Fishkill Fab 10（已售予安森美）', kind:'fab', region:'US', loc:'美國紐約州 East Fishkill', wafer:12, since:'2015（原 IBM）', adv:'—', owner:'2023/2 起為安森美（onsemi）', grp:'NY',
+  desc:'2015 年隨 IBM 微電子事業取得，2019 年同意以 4.3 億美元出售給安森美，2023/2 完成交割。不計入產能。', src:['g18'],
+  phases:[{ id:'全廠', st:'sold', nodes:'原 IBM 12 吋製程', tech:['CMOS'], mp:'—', ms:'2023/2 完成移轉', full:'不計入', conf:'rep', cap:[] }] },
+{ id:'GFCR', code:'Crolles', name:'法國 Crolles 合資廠（與 ST，擱置）', kind:'fab', region:'FR', loc:'法國 Crolles', wafer:12, since:'擱置', adv:'—', owner:'原規劃：格羅方德 58%、ST 42%（報導）', grp:'FR',
+  desc:'2022/7 宣布與意法半導體（ST）在 Crolles 合建 300mm FD-SOI 廠，滿載年產 62 萬片（20-F），總投資約 75 億歐元、法國政府補助 29 億歐元；報導指計畫已擱置，能否重啟不確定。', warn:'官方未正式宣布取消；報導稱擱置。', src:['g3','g17'],
+  phases:[{ id:'全廠', st:'plan', nodes:'FD-SOI', tech:['FDX'], mp:'未定', ms:'2023/6 簽約；之後報導擱置', full:'滿載年 62 萬片（20-F），未計入', conf:'rep', cap:[] }] },
+{ id:'GF11', code:'成都 Fab 11', name:'中國成都 Fab 11（已取消）', kind:'fab', region:'CN', loc:'中國四川 成都', wafer:12, since:'已取消', adv:'—', owner:'原規劃與成都市合資', grp:'CN',
+  desc:'2017 年宣布約 100 億美元的 12 吋廠（原規劃 22FDX），2020/5 停止營運並取消。', src:['g18'],
+  phases:[{ id:'全廠', st:'cancel', nodes:'原規劃 180／130nm 與 22FDX', tech:['FDX'], mp:'—', ms:'2020/5 取消', full:'不計入', conf:'rep', cap:[] }] }
+];
+const OFFICIAL_TOTAL = [['2023','裝機產能 2,618 千片／年（300mm 約當）'],['2024','基礎產能約 280 萬片／年'],['2025','裝機產能約 280 萬片／年（出貨 230 萬片、利用率 86%）']];
+return {
+  id:'gf', name:'格羅方德', en:'GlobalFoundries', ticker:'NASDAQ: GFS', f8:1/2.25, f6:1/4,
+  summary:'全球第三大的純晶圓代工廠（以營收計），專注特色製程（FD-SOI、RF-SOI、SiGe、BCD、矽光子），2018 年退出 7nm 以下先進製程。在德國德勒斯登、美國紐約 Malta 與佛蒙特、新加坡共四個據點量產，是唯一同時在美國、歐盟、新加坡設廠的代工廠。官方公布全公司年產能（2025 年底約 280 萬片 300mm 約當）與各據點官網產能，本頁逐廠數字多為官方值，擴建爬坡為推估。',
+  facts:[['2025 年底產能（官方）','約 280 萬片／年（300mm 約當）'],['2025 利用率','86%（2Q26 high 80s）'],['2025 出貨','230 萬片（300mm 約當）'],['2026 資本支出','營收的 15–20%（2Q26 法說）'],['晶圓廠','12吋×3・8吋×4（含 AMF）']],
+  META, CHANGELOG, SOURCES, SITES, BENCH:{}, OFFICIAL_TOTAL,
+  regions:['DE','US','SG','CN','FR'],
+  groupsDef:[ {id:'grp', l:'依廠區', by:'grp', items:[['DD','德勒斯登 Fab 1'],['NY','Malta Fab 8'],['SG7','新加坡 Fab 7／7H'],['SG8','新加坡 8 吋'],['VT','佛蒙特 Fab 9']]}, {id:'region', l:'依地區', by:'region'}, {id:'wafer', l:'依尺寸', by:'wafer'} ],
+  tableGroup:'grp',
+  techOrder:['FIN','FDX','CMOS','RFSOI','SiGe','BCD','SiPh','GaN','S8','PKG'],
+  techLabel:{ FIN:'14／12nm FinFET', FDX:'FD-SOI（22FDX）', CMOS:'特色 CMOS', RFSOI:'RF-SOI', SiGe:'SiGe', BCD:'BCD／電源', SiPh:'矽光子', GaN:'GaN', S8:'8 吋製程', PKG:'先進封裝' },
+  focus:'util', packaging:false,
+  util:[['2023Q4',81,'2023 全年（20-F）'],['2024Q4',77,'2024 全年（20-F）'],['2025Q4',86,'2025 全年（20-F）'],['2026Q2',88,'法說：high 80s']],
+  totalSub:'全部量產晶圓廠（8 吋以 ÷2.25 換算為 300mm 約當，與格羅方德官方口徑相同）；擴建爬坡為推估',
+  chartsNote:'各據點產能取自格羅方德官網與 20-F（德勒斯登 95 萬、Malta 40 萬、佛蒙特 60 萬片 8 吋、新加坡 12 吋 72 萬＋7H 45 萬、8 吋 69.2 萬片／年）；7H 與德勒斯登擴建的爬坡為推估。',
+  cmp:{ fabs:'12吋 3（Fab 1、8、7）・8吋 4（Fab 2、3/5、9、AMF）；Fab 10 已售、Crolles 擱置', adv:'12LP+（12nm FinFET）', capex:'營收的 15–20%（2026）', focus:'德勒斯登 SPRINT、Malta 擴建與新廠、新加坡 7H、矽光子與 SiGe' },
+  RECON:[
+    { l:'全公司裝機產能（官方）', when:'2023 年底', ref:218.2, refTxt:'2,618 千片／年（300mm 約當）', conf:'off', src:'g3', m:{q:'2023Q4'}, note:'官方「裝機產能」已扣除保養停機並依產品組合調整；本頁採各據點官網的名目產能' },
+    { l:'全公司基礎產能（官方）', when:'2024 年底', ref:233.3, refTxt:'約 280 萬片／年', conf:'off', src:'g2', m:{q:'2024Q4'} },
+    { l:'全公司裝機產能（官方）', when:'2025 年底', ref:233.3, refTxt:'約 280 萬片／年（與 2024 年持平）', conf:'off', src:'g1', m:{q:'2025Q4'}, note:'本頁 7H 爬坡為推估；官方稱 2025 年因技術移轉，總產能與 2024 年持平' },
+    { l:'晶圓出貨（官方）', when:'2025 年', ref:2300, refTxt:'230 萬片（300mm 約當；官方利用率 86%）', conf:'off', src:'g1', m:{year:2025}, kind:'out', note:'隱含稼動率＝官方出貨÷本頁產能，低於官方 86%，代表本頁名目產能高於官方估計的有效產能' },
+    { l:'新加坡合計產能', when:'7H 滿載後', ref:125, refTxt:'逾 150 萬片／年（300mm 約當）', conf:'off', src:'g6', m:{region:'SG', q:'2027Q2'} },
+    { l:'德勒斯登產能', when:'SPRINT 完成後', ref:88.3, refTxt:'95 萬＋逾 11 萬片＝逾 100 萬片／年', conf:'off', src:'g10', m:{site:'GF1', q:'2028Q4'} }
+  ],
+  notes:[
+    '<span class="conf c-off">官方</span> 全公司產能取自 20-F：2023 年底裝機產能 2,618 千片／年、2024 年底基礎產能約 280 萬片、2025 年底約 280 萬片（300mm 約當）；利用率 2022 年 101%、2023 年 81%、2024 年 77%、2025 年 86%（出貨÷估計產能）。各據點年產能取自官網：德勒斯登 95 萬、Malta 40 萬、新加坡 150 萬（300mm 約當）、佛蒙特 60 萬片 200mm。',
+    '<span class="conf c-rep">報導</span> 新加坡拆分取自 2023/9 7H 開幕時的公布值：12 吋 72 萬片、8 吋 69.2 萬片／年，7H 滿載年增 45 萬片。',
+    '<span class="conf c-est">推估</span> 7H（2024 下半年起）與德勒斯登 SPRINT（2026 年進機）的季度爬坡；Malta 擴建、園區新廠、Vermont GaN 線、中國合作廠的產能未公布，不計入。',
+    '換算：8 吋 ÷2.25＝300mm 約當，與格羅方德官方口徑相同（新加坡 72 萬＋45 萬＋69.2 萬÷2.25≈148 萬，對得上官方「逾 150 萬」）。',
+    '本頁逐廠加總用的是官網名目產能，2023–2025 年與 20-F 官方總量差 −1%～＋3%（見「官方與報導總量對照」）。',
+    '已出售或取消：Fab 3E（2019 年售予世界先進）、Fab 10（2023/2 售予安森美）、成都 Fab 11（2020 年取消）；法國 Crolles 合資廠報導已擱置。',
+    '<span class="warn-i">⚠ 留意</span>：爬坡時點為推估，或官方與報導說法不一致的項目。'
+  ],
+  watch:[
+    '德勒斯登 SPRINT 2026 年進機後的爬坡（2028 年前後逾 100 萬片／年）',
+    'Malta Fab 8 擴建與園區新廠的產能與時程（10 年以上產能三倍）',
+    '新加坡 7H 滿載與 300mm SiGe 平台驗證',
+    '矽光子（AMF、Malta）與 SiGe（佛蒙特）擴產；資料中心光通訊需求',
+    '中國在地代工夥伴的量產進度',
+    'Crolles 合資廠是否重啟；併購傳聞（曾傳與聯電合併）'
+  ]
+};
+})();
 /* ===================== END DATA ===================== */
 
 
 /* ===================== ENGINE ===================== */
-const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC, smic:SMIC, samsung:SAMSUNG, intel:INTEL };
-const ORDER = ['tsmc','umc','vis','psmc','smic','samsung','intel'];
-const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4', smic:'--s5', samsung:'--s7', intel:'--s6' };
-const REG = { N:'北台灣', C:'中台灣', S:'南台灣', KR:'韓國', US:'美國', JP:'日本', DE:'德國', PL:'波蘭', IE:'愛爾蘭', IL:'以色列', CN:'中國', SG:'新加坡', MY:'馬來西亞', VN:'越南', IN:'印度', CR:'哥斯大黎加' };
+const COS = { tsmc:TSMC, umc:UMC, vis:VIS, psmc:PSMC, smic:SMIC, gf:GF, samsung:SAMSUNG, intel:INTEL };
+const ORDER = ['tsmc','umc','vis','psmc','smic','gf','samsung','intel'];
+const CO_COLOR = { tsmc:'--s1', umc:'--s2', vis:'--s3', psmc:'--s4', smic:'--s5', samsung:'--s7', intel:'--s6', gf:'--s8' };
+const REG = { N:'北台灣', C:'中台灣', S:'南台灣', KR:'韓國', US:'美國', JP:'日本', DE:'德國', PL:'波蘭', IE:'愛爾蘭', IL:'以色列', CN:'中國', SG:'新加坡', MY:'馬來西亞', VN:'越南', IN:'印度', CR:'哥斯大黎加', FR:'法國' };
 const STATUS = {
   op:{l:'量產中'}, ramp:{l:'爬坡中'}, build:{l:'建設／裝機'}, conv:{l:'轉換／移轉'},
   plan:{l:'規劃中'}, exit:{l:'淘汰中'}, sold:{l:'已出售'}, cancel:{l:'已取消'}, rd:{l:'研發／非產能'}, rumor:{l:'評估／傳聞'}
@@ -2532,8 +2667,8 @@ function renderKPIs(){
   if (state.co==='compare'){
     const tots = ORDER.map(id=>({ id, v:cmpTotal(COS[id],i), pv: hasP ? cmpTotal(COS[id],p) : null }));
     const all = tots.reduce((a,b)=>a+b.v,0), allP = hasP ? tots.reduce((a,b)=>a+b.pv,0) : null;
-    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name + (COS[t.id].cmpKeys ? ' 代工產能' : ' 晶圓產能'), v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占七家合計 ${fmt(all? t.v/all*100 : 0,1)}%${COS[t.id].cmpKeys ? '・不含記憶體' : ''}`, spark:sparkHTML(QUARTERS.map(q=>cmpTotal(COS[t.id],q)), CO_COLOR[t.id]) })),
-      { key:'t-all', k:'七家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+cmpTotal(COS[id],q),0)), '--ink-2') } ];
+    tiles = [ ...tots.map(t=>({ key:'t-'+t.id, k:COS[t.id].name + (COS[t.id].cmpKeys ? ' 代工產能' : ' 晶圓產能'), v:Math.round(t.v), u:'千片／月', d:dP(t.v,t.pv), s:`占八家合計 ${fmt(all? t.v/all*100 : 0,1)}%${COS[t.id].cmpKeys ? '・不含記憶體' : ''}`, spark:sparkHTML(QUARTERS.map(q=>cmpTotal(COS[t.id],q)), CO_COLOR[t.id]) })),
+      { key:'t-all', k:'八家合計', v:Math.round(all), u:'千片／月', d:dP(all, allP), s:`年化約 ${fmt(all*12/1000,1)} 百萬片（12 吋約當）`, spark:sparkHTML(QUARTERS.map(q=>ORDER.reduce((a,id)=>a+cmpTotal(COS[id],q),0)), '--ink-2') } ];
   } else if (CO().kpi){
     const co = CO(); const tot = totalOf(co,i), totP = hasP ? totalOf(co,p) : null; const C = CO_COLOR[co.id];
     const bn = q => waferBy(co,q,(s,n)=>n); const b = bn(i), bp = hasP ? bn(p) : {}; const byQ = QUARTERS.map(bn);
@@ -2664,7 +2799,7 @@ function renderCmpWafers(){
   const data = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i,co.cmpKeys); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6; return { id, co, w12, w86, tot:w12+w86 }; });
   const all = data.reduce((a,b)=>a+b.tot,0);
   el.innerHTML = data.map(x=>{ const need = Math.round(x.tot/10); const split = allocate([{k:'12',v:x.w12},{k:'86',v:x.w86}], need);
-    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(cmpName(x.co))} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(cmpName(x.co))}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占七家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
+    return `<button type="button" class="cw" data-go="${x.id}" aria-label="${esc(cmpName(x.co))} ${fmt(x.tot)} 千片／月，切換到${esc(x.co.name)}頁">${cwSVG(x.id, need, split)}<span class="cw-l"><span class="nm"><i style="background:var(${CO_COLOR[x.id]})"></i>${esc(cmpName(x.co))}</span><span class="val">${fmt(x.tot)}</span><span class="sh">占八家 ${fmt(all ? x.tot/all*100 : 0,1)}%</span><span class="sh">12 吋 ${fmt(x.tot ? x.w12/x.tot*100 : 0,0)}%</span></span></button>`; }).join('');
 }
 function cwTip(id, e){
   const co = COS[id]; const i = state.asof; const n = nativeBy(co,i,co.cmpKeys); const w12 = n[12]||0, w86 = (n[8]||0)*co.f8 + (n[6]||0)*co.f6;
@@ -2678,10 +2813,10 @@ function renderHero(){
   const el = $('#hero');
   if (state.co==='compare'){
     el.innerHTML = `<div class="hero-id">
-        <div class="eyebrow">TSMC × UMC × VIS × PSMC × SMIC × Samsung × Intel</div>
-        <h2 class="co-title"><span class="zh">七家比較</span><span class="en">Compare</span></h2>
-        <p class="lede">把七家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電、中芯、三星、英特爾的逐廠產能為推估；聯電為官方逐廠值；世界先進與力積電為官方總量或官方分廠值加上少量推估。三星只計代工線（不含記憶體）；英特爾是 IDM，產能大多生產自家產品。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
-        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">七家產能比較${ARROW_D}</button></div>
+        <div class="eyebrow">TSMC × UMC × VIS × PSMC × SMIC × GF × Samsung × Intel</div>
+        <h2 class="co-title"><span class="zh">八家比較</span><span class="en">Compare</span></h2>
+        <p class="lede">把八家公司的逐期產能放在同一把尺上比較（12 吋約當、千片／月）。台積電、中芯、三星、英特爾的逐廠產能為推估；聯電為官方逐廠值；格羅方德為官方各據點產能加上擴建推估；世界先進與力積電為官方總量或官方分廠值加上少量推估。三星只計代工線（不含記憶體）；英特爾是 IDM，產能大多生產自家產品。點上方公司名稱或右側晶圓，可切換到個別頁面。</p>
+        <div class="jump"><span>跳到</span><button type="button" data-jump="cmpCharts">八家產能比較${ARROW_D}</button></div>
       </div>
       <figure class="wfig">
         <div class="wfig-h"><h3>產能規模 <span class="mono asofTxt">${qlab(state.asof)}</span></h3><span class="wkey"><i class="k12"></i>12 吋<i class="k86"></i>8／6 吋（約當）</span></div>
@@ -2991,7 +3126,7 @@ function updateCompare(){
 
 /* ---------- page chrome ---------- */
 function renderNav(){
-  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','七家比較','Compare']];
+  const items = [...ORDER.map(id=>[id, COS[id].name, COS[id].en]), ['compare','八家比較','Compare']];
   $('#cnav').innerHTML = items.map(([id,n,en])=>`<button type="button" role="tab" data-co="${id}" aria-selected="${state.co===id}" tabindex="${state.co===id?0:-1}">${id==='compare' ? `<i class="dots" aria-hidden="true">${ORDER.map(o=>`<span style="background:var(${CO_COLOR[o]})"></span>`).join('')}</i>` : `<i class="dot" style="background:var(${CO_COLOR[id]})" aria-hidden="true"></i>`}<b>${n}</b><small>${en}</small></button>`).join('');
   const sel = $('#cnav button[aria-selected="true"]'); if (sel && sel.scrollIntoView) { try { sel.scrollIntoView({ block:'nearest', inline:'nearest' }); } catch(e){} }
 }
@@ -3003,7 +3138,7 @@ function renderStatic(){
   $('#watch').innerHTML = co.watch.map(w=>`<li>${esc(w)}</li>`).join('');
   $('#changelog').innerHTML = [...co.CHANGELOG, ...SITE_CHANGELOG].map(c=>`<li><span class="mono">${c.d}</span>${esc(c.t)}</li>`).join('');
   $('#srclist').innerHTML = Object.values(co.SOURCES).map(([t,u])=> u ? `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join('');
-  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : co.id==='smic' ? '搜尋廠名、城市、製程…（例：京城、臨港、FinFET、28nm）' : co.id==='samsung' ? '搜尋廠名、園區、產品…（例：P4、1c、HBM、泰勒、轉換）' : co.id==='intel' ? '搜尋廠名、城市、製程…（例：18A、Fab 52、愛爾蘭、聯電、取消）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
+  $('#q').placeholder = co.id==='tsmc' ? '搜尋廠名、城市、製程、客戶、備註…（例：A16、嘉義、CoWoS、Apple）' : co.id==='umc' ? '搜尋廠名、城市、製程…（例：12i、22nm、矽光子、Intel）' : co.id==='vis' ? '搜尋廠名、城市、製程…（例：VSMC、中介層、台積電）' : co.id==='smic' ? '搜尋廠名、城市、製程…（例：京城、臨港、FinFET、28nm）' : co.id==='samsung' ? '搜尋廠名、園區、產品…（例：P4、1c、HBM、泰勒、轉換）' : co.id==='intel' ? '搜尋廠名、城市、製程…（例：18A、Fab 52、愛爾蘭、聯電、取消）' : co.id==='gf' ? '搜尋廠名、城市、製程…（例：德勒斯登、7H、FDX、矽光子、SiGe）' : '搜尋廠名、城市、製程…（例：P3、美光、WoW、Tata）';
   const adv = co.adv || ADV_DEF; $('#hAdv').textContent = adv.title; $('#sAdv').textContent = adv.sub; $('#cAdv').setAttribute('aria-label', adv.title + '折線圖');
   $('#pAdv').hidden = co.focus!=='adv'; $('#pUtil').hidden = co.focus!=='util';
   $('#pCowos').hidden = !co.packaging; $('#pSoic').hidden = !co.packaging;
