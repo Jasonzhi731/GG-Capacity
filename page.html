@@ -708,8 +708,9 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
    選用：adv（先進節點圖設定）、cmpKeys（比較頁只計這些 key）、kpi（KPI 磚）、RECON（官方與報導總量對照）
    ===================================================================== */
 const NOW_Q = '2026Q4';
-const SITE_META = { version: 'v3.3', updated: '2026-10-05', checked: '2026-10-05' };
+const SITE_META = { version: 'v3.3', updated: '2026-10-12', checked: '2026-10-12' };
 const SITE_CHANGELOG = [
+  { d: '2026-10-12', t: '每週更新：格羅方德德勒斯登 SPRINT 10/9 上樑、官方目標 2028 年底逾 100 萬片，擴建爬坡推估配合調整（Excel 同步）；英特爾 14A 時程依 Q2 法說更正為 2027H2 風險試產、2028 量產，補充 18A 良率約 80% 報導。其餘六家本週無影響產能的新消息（台積電 10/15 法說待確認）。' },
   { d: '2026-10-05', t: 'v3.3：新增格羅方德（GlobalFoundries，德勒斯登、Malta、新加坡、佛蒙特共 11 個據點，含已出售、擱置與取消的廠區），各據點產能採官網與 20-F 官方值，並與官方全公司產能對照；比較頁改為八家。IC 製造資料庫 Excel 的 GF 分頁新增逐廠產能表。' },
   { d: '2026-10-05', t: '每週更新：台積電德州達拉斯第二園區傳聞與 Musk Terafab 洽談（列入觀察）；世界先進 VSMC 第二期有望提前啟動、工期挑戰 18 個月。逐廠產能數字未變動；季度切換至 2026Q4。' },
   { d: '2026-10-01', t: '台積電官方總量校準改為逐季平滑，消除每年 Q1 的假性產能下滑；Excel 與財報網站同步。' },
@@ -723,7 +724,7 @@ const SITE_CHANGELOG = [
 
 /* ---------------- 台積電 TSMC ---------------- */
 const TSMC = (() => {
-const META = { updated: '2026-10-05', checked: '2026-10-05', version: 'v1.6', nowQ: '2026Q4' };
+const META = { updated: '2026-10-05', checked: '2026-10-12', version: 'v1.6', nowQ: '2026Q4' };
 const CHANGELOG = [
   { d: '2026-10-05', t: 'v1.6：報導（Hoodline／BigGo 2026/9/30）稱台積電評估在德州達拉斯設第二個美國園區、最多 6 座先進晶圓廠、投資逾 2,650 億美元，董事會尚未核准、供應商未接獲通知；Musk 證實 Terafab 與台積電洽談合作。均未證實，僅列入觀察清單，不新增廠區；10/15 Q3 法說會再確認（含 2nm 年底月產能）。逐廠產能未變動。' },
   { d: '2026-10-01', t: 'v1.5：官方年產能校準改為逐季平滑（年中錨點、季間線性漸變），年產能仍為 2023 約 1,600 萬、2024 約 1,700 萬、2025／2026 各 1,750 萬片；原年度係數在 1Q25、1Q26 造成的 3–5% 假性下滑縮小至約 1%。IC 製造資料庫 Excel 逐廠表同步更新。' },
@@ -1114,7 +1115,7 @@ return {
 
 /* ---------------- 聯電 UMC ---------------- */
 const UMC = (() => {
-const META = { updated:'2026-09-29', checked:'2026-10-05', version:'v1.2' };
+const META = { updated:'2026-09-29', checked:'2026-10-12', version:'v1.2' };
 const CHANGELOG = [
   { d:'2026-09-29', t:'v1.2：補充工商時報（9/25）新加坡 12i 報導：P1＋P2 約 6 萬片、P3 目前 1.2–1.3 萬片、2027 上半年擴至 1.8 萬片，利用率逾 90%；P4 2028 下半年量產。報導的 P3 片數高於官方季產能拆分，已加註；逐廠產能仍採官方值，未變動。' },
   { d:'2026-09-25', t:'各廠產能由「官方年產能÷12」改為官方逐季產能÷3（2023Q1～2026Q3E，來源：聯電各季財報；與 IC 製造資料庫 Excel 逐格一致），季節性的維修停機與季中擴產因此看得出來。' },
@@ -1246,7 +1247,7 @@ return {
 
 /* ---------------- 世界先進 VIS ---------------- */
 const VIS = (() => {
-const META = { updated:'2026-10-05', checked:'2026-10-05', version:'v1.2' };
+const META = { updated:'2026-10-05', checked:'2026-10-12', version:'v1.2' };
 const CHANGELOG = [
   { d:'2026-10-05', t:'v1.2：VSMC 第二期進度：報導（2026/9/29）稱二期有望提前啟動、年底前「有可能」定案，建廠工期挑戰 18 個月（一期 20.5 個月）。產能數字未變動。' },
   { d:'2026-09-29', t:'v1.1：VSMC 新加坡 12 吋廠 2026/9/28 開幕（動土到落成約 22 個月），第一期產能客戶已全數承諾，2027Q1 量產、滿載 4.4 萬片有機會提前到 2028 年；董事長證實評估第二座廠，製程可能延伸到 28／22nm。開幕報導的總投資 78 億美元與 2026/5 調降後的 67 億美元不同，已加註。產能數字未變動。' },
@@ -1339,7 +1340,7 @@ return {
 
 /* ---------------- 力積電 PSMC ---------------- */
 const PSMC = (() => {
-const META = { updated:'2026-09-25', checked:'2026-10-05', version:'v1.1' };
+const META = { updated:'2026-09-25', checked:'2026-10-12', version:'v1.1' };
 const CHANGELOG = [
   { d:'2026-09-25', t:'v1.1：改用歷年公司簡報的官方各廠產能（原本把 2026/3 的數字套用到所有年份）：2023 P1＋P2 78K、8B 43K；2024～3Q25 P1＋P2 75K、8B 48K；4Q25 P1＋P2 73K、P3 36K、8B 32K；2026/3 P1＋P2 73K、8B 36K；2026/6、2026/9 簡報 P1＋P2 降為 67K。' },
   { d:'2026-09-23', t:'初版：依力積電 2026/3 公司簡報的官方廠區表逐廠盤點；收錄銅鑼 P5 售予美光、Tata 印度技術合作、3D AI Foundry 與 PWF 進度。' }
@@ -1426,7 +1427,7 @@ return {
 })();
 /* ---------------- 三星電子 Samsung（記憶體＋代工） ---------------- */
 const SAMSUNG = (() => {
-const META = { updated:'2026-09-29', checked:'2026-10-05', version:'v1.1' };
+const META = { updated:'2026-09-29', checked:'2026-10-12', version:'v1.1' };
 const CHANGELOG = [
   { d:'2026-09-29', t:'v1.1：平澤 P5 一廠（Ph1，DRAM／HBM）設備進廠由 2027/7–8 提前到 2027/5–6，2028 年運轉；Ph2 討論導入 V10 NAND；P5 申請提高容積率改為三層（最多 6 間無塵室）結構，另有報導稱可能壓縮為約兩層以提前投產。溫陽 HBM 後段新廠（6 兆韓元、無塵室約 3.1 萬平方公尺）2026/9–10 動工、2029/5 量產。泰勒廠：三星稱 9 月底試運轉太早、目標年內試產，另有報導稱已進入原型生產。逐線產能未變動。' },
   { d:'2026-09-26', t:'初版：記憶體（華城 12／13／15／16／17 線、平澤 P1–P5、西安 X1／X2）與代工（器興 8 吋 S6／S7／S8、S1、S3／V1、S4、平澤 S5、奧斯汀 S2、泰勒）逐線盤點，每條線標示記憶體／代工，並標出兩者之間的產線轉換；逐線加總與官方位元產能、業界總量對照。' }
@@ -1716,8 +1717,9 @@ return {
 
 /* ---------------- 英特爾 Intel（IDM／Intel Foundry） ---------------- */
 const INTEL = (() => {
-const META = { updated:'2026-09-26', checked:'2026-10-05', version:'v1.0' };
+const META = { updated:'2026-10-12', checked:'2026-10-12', version:'v1.1' };
 const CHANGELOG = [
+  { d:'2026-10-12', t:'v1.1：更正 14A 時程。Intel 2026/7 第 2 季法說稿（官方）：14A 內部產品 2027 下半年風險試產，並已決定 2028 年全面投入量產爬坡（原本頁寫 2028 風險試產、2029 量產是舊時程）；PDK 0.9 依計畫 2026/10 交付。另補充報導：GF 證券分析師 Jeff Pu（2026/9）稱 18A 良率約 80%（第 2 季約 65%）、14A 2027 年月產能約 6 千片。逐廠產能推估未變動（D1X 14A 推估自 2028Q2 起計，與 2028 量產爬坡一致；風險試產量很小不計）。' },
   { d:'2026-09-26', t:'初版：亞利桑那 Fab 12／22／32／42／52／62、奧勒岡 D1X、愛爾蘭 Fab 10／14／24／34、以色列 Fab 28／38、俄亥俄，以及封測、取消與已出售據點逐廠盤點；逐廠加總與官方「2024 年美國廠產出逾 100 萬片」對照。' }
 ];
 const SOURCES = {
@@ -1732,7 +1734,9 @@ const SOURCES = {
   i9:['Intel 新聞稿：Intel 與 Tower 簽訂新墨西哥代工協議（2023/9/5）','https://www.intc.com/news-events/press-releases/detail/1643/intel-foundry-services-and-tower-semiconductor-announce-new'],
   i10:['Evertiq：Intel 不履行與 Tower 的製造協議、進入調解（2026/2/16）','https://evertiq.com/design/2026-02-16-intel-backs-away-from-manufacturing-deal-with-tower-semiconductor'],
   i11:['TrendForce：Fab 52 產能可比台積電亞利桑那一、二期合計（2025/12/24）','https://www.trendforce.com/news/2025/12/24/news-intel-fab-52-reportedly-rivals-tsmc-arizona-phase-1-and-2-combined-capacity-on-more-advanced-18a/'],
-  i12:['TechPowerUp：Intel 7 產能吃緊','https://www.techpowerup.com/342213/capacity-constraints-hit-intel-as-demand-outstrips-intel-10-7-node-supply']
+  i12:['TechPowerUp：Intel 7 產能吃緊','https://www.techpowerup.com/342213/capacity-constraints-hit-intel-as-demand-outstrips-intel-10-7-node-supply'],
+  i13:['Intel 2026 年第 2 季法說會講稿（14A 2027H2 風險試產、2028 量產爬坡、PDK 0.9 於 10 月）（2026/7/23）','https://download.intel.com/newsroom/2026/earnings/Intel-Q22026-Earnings-Call.pdf'],
+  i14:['BigGo Finance：GF 證券 Jeff Pu 稱 18A 良率約 80%、14A 2027 年月產能約 6 千片（報導，2026/9/17）','https://finance.biggo.com/news/ab78c740-7aaa-46bf-825a-2669715e1ff9']
 };
 const SITES = [
 /* ---------------- 亞利桑那（Chandler／Ocotillo） ---------------- */
@@ -1763,9 +1767,9 @@ const SITES = [
   ]},
 { id:'IF52', code:'Fab 52', name:'亞利桑那 Fab 52（18A）', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'2025', adv:'Intel 18A', owner:'Intel 51%／Brookfield 49%（合資）', grp:'AZ',
   desc:'2021 年宣布的 200 億美元亞利桑那擴建第一座廠（與 Fab 62 原稱 52.1／52.2，兩廠合計無塵室約 68.5 萬平方英尺），2025/10 全面運轉，是 Intel 18A（RibbonFET＋PowerVia）的首座量產廠，生產 Panther Lake、Clearwater Forest。Intel 技術長 2025/12 表示本廠「每週可投片逾 1 萬片 18A」（約月 4 萬片）。',
-  warn:'官方的每週 1 萬片是滿載產能；Intel 在 18A 良率 2027 年初達到業界水準前限制產量，本頁各季爬坡為推估。分析師依 Intel 圖表解讀為 Fab 52＋62 合計 4 萬片，與技術長說法不同。', src:['i4','i3','i5','i11'],
+  warn:'官方的每週 1 萬片是滿載產能；Intel 在 18A 良率 2027 年初達到業界水準前限制產量，本頁各季爬坡為推估。分析師依 Intel 圖表解讀為 Fab 52＋62 合計 4 萬片，與技術長說法不同。', src:['i4','i3','i5','i11','i14'],
   phases:[
-    { id:'18A', st:'ramp', nodes:'Intel 18A（含 18A-P）', tech:['I18A'], mp:'2025/10 全面運轉', ms:'18A 良率每月改善 7–8%（2026/5）；2027 年初達業界水準', full:'每週逾 1 萬片（官方）≈ 月約 4 萬片', conf:'off',
+    { id:'18A', st:'ramp', nodes:'Intel 18A（含 18A-P）', tech:['I18A'], mp:'2025/10 全面運轉', ms:'18A 良率每月改善 7–8%（2026/5）；報導 2026/9 良率約 80%（Jeff Pu）；2027 年初達業界水準', full:'每週逾 1 萬片（官方）≈ 月約 4 萬片', conf:'off',
       cap:[{t:'2025Q2',n:'I18A',v:3},{t:'2025Q4',n:'I18A',v:12},{t:'2026Q2',n:'I18A',v:20},{t:'2026Q4',n:'I18A',v:27},{t:'2027Q2',n:'I18A',v:33},{t:'2027Q4',n:'I18A',v:40}] }
   ]},
 { id:'IF62', code:'Fab 62', name:'亞利桑那 Fab 62', kind:'fab', region:'US', loc:'美國亞利桑那州 錢德勒（Ocotillo）', wafer:12, since:'建設中', adv:'—', owner:'Intel 51%／Brookfield 49%（合資）', grp:'AZ',
@@ -1777,14 +1781,14 @@ const SITES = [
   ]},
 /* ---------------- 奧勒岡（Hillsboro） ---------------- */
 { id:'IOR', code:'D1X', name:'奧勒岡 D1X（研發＋初期量產）', kind:'fab', region:'US', loc:'美國奧勒岡州 希爾斯伯勒（Gordon Moore Park at Ronler Acres）', wafer:12, since:'2013', adv:'Intel 18A；14A 開發中', owner:'Intel', grp:'OR',
-  desc:'Intel 唯一的先進製程研發基地。D1X 三個模組（Mod 1 2013、Mod 2 2015、Mod 3 2022 宣布）合計約 75 萬平方英尺、全部可裝 EUV，放有業界第一台量產型 High-NA EUV（EXE:5200B）。Intel 4 的首批量產與 18A 的早期量產都在此進行，之後移轉到愛爾蘭與亞利桑那；14A 2028 年風險試產、2029 年量產（官方）。另有 D1B、D1C、D1D 等較早的研發廠。',
-  warn:'奧勒岡的量產是「開發→初期量產→移轉」的短期產能，各季數字為推估。', src:['i3','i5','i6'],
+  desc:'Intel 唯一的先進製程研發基地。D1X 三個模組（Mod 1 2013、Mod 2 2015、Mod 3 2022 宣布）合計約 75 萬平方英尺、全部可裝 EUV，放有業界第一台量產型 High-NA EUV（EXE:5200B）。Intel 4 的首批量產與 18A 的早期量產都在此進行，之後移轉到愛爾蘭與亞利桑那；14A 2027 下半年風險試產、2028 年量產爬坡（官方，2026/7 法說）。另有 D1B、D1C、D1D 等較早的研發廠。',
+  warn:'奧勒岡的量產是「開發→初期量產→移轉」的短期產能，各季數字為推估。14A 時程：Intel 2026/7 法說稿為 2027H2 風險試產、2028 量產爬坡（較舊說法 2028／2029 提前一年）；報導（Jeff Pu）稱 2027 年 14A 月產能約 6 千片，本頁 2027 年風險試產量未計入。', src:['i3','i5','i6','i13','i14'],
   phases:[
     { id:'Intel 4 初期量產', st:'exit', nodes:'Intel 4（EUV）', tech:['I3'], mp:'2022–2023', ms:'量產移往愛爾蘭 Fab 34', full:'推估約 1 萬片', conf:'est',
       cap:[{t:'2023Q1',n:'I3',v:10},{t:'2024Q2',n:'I3',v:5},{t:'2025Q1',n:'I3',v:0}] },
     { id:'18A 初期量產', st:'op', nodes:'Intel 18A', tech:['I18A'], mp:'2024 年底起', ms:'亞利桑那 Fab 52 爬坡期間支援', full:'推估約 0.5–0.8 萬片', conf:'est',
       cap:[{t:'2024Q4',n:'I18A',v:3},{t:'2025Q2',n:'I18A',v:8},{t:'2026Q2',n:'I18A',v:5}] },
-    { id:'14A', st:'build', nodes:'Intel 14A（High-NA EUV）', tech:['I14A'], mp:'2028 風險試產、2029 量產（官方）', ms:'14A v0.9 PDK 2026/10 交給外部客戶', full:'推估 0.5–1.5 萬片', conf:'est',
+    { id:'14A', st:'build', nodes:'Intel 14A（High-NA EUV）', tech:['I14A'], mp:'2027H2 風險試產、2028 量產爬坡（官方，2026/7 法說）', ms:'14A v0.9 PDK 2026/10 交給外部客戶', full:'推估 0.5–1.5 萬片', conf:'est',
       cap:[{t:'2028Q2',n:'I14A',v:5},{t:'2029Q2',n:'I14A',v:15}] },
     { id:'D1B／D1C／D1D', st:'rd', nodes:'製程研發（D1C 為全球第一座 12 吋廠）', tech:['RD'], mp:'1996–2003', ms:'—', full:'研發，不計量產產能', conf:'off', cap:[] }
   ]},
@@ -1914,9 +1918,9 @@ return {
   util:[],
   totalSub:'全部量產晶圓廠（12 吋）；奧勒岡只計初期量產，不含研發；封測、先進封裝不計入',
   chartsNote:'Intel 不公布逐廠產能：本頁依無塵室面積與 Intel 2024 年的每週投片圖表推估（分析師 Alex_Intel，2026/1），並以官方「Fab 52 每週逾 1 萬片」「2024 年美國廠產出逾 100 萬片」對照。',
-  cmp:{ fabs:'亞利桑那 6（含 Fab 62 建設中）、奧勒岡 D1X、愛爾蘭 4、以色列 Fab 28（Fab 38 暫停、俄亥俄建設中）；IDM，含自家產品', adv:'Intel 18A（2025/10 量產）', capex:'未列', focus:'Fab 52 18A 爬坡、14A（2028 風險試產）、聯電 12nm（2027）' },
+  cmp:{ fabs:'亞利桑那 6（含 Fab 62 建設中）、奧勒岡 D1X、愛爾蘭 4、以色列 Fab 28（Fab 38 暫停、俄亥俄建設中）；IDM，含自家產品', adv:'Intel 18A（2025/10 量產）', capex:'未列', focus:'Fab 52 18A 爬坡、14A（2027H2 風險試產、2028 量產）、聯電 12nm（2027）' },
   notes:[
-    '<span class="conf c-off">官方</span> Intel 只公布：15 座量產晶圓廠、分布 10 個據點（2025/2）；2024 年美國廠產出逾 100 萬片晶圓；Fab 52「每週可投片逾 1 萬片 18A」（技術長，2025/12）；俄亥俄 Mod 1 2030–2031、Mod 2 2032 營運；14A 2028 年風險試產、2029 年量產。',
+    '<span class="conf c-off">官方</span> Intel 只公布：15 座量產晶圓廠、分布 10 個據點（2025/2）；2024 年美國廠產出逾 100 萬片晶圓；Fab 52「每週可投片逾 1 萬片 18A」（技術長，2025/12）；俄亥俄 Mod 1 2030–2031、Mod 2 2032 營運；14A 2027 下半年風險試產、2028 年量產爬坡（2026/7 法說）。',
     '<span class="conf c-est">推估</span> 逐廠產能取自分析師 Alex_Intel（2026/1）的模型：以無塵室面積換算，並對照 Intel 2024 年 Foundry 活動的每週投片圖表。亞利桑那非 EUV 三廠（Fab 12／22／32）2021 年約 6 萬片、2025 年起約 2.7 萬片 Intel 7；以色列約 4 萬片 Intel 7；愛爾蘭 Fab 34 約 4 萬片 Intel 3；愛爾蘭非 EUV 三廠由約 4.7 萬片降到 1.6 萬片；2021 年底全公司約 18 萬片 Intel 7 約當。',
     '外包不計入：Intel 另向台積電採購 N3B、N6 等晶片塊（分析師估 2025 年初約 3.5 萬片），不在本頁產能內。',
     '封裝測試與先進封裝（新墨西哥、馬來西亞、越南、成都、哥斯大黎加、耶路撒冷）列在清單中，不計入晶圓產能。',
@@ -1935,7 +1939,7 @@ return {
 })();
 
 const SMIC = (() => {
-const META = { updated:'2026-09-25', checked:'2026-10-05', version:'v1.0' };
+const META = { updated:'2026-09-25', checked:'2026-10-12', version:'v1.0' };
 const CHANGELOG = [
   { d:'2026-09-25', t:'初版：中芯國際 11 座晶圓廠逐廠推估（上海、北京、天津、深圳），與 IC 製造資料庫 Excel 的 SMIC 逐廠表逐格一致；官方只公布合併總產能，逐廠加總與官方差 ±4% 內。' }
 ];
@@ -2024,8 +2028,9 @@ return {
 
 /* ---------------- 格羅方德 GlobalFoundries ---------------- */
 const GF = (() => {
-const META = { updated:'2026-10-05', checked:'2026-10-05', version:'v1.0' };
+const META = { updated:'2026-10-12', checked:'2026-10-12', version:'v1.1' };
 const CHANGELOG = [
+  { d:'2026-10-12', t:'v1.1：德勒斯登 Project SPRINT 2026/10/9 舉行上樑典禮，官方新聞稿明訂「2028 年底」年產能逾 100 萬片 300mm，並宣布在德勒斯登開發與生產 Physical AI 平台 FDX Fusion（7nm 級數位效能＋類比／RF／嵌入式記憶體，需德國聯邦核准 IPCEI 補助）。SPRINT 爬坡推估配合官方時點調整：滿載由 2028Q2 延到 2028Q4（2028Q2 由 9.2 改為 7.5 千片／月），IC 製造資料庫 Excel 同步。' },
   { d:'2026-10-05', t:'初版：德勒斯登 Fab 1、紐約 Malta Fab 8、新加坡 Fab 7（含 7H）與 8 吋 Fab 2／Fab 3/5、佛蒙特 Fab 9 逐廠盤點，另收錄 Malta 先進封裝與光子中心、新加坡 AMF 矽光子廠、中國在地代工夥伴、已出售的 Fab 10、擱置的法國 Crolles 合資廠與取消的成都廠；逐廠加總與 20-F 官方年產能對照。' }
 ];
 const SOURCES = {
@@ -2047,17 +2052,18 @@ const SOURCES = {
   g16:['TrendForce：GF 與中國在地代工廠合作生產車用 CMOS（China-for-China）（2025/8/6）','https://www.trendforce.com/news/2025/08/06/news-globalfoundries-partners-with-chinese-foundry-for-localized-automotive-grade-cmos-production/'],
   g17:['eeNews Europe：ST 與 GF 擱置 Crolles 合資 FD-SOI 晶圓廠','https://www.eenewseurope.com/en/st-glofo-suspend-plan-for-joint-wafer-fab-say-reports/'],
   g18:['Wikipedia：GlobalFoundries（各廠沿革、Fab 10 出售、成都廠取消、AMF／MIPS 收購）','https://en.wikipedia.org/wiki/GlobalFoundries'],
-  g19:['Semiconductor Today：GF 追加 30 億美元投資矽光子、先進封裝與 GaN（2025/6）','https://www.semiconductor-today.com/news_items/2025/jun/globalfoundries-300625.shtml']
+  g19:['Semiconductor Today：GF 追加 30 億美元投資矽光子、先進封裝與 GaN（2025/6）','https://www.semiconductor-today.com/news_items/2025/jun/globalfoundries-300625.shtml'],
+  g20:['GF 新聞稿（via Finviz）：德勒斯登 SPRINT 上樑、2028 年底逾 100 萬片／年、FDX Fusion Physical AI 平台（2026/10/9）','https://finviz.com/news/400865/globalfoundries-marks-dresden-expansion-milestone-announces-next-generation-platform-for-physical-ai']
 };
 const SITES = [
 { id:'GF1', code:'Fab 1', name:'德勒斯登 Fab 1（德國）', kind:'fab', region:'DE', loc:'德國 薩克森邦 德勒斯登', wafer:12, since:'2009（原 AMD Fab 30／36）', adv:'22FDX（22nm FD-SOI）', owner:'格羅方德', grp:'DD',
-  desc:'2009 年格羅方德成立時由 AMD 移轉而來，是歐洲最大的晶圓廠；官網列年產能 95 萬片（300mm 約當），以 22FDX（FD-SOI）、28–55nm 特色 CMOS、RF-SOI 與 BCD 電源製程為主。2025/10 宣布 11 億歐元的 Project SPRINT 擴建，2026/3/18 動土，年產能增加逾 11 萬片、總計逾 100 萬片，2026 年首批機台進駐。', src:['g4','g10','g11','g1','g18'],
+  desc:'2009 年格羅方德成立時由 AMD 移轉而來，是歐洲最大的晶圓廠；官網列年產能 95 萬片（300mm 約當），以 22FDX（FD-SOI）、28–55nm 特色 CMOS、RF-SOI 與 BCD 電源製程為主。2025/10 宣布 11 億歐元的 Project SPRINT 擴建，2026/3/18 動土，年產能增加逾 11 萬片、總計逾 100 萬片，2026 年首批機台進駐；2026/10/9 上樑，官方目標 2028 年底年產能逾 100 萬片。同日宣布 Physical AI 平台 FDX Fusion 將在德勒斯登開發與生產。', src:['g4','g10','g11','g20','g1','g18'],
   phases:[
     { id:'既有產能', st:'op', nodes:'22FDX、28–55nm 特色 CMOS、RF-SOI、BCD', tech:['FDX','CMOS','RFSOI','BCD'], mp:'2009 起（代工）', ms:'—', full:'年 95 萬片＝月約 7.9 萬片（官方）', conf:'off',
       cap:[{t:'2023Q1',n:'W',v:79.2}] },
-    { id:'SPRINT 擴建', st:'build', nodes:'FDX、特色 CMOS（車用、工業、連網）', tech:['FDX','CMOS'], mp:'2028 年前後完成（推估）', ms:'2025/10 宣布 11 億歐元；2026/3/18 動土；2026 年首批機台進駐', full:'年增逾 11 萬片＝月約 0.9 萬片（官方）', conf:'off',
-      warn:'官方只公布增加的年產能與「2026 年首批機台」，爬坡時點為推估。',
-      cap:[{t:'2027Q1',n:'W',v:3},{t:'2027Q3',n:'W',v:6},{t:'2028Q2',n:'W',v:9.2}] }
+    { id:'SPRINT 擴建', st:'build', nodes:'FDX、特色 CMOS（車用、工業、連網）', tech:['FDX','CMOS'], mp:'2028 年底逾 100 萬片／年（官方）', ms:'2025/10 宣布 11 億歐元；2026/3/18 動土；2026/10/9 上樑；2026 年首批機台進駐', full:'年增逾 11 萬片＝月約 0.9 萬片（官方）', conf:'off',
+      warn:'官方只公布增加的年產能、「2026 年首批機台」與「2028 年底逾 100 萬片」，各季爬坡為推估。',
+      cap:[{t:'2027Q1',n:'W',v:3},{t:'2027Q3',n:'W',v:6},{t:'2028Q2',n:'W',v:7.5},{t:'2028Q4',n:'W',v:9.2}] }
   ]},
 { id:'GF8', code:'Fab 8', name:'紐約 Malta Fab 8（總部）', kind:'fab', region:'US', loc:'美國紐約州 Malta（Luther Forest 科技園區）', wafer:12, since:'2012', adv:'12LP+（12nm FinFET）', owner:'格羅方德', grp:'NY',
   desc:'格羅方德總部與最先進的量產廠，2009 年動工、2012 年量產；官網列年產能 40 萬片（300mm 約當），生產 14／12nm FinFET、FDX、RF-SOI 與矽光子。2024 年 CHIPS 法案補助 15 億美元（另有紐約州 5.7 億美元），支持 Fab 8 擴建與園區內新建一座晶圓廠，兩項計畫在 10 年以上使 Malta 園區產能增為三倍；美國兩地合計投資計畫已上修至 160 億美元以上。2024 年第 4 季對 Malta 舊有產能提列減損。', src:['g5','g12','g13','g1','g15'],
@@ -2133,19 +2139,19 @@ return {
     { l:'全公司裝機產能（官方）', when:'2025 年底', ref:233.3, refTxt:'約 280 萬片／年（與 2024 年持平）', conf:'off', src:'g1', m:{q:'2025Q4'}, note:'本頁 7H 爬坡為推估；官方稱 2025 年因技術移轉，總產能與 2024 年持平' },
     { l:'晶圓出貨（官方）', when:'2025 年', ref:2300, refTxt:'230 萬片（300mm 約當；官方利用率 86%）', conf:'off', src:'g1', m:{year:2025}, kind:'out', note:'隱含稼動率＝官方出貨÷本頁產能，低於官方 86%，代表本頁名目產能高於官方估計的有效產能' },
     { l:'新加坡合計產能', when:'7H 滿載後', ref:125, refTxt:'逾 150 萬片／年（300mm 約當）', conf:'off', src:'g6', m:{region:'SG', q:'2027Q2'} },
-    { l:'德勒斯登產能', when:'SPRINT 完成後', ref:88.3, refTxt:'95 萬＋逾 11 萬片＝逾 100 萬片／年', conf:'off', src:'g10', m:{site:'GF1', q:'2028Q4'} }
+    { l:'德勒斯登產能', when:'2028 年底（SPRINT 完成）', ref:88.3, refTxt:'95 萬＋逾 11 萬片＝逾 100 萬片／年', conf:'off', src:'g20', m:{site:'GF1', q:'2028Q4'} }
   ],
   notes:[
     '<span class="conf c-off">官方</span> 全公司產能取自 20-F：2023 年底裝機產能 2,618 千片／年、2024 年底基礎產能約 280 萬片、2025 年底約 280 萬片（300mm 約當）；利用率 2022 年 101%、2023 年 81%、2024 年 77%、2025 年 86%（出貨÷估計產能）。各據點年產能取自官網：德勒斯登 95 萬、Malta 40 萬、新加坡 150 萬（300mm 約當）、佛蒙特 60 萬片 200mm。',
     '<span class="conf c-rep">報導</span> 新加坡拆分取自 2023/9 7H 開幕時的公布值：12 吋 72 萬片、8 吋 69.2 萬片／年，7H 滿載年增 45 萬片。',
-    '<span class="conf c-est">推估</span> 7H（2024 下半年起）與德勒斯登 SPRINT（2026 年進機）的季度爬坡；Malta 擴建、園區新廠、Vermont GaN 線、中國合作廠的產能未公布，不計入。',
+    '<span class="conf c-est">推估</span> 7H（2024 下半年起）與德勒斯登 SPRINT（2026 年進機、2028 年底滿載）的季度爬坡；Malta 擴建、園區新廠、Vermont GaN 線、中國合作廠的產能未公布，不計入。',
     '換算：8 吋 ÷2.25＝300mm 約當，與格羅方德官方口徑相同（新加坡 72 萬＋45 萬＋69.2 萬÷2.25≈148 萬，對得上官方「逾 150 萬」）。',
     '本頁逐廠加總用的是官網名目產能，2023–2025 年與 20-F 官方總量差 −1%～＋3%（見「官方與報導總量對照」）。',
     '已出售或取消：Fab 3E（2019 年售予世界先進）、Fab 10（2023/2 售予安森美）、成都 Fab 11（2020 年取消）；法國 Crolles 合資廠報導已擱置。',
     '<span class="warn-i">⚠ 留意</span>：爬坡時點為推估，或官方與報導說法不一致的項目。'
   ],
   watch:[
-    '德勒斯登 SPRINT 2026 年進機後的爬坡（2028 年前後逾 100 萬片／年）',
+    '德勒斯登 SPRINT 2026/10/9 上樑後的進機與爬坡（官方：2028 年底逾 100 萬片／年）；FDX Fusion 平台的 IPCEI 補助核准與量產時程',
     'Malta Fab 8 擴建與園區新廠的產能與時程（10 年以上產能三倍）',
     '新加坡 7H 滿載與 300mm SiGe 平台驗證',
     '矽光子（AMF、Malta）與 SiGe（佛蒙特）擴產；資料中心光通訊需求',
