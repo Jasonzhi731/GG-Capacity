@@ -138,6 +138,20 @@ p{text-wrap:pretty}
 .notice{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start;border:1px solid color-mix(in srgb,var(--accent) 65%,var(--line));background:var(--accent-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.6}
 .notice .badge{font-size:11px;font-weight:700;letter-spacing:.04em;background:var(--accent);color:var(--accent-ink);border-radius:3px;padding:1px 7px;white-space:nowrap;margin-top:1px}
 .notice p{margin:0;color:var(--ink)}
+.mside{display:grid;gap:10px;min-width:0}
+.xport{display:grid;gap:4px}
+.xrow{display:flex;flex-wrap:wrap;gap:8px}
+.xbtn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:7px;border:1px solid var(--ink);background:var(--ink);color:var(--surface);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background-color .15s,border-color .15s,opacity .15s}
+.xbtn svg{width:15px;height:15px;flex:none}
+.xbtn:hover:not(:disabled){background:color-mix(in srgb,var(--ink) 86%,var(--accent))}
+.xbtn.alt{background:var(--surface);color:var(--ink);border-color:var(--line-strong);font-weight:500}
+.xbtn.alt:hover:not(:disabled){background:var(--surface-2);border-color:var(--ink-3)}
+.xbtn:disabled{opacity:.6;cursor:progress}
+.xhint{margin:0;font-size:11.5px;color:var(--ink-3);line-height:1.5}
+.xmsg{margin:0;font-size:12px;color:var(--ink-2);min-height:0}
+.xmsg:empty{display:none}
+.xmsg[data-tone="ok"]{color:var(--st-op)}
+.xmsg[data-tone="warn"]{color:var(--warn)}
 
 /* ---------- hero ---------- */
 .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.95fr);gap:28px clamp(24px,4vw,60px);align-items:start;margin-top:26px}
@@ -560,7 +574,17 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
     <h1>晶圓代工產能版圖</h1>
     <p>逐廠、逐期盤點台積電、聯電、世界先進、力積電、中芯國際、格羅方德六家晶圓代工廠，以及三星電子（記憶體＋代工，逐線標示並標出產線轉換）與英特爾（IDM）的製程、產能與量產時程（含海外據點與合資廠）。用上方選單切換公司或看「八家比較」；拖動時間尺、按播放，可以查看 2023–2030 任一季。產能單位為<b>千片／月</b>，合計一律換算成 12 吋約當。</p>
   </div>
+  <div class="mside">
   <div class="notice" role="note"><span class="badge">AI 自動收集資料</span><p>本網站的資料由 AI 自動蒐集、整理與推估，<b>不代表各公司官方實際資料</b>，僅供研究參考，不構成投資建議。每週自動檢查更新，最近一次檢查：<span class="mono" id="checkedAt"></span>。</p></div>
+  <div class="xport" id="xport">
+    <div class="xrow">
+      <button type="button" class="xbtn" id="xBtn" data-x="co"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="1.5" width="12" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.2 5.2 10.8 10.8M10.8 5.2 5.2 10.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span id="xCo">下載 Excel</span></button>
+      <button type="button" class="xbtn alt" id="xAll" data-x="all"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8.2M4.6 7 8 10.4 11.4 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>八家全部</span></button>
+    </div>
+    <p class="xhint"><span id="xHint">廠區明細、逐季產能、彙總、利用率、總量對照與來源</span>；產能欄位依選定季，檔內附 AI 資料聲明。</p>
+    <p class="xmsg" id="xMsg" role="status" aria-live="polite"></p>
+  </div>
+  </div>
 </section>
 
 <main class="inner" id="main">
@@ -3170,7 +3194,7 @@ function renderCompany(){
   $('#coView').hidden = isCmp; $('#cmpView').hidden = !isCmp;
   Object.keys(charts).forEach(k=>{ if (k!=='drawer'){ charts[k].destroy(); delete charts[k]; } });
   if (!isCmp){ const co = CO(); if (!co.groups.some(g=>g.id===state.group)) state.group = co.groups[0].id; }
-  renderNav(); renderHero(); renderFooter();
+  renderNav(); renderHero(); renderFooter(); updateXport();
   if (isCmp){ buildCompare(); return; }
   const co = CO();
   renderStatic(); buildTotal();
@@ -3212,6 +3236,262 @@ function togglePlay(){
   playT = setInterval(()=>{ if (state.asof >= IN){ stopPlay(); return; } setAsof(state.asof + 1); }, 750);
 }
 
+/* ---------- Excel export ---------- */
+const XL_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';
+const SITE_URL = 'https://jasonzhi731.github.io/GG-Capacity/';
+const XL_DISC = '本資料由 AI 自動收集、整理與推估，不代表各公司官方實際資料；推估值僅供參考，不構成投資建議。';
+const XC = { head:'FFE6EAED', fc:'FFFFF1D1', title:'FF6A7682', tot:'FFF4F6F7', line:'FFC2CAD1', link:'FF0B6B8A' };
+let xlLoading = null, xBusy = false;
+function loadExcel(){
+  if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
+  if (xlLoading) return xlLoading;
+  xlLoading = new Promise((res, rej)=>{
+    const s = document.createElement('script'); s.src = XL_SRC; s.async = true;
+    s.onload = ()=> window.ExcelJS ? res(window.ExcelJS) : rej(new Error('Excel 元件未正確載入'));
+    s.onerror = ()=>{ xlLoading = null; rej(new Error('無法載入 Excel 元件，請確認網路連線後再試')); };
+    document.head.appendChild(s);
+  });
+  return xlLoading;
+}
+const plain = h => String(h==null?'':h).replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&').trim();
+const r1 = v => v==null || isNaN(v) ? null : Math.round(v*10)/10;
+const todayISO = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
+const qCols = () => QUARTERS.map(i=>({ k:'q'+i, h: qlab(i) + (i > NOW_I ? '\n預估' : ''), w:9, nf:'#,##0.0', fc: i > NOW_I }));
+const yCols = () => YEARS.map(y=>({ k:'y'+y, h: y + (y*4+3 > NOW_I ? '\n預估' : ''), w:10, nf:'#,##0.0', fc: y*4+3 > NOW_I }));
+
+function xSheet(wb, name, title, cols, rows, o){
+  o = o || {};
+  const ws = wb.addWorksheet(name, { views:[{ state:'frozen', xSplit:o.xSplit||0, ySplit:2 }] });
+  ws.columns = cols.map(c=>({ width:c.w||12 }));
+  const t = ws.getCell(1,1); t.value = title + '｜' + XL_DISC; t.font = { italic:true, size:9, color:{ argb:XC.title } };
+  const hr = ws.getRow(2); hr.height = o.hh || 32;
+  cols.forEach((c,j)=>{ const cell = hr.getCell(j+1); cell.value = c.h;
+    cell.font = { bold:true, size:10 };
+    cell.fill = { type:'pattern', pattern:'solid', fgColor:{ argb: c.fc ? XC.fc : XC.head } };
+    cell.alignment = { vertical:'middle', horizontal: c.nf ? 'right' : 'left', wrapText:true };
+    cell.border = { bottom:{ style:'thin', color:{ argb:XC.line } } }; });
+  rows.forEach(r=>{
+    const row = ws.addRow(cols.map(c=>{ const v = r[c.k]; return v===undefined || v==='' ? null : v; }));
+    cols.forEach((c,j)=>{ const cell = row.getCell(j+1);
+      if (c.nf) cell.numFmt = c.nf;
+      if (c.fc && !r._tot) cell.fill = { type:'pattern', pattern:'solid', fgColor:{ argb:XC.fc } };
+      cell.alignment = { vertical:'top', wrapText: !!c.wrap };
+      if (c.link && r[c.link]){ cell.value = { text:String(r[c.k] || r[c.link]), hyperlink:String(r[c.link]) }; cell.font = { color:{ argb:XC.link }, underline:true }; } });
+    if (r._tot) row.eachCell({ includeEmpty:true }, cell=>{ cell.font = { bold:true }; cell.fill = { type:'pattern', pattern:'solid', fgColor:{ argb:XC.tot } }; });
+    if (r._head) row.eachCell({ includeEmpty:true }, cell=>{ cell.font = { bold:true, color:{ argb:'FF45505C' } }; });
+  });
+  if (rows.length && !o.noFilter) ws.autoFilter = { from:{ row:2, column:1 }, to:{ row:2, column:cols.length } };
+  return ws;
+}
+
+function srcText(co, ids){ const keys = Object.keys(co.SOURCES); return (ids||[]).map(id=>{ const s = co.SOURCES[id]; return s ? `[${keys.indexOf(id)+1}] ${s[0]}` : ''; }).filter(Boolean).join('；'); }
+function unitOf(s){ return s.kind==='ap' ? '封裝晶圓片數' : s.wafer ? `${s.wafer} 吋` : ''; }
+function xPhaseRows(co, i){
+  const rows = [];
+  co.SITES.forEach(s=>s.phases.forEach(p=>{
+    const has = (p.cap||[]).length > 0; const now = phaseAt(p,i).t;
+    rows.push({ co:co.name, code:s.code, name:s.name, kind:KINDS[s.kind]||s.kind, region:REG[s.region]||s.region||'', loc:s.loc||'', wafer: s.wafer ? s.wafer+' 吋' : '封裝',
+      div:DIVS[s.div]||'', since:s.since||'', adv:s.adv||'', owner:s.owner||'',
+      ph:p.id, st: STATUS[p.st] ? STATUS[p.st].l : p.st, nodes:p.nodes||'', tech:(p.tech||[]).map(t=>techL(co,t)).join('、'), mp:p.mp||'', ms:p.ms||'', full:p.full||'', conf:CONF_L[p.conf]||'',
+      conv: phaseConv(s,p).map(x=>`${XCONV[x.t]||x.t}${x.d?'（'+x.d+'）':''}${x.l?'：'+x.l:''}`).join('；'),
+      warn: [p.warn, s.warn].filter(Boolean).join('；'),
+      now: has ? r1(now) : null, now12: has && counted(s) ? r1(now*fac(co,s)) : null, max: has ? r1(sum(phaseMax(p))) : null, unit: unitOf(s),
+      counted: counted(s) ? '是' : '否', desc:s.desc||'', src:srcText(co, s.src) });
+  }));
+  return rows;
+}
+function xPhaseCols(i, withCo){
+  const q = qlab(i);
+  return [ ...(withCo ? [{ k:'co', h:'公司', w:9 }] : []),
+    { k:'code', h:'廠區代號', w:12 }, { k:'name', h:'廠區名稱', w:26, wrap:true }, { k:'kind', h:'類型', w:10 }, { k:'region', h:'地區', w:8 }, { k:'loc', h:'地點', w:24, wrap:true },
+    { k:'wafer', h:'晶圓', w:7 }, { k:'div', h:'記憶體／代工', w:10 }, { k:'since', h:'投產', w:12, wrap:true }, { k:'adv', h:'最先進量產', w:14, wrap:true }, { k:'owner', h:'持有', w:18, wrap:true },
+    { k:'ph', h:'Phase', w:14, wrap:true }, { k:'st', h:'狀態', w:10 }, { k:'nodes', h:'製程／技術', w:30, wrap:true }, { k:'tech', h:'技術標籤', w:16, wrap:true },
+    { k:'mp', h:'量產時間', w:18, wrap:true }, { k:'ms', h:'進度／備註', w:46, wrap:true }, { k:'full', h:'滿載／設計產能', w:20, wrap:true }, { k:'conf', h:'可信度', w:7 },
+    { k:'conv', h:'產線轉換', w:22, wrap:true }, { k:'warn', h:'⚠ 留意', w:40, wrap:true },
+    { k:'now', h:`${q} 產能\n（原生，千片／月）`, w:13, nf:'#,##0.0' }, { k:'now12', h:`${q} 產能\n（12 吋約當）`, w:13, nf:'#,##0.0' }, { k:'max', h:'模型最終值\n（原生）', w:12, nf:'#,##0.0' }, { k:'unit', h:'單位', w:12 },
+    { k:'counted', h:'計入晶圓產能', w:9 }, { k:'desc', h:'廠區說明', w:56, wrap:true }, { k:'src', h:'來源', w:56, wrap:true } ];
+}
+function xQuarterRows(co){
+  const rows = [];
+  co.SITES.forEach(s=>s.phases.forEach(p=>{
+    [...new Set((p.cap||[]).map(c=>c.n||c.k))].forEach(k=>{
+      const r = { co:co.name, code:s.code, ph:p.id, item:keyLabel(co,s,k), unit:unitOf(s), f: counted(s) ? Math.round(fac(co,s)*10000)/10000 : null, conf:CONF_L[p.conf]||'' };
+      QUARTERS.forEach(i=>{ const m = capAt(p,i); r['q'+i] = (k in m) ? r1(m[k]) : null; });
+      rows.push(r);
+    });
+  }));
+  return rows;
+}
+function xQuarterCols(withCo){
+  return [ ...(withCo ? [{ k:'co', h:'公司', w:9 }] : []), { k:'code', h:'廠區', w:12 }, { k:'ph', h:'Phase', w:14, wrap:true }, { k:'item', h:'項目／節點', w:16, wrap:true },
+    { k:'unit', h:'單位', w:10 }, { k:'f', h:'12 吋約當係數', w:9, nf:'0.0000' }, { k:'conf', h:'可信度', w:7 }, ...qCols() ];
+}
+function xAggRows(co){
+  const rows = [];
+  co.groups.forEach(g=>{
+    const kf = keyFnOf(g); const vals = QUARTERS.map(i=>waferBy(co,i,kf));
+    g.items.forEach(it=>{ const r = { g:g.l, item:it.l }; QUARTERS.forEach((i,j)=>{ r['q'+i] = r1(vals[j][it.k]||0); }); rows.push(r); });
+  });
+  const t = { g:'合計', item:'晶圓合計（12 吋約當）', _tot:true }; QUARTERS.forEach(i=>{ t['q'+i] = r1(totalOf(co,i)); }); rows.push(t);
+  if (co.cmpKeys){ const c = { g:'比較口徑', item:cmpName(co) }; QUARTERS.forEach(i=>{ c['q'+i] = r1(cmpTotal(co,i)); }); rows.push(c); }
+  if (co.packaging) ['CoWoS','SoIC'].forEach(k=>{ const r = { g:'先進封裝', item:k+'（晶圓片數，不計入合計）' }; QUARTERS.forEach(i=>{ r['q'+i] = r1(sum(apBy(co,i,k))); }); rows.push(r); });
+  return rows;
+}
+const yAvg = (fn, y) => [0,1,2,3].reduce((a,k)=>a+fn(y*4+k),0)/4;
+function xYearRows(co){
+  const g = co.groups.find(x=>x.id===co.tableGroup) || co.groups[0]; const kf = keyFnOf(g);
+  const vals = {}; YEARS.forEach(y=>{ vals[y] = waferBy(co, y*4+3, kf); });
+  const rows = g.items.slice().reverse().map(it=>{ const r = { item:it.l, basis:'年底（Q4）' }; YEARS.forEach(y=>{ r['y'+y] = r1(vals[y][it.k]||0); }); return r; });
+  const t = { item:'晶圓合計（12 吋約當）', basis:'年底（Q4）', _tot:true }; YEARS.forEach(y=>{ t['y'+y] = r1(totalOf(co,y*4+3)); }); rows.push(t);
+  const a = { item:'晶圓合計（12 吋約當）', basis:'全年平均（千片／月）' }; YEARS.forEach(y=>{ a['y'+y] = r1(yAvg(i=>totalOf(co,i), y)); }); rows.push(a);
+  const n = { item:'晶圓合計（12 吋約當）', basis:'全年產能（千片／年）' }; YEARS.forEach(y=>{ n['y'+y] = r1(yAvg(i=>totalOf(co,i), y)*12); }); rows.push(n);
+  co.groups.filter(x=>x.by==='map' && x!==g).forEach(mg=>{ const kf2 = keyFnOf(mg); mg.items.forEach(it=>{ const r = { item:it.l, basis:'年底（Q4）' }; YEARS.forEach(y=>{ r['y'+y] = r1(waferBy(co,y*4+3,kf2)[it.k]||0); }); rows.push(r); }); });
+  if (co.packaging) ['CoWoS','SoIC'].forEach(k=>{ const r = { item:k+'（晶圓片數）', basis:'年底（Q4）' }; YEARS.forEach(y=>{ r['y'+y] = r1(sum(apBy(co,y*4+3,k))); }); rows.push(r); });
+  return rows;
+}
+function xReconRows(co){
+  if (!co.RECON) return [];
+  return co.RECON.map(r=>{
+    const kind = r.kind || 'cap'; const o = { co:co.name, l:r.l, when:r.when, ref:r.refTxt, conf:CONF_L[r.conf]||'', note:r.note||'', src:srcText(co,[r.src]) };
+    if (kind==='text'){ o.model = r.mtxt; o.diff = r.dtxt || ''; return o; }
+    const v = reconVal(co, r.m);
+    if (kind==='yoy'){ o.model = `晶圓 ${fmt(v,1)}%`; o.diff = `隱含每片位元數 ${fmt(((1+r.ref/100)/(1+v/100)-1)*100,1)}%`; }
+    else if (kind==='out'){ o.model = `${fmt(v*12/10,1)} 萬片／年（月均 ${fmt(v/10,1)} 萬片）`; o.mv = r1(v); o.diff = `隱含稼動率 ${fmt(r.ref/(v*12)*100,0)}%`; }
+    else { o.model = `${fmt(v/10,1)} 萬片／月`; o.mv = r1(v);
+      if (Array.isArray(r.ref)){ const [lo,hi] = r.ref; o.diff = v>=lo && v<=hi ? '在區間內' : v>hi ? `高於上限 ${fmt((v/hi-1)*100,1)}%` : `低於下限 ${fmt((v/lo-1)*100,1)}%`; }
+      else { const d = (v/r.ref - 1)*100; o.diff = Math.abs(d) < .05 ? '一致' : `${d>0?'+':'−'}${fmt(Math.abs(d),1)}%`; } }
+    return o;
+  });
+}
+const reconCols = withCo => [ ...(withCo ? [{ k:'co', h:'公司', w:9 }] : []), { k:'l', h:'項目', w:30, wrap:true }, { k:'when', h:'時點', w:12 }, { k:'ref', h:'官方／報導的數字', w:36, wrap:true }, { k:'conf', h:'可信度', w:7 },
+  { k:'model', h:'本頁逐廠加總', w:28, wrap:true }, { k:'mv', h:'本頁加總\n（千片／月）', w:12, nf:'#,##0.0' }, { k:'diff', h:'差異', w:22, wrap:true }, { k:'note', h:'說明', w:40, wrap:true }, { k:'src', h:'來源', w:44, wrap:true } ];
+function xBenchRows(co){
+  const rows = []; const B = co.BENCH || {};
+  Object.keys(B).forEach(k=>{ const nd = (co.NODES||[]).find(n=>n.k===k); (B[k]||[]).forEach(([t,v,txt])=>rows.push({ key: nd ? nd.l : k, when:String(t), v, txt })); });
+  return rows;
+}
+function xNoteRows(co){
+  const rows = [];
+  (co.facts||[]).forEach(([k,v])=>rows.push({ type:'重點數字', d:k, t:v }));
+  (co.OFFICIAL_TOTAL||[]).forEach(([y,t])=>rows.push({ type:'官方總產能', d:y, t }));
+  (co.notes||[]).forEach(n=>rows.push({ type:'資料說明', d:'', t:plain(n) }));
+  (co.watch||[]).forEach(w=>rows.push({ type:'值得持續追蹤', d:'', t:w }));
+  [...(co.CHANGELOG||[]), ...SITE_CHANGELOG].forEach(c=>rows.push({ type:'更新紀錄', d:c.d, t:c.t }));
+  return rows;
+}
+function xSrcRows(co, withCo){ return Object.entries(co.SOURCES).map(([id,[t,u]], j)=>({ co:co.name, n:j+1, id, t, u:u||'' })); }
+const srcCols = withCo => [ ...(withCo ? [{ k:'co', h:'公司', w:9 }] : []), { k:'n', h:'#', w:5 }, { k:'id', h:'代碼', w:7 }, { k:'t', h:'來源', w:70, wrap:true }, { k:'u', h:'網址', w:60, link:'u' } ];
+
+function xReadme(wb, scope, i){
+  const isAll = scope==='all'; const co = isAll ? null : CO();
+  const rows = [
+    { k:'檔案', v: isAll ? '晶圓代工產能版圖：八家公司資料' : `晶圓代工產能版圖：${co.name}（${co.en}・${co.ticker}）` },
+    { k:'聲明', v: XL_DISC },
+    { k:'匯出日期', v: todayISO() },
+    { k:'選定季度', v: `${qlab(i)}（廠區明細的「產能」欄位依此季）；今天所在季度為 ${NOW_Q}` },
+    { k:'網站', v: SITE_URL, u: SITE_URL },
+    { k:'網站版本', v: `${SITE_META.version}，更新於 ${SITE_META.updated}，最近自動檢查 ${SITE_META.checked}` },
+    ...(isAll ? ORDER.map(id=>({ k:`${COS[id].name}資料版本`, v:`${COS[id].META.version}，更新於 ${COS[id].META.updated}` })) : [{ k:'公司資料版本', v:`${co.META.version}，更新於 ${co.META.updated}，最近自動檢查 ${co.META.checked||SITE_META.checked}` }]),
+    { k:'單位', v:'產能為「千片／月」。原生值以各廠晶圓尺寸計；合計一律換算成 12 吋約當' + (isAll ? '（各公司換算係數見各工作表）' : `（8 吋 × ${Math.round(co.f8*10000)/10000}、6 吋 × ${Math.round(co.f6*10000)/10000}）`) + '。先進封裝（CoWoS、SoIC）以晶圓片數計，不計入晶圓產能。' },
+    { k:'時間軸', v:`2023Q1–2030Q4。晚於 ${NOW_Q} 的季度為預估：表頭標「預估」、底色淡黃。產能自標示的季度起生效，直到下一個時間點。` },
+    { k:'可信度', v:'官方＝公司財報、年報、法說會、官網；報導＝媒體或法人報告；推估＝本站依公開資訊回推。' },
+    ...(isAll ? [] : [{ k:'公司簡介', v: co.summary || '' }]),
+    { k:'工作表', v: isAll
+      ? '八家比較｜各公司逐季產能｜各公司年度產能｜利用率｜廠區明細（八家）｜逐季產能（原生，八家）｜官方總量對照｜來源（八家）'
+      : ['廠區明細','逐季產能（原生）','逐季彙總（12吋約當）','年度彙總', ...((co.util||[]).length?['利用率']:[]), ...(co.RECON?['官方總量對照']:[]), ...(Object.keys(co.BENCH||{}).length?['報導對照']:[]), '說明與追蹤','來源'].join('｜') }
+  ];
+  const ws = xSheet(wb, '說明', '晶圓代工產能版圖', [{ k:'k', h:'項目', w:16 }, { k:'v', h:'內容', w:110, wrap:true, link:'u' }], rows, { noFilter:true });
+  ws.getRow(4).getCell(2).font = { bold:true, color:{ argb:'FFC2410C' } };
+}
+
+function xCompanyBook(wb, co, i){
+  xReadme(wb, 'co', i);
+  xSheet(wb, '廠區明細', `${co.name}・廠區與各期明細`, xPhaseCols(i,false), xPhaseRows(co,i), { xSplit:2, hh:44 });
+  xSheet(wb, '逐季產能（原生）', `${co.name}・各期逐季產能（原生晶圓尺寸，千片／月）`, xQuarterCols(false), xQuarterRows(co), { xSplit:3, hh:36 });
+  xSheet(wb, '逐季彙總（12吋約當）', `${co.name}・逐季產能彙總（12 吋約當，千片／月）`, [{ k:'g', h:'分組方式', w:12 }, { k:'item', h:'項目', w:28, wrap:true }, ...qCols()], xAggRows(co), { xSplit:2, hh:36 });
+  xSheet(wb, '年度彙總', `${co.name}・年度產能（12 吋約當）`, [{ k:'item', h:'項目', w:30, wrap:true }, { k:'basis', h:'口徑', w:18 }, ...yCols()], xYearRows(co), { xSplit:2, hh:36 });
+  if ((co.util||[]).length) xSheet(wb, '利用率', `${co.name}・產能利用率（公司公布值）`, [{ k:'q', h:'季度', w:10 }, { k:'v', h:'利用率（%）', w:12, nf:'0.0' }, { k:'note', h:'註記', w:40, wrap:true }], co.util.map(u=>({ q:u[0], v:u[1], note:u[2]||'' })));
+  if (co.RECON) xSheet(wb, '官方總量對照', `${co.name}・本頁逐廠加總與官方或報導總量對照`, reconCols(false), xReconRows(co), { hh:36 });
+  const br = xBenchRows(co); if (br.length) xSheet(wb, '報導對照', `${co.name}・報導的節點或封裝總量（圖上 ◆）`, [{ k:'key', h:'項目', w:26 }, { k:'when', h:'時點', w:10 }, { k:'v', h:'數值（千片／月）', w:14, nf:'#,##0.0' }, { k:'txt', h:'報導說法', w:40, wrap:true }], br);
+  xSheet(wb, '說明與追蹤', `${co.name}・資料說明、追蹤清單與更新紀錄`, [{ k:'type', h:'類別', w:14 }, { k:'d', h:'項目／日期', w:22, wrap:true }, { k:'t', h:'內容', w:110, wrap:true }], xNoteRows(co));
+  xSheet(wb, '來源', `${co.name}・資料來源`, srcCols(false), xSrcRows(co));
+}
+
+function xAllBook(wb, i){
+  xReadme(wb, 'all', i);
+  const cmpRows = ORDER.map(id=>{ const co = COS[id]; const n = nativeBy(co,i,co.cmpKeys); const u = utilAt(co,i);
+    const pipe = co.SITES.reduce((a,s)=>a+s.phases.filter(p=>['build','plan'].includes(p.st) && (!co.cmpKeys || (p.tech||[]).some(t=>co.cmpKeys.includes(t)))).length,0);
+    return { co:cmpName(co), en:co.en, fabs:co.cmp.fabs, pipe, tot:r1(cmpTotal(co,i)), all:r1(totalOf(co,i)), w12:r1(n[12]||0), w8:r1(n[8]||0), w6:r1(n[6]||0), u: u ? u[1] : null, uq: u ? `${u[0]}${u[2]?'・'+u[2]:''}` : '未公布', adv:co.cmp.adv, capex:co.cmp.capex, focus:co.cmp.focus }; });
+  xSheet(wb, '八家比較', `八家比較・${qlab(i)}（產能欄位依選定季，其餘為最新公開資訊）`, [
+    { k:'co', h:'公司', w:16 }, { k:'en', h:'英文', w:9 }, { k:'fabs', h:'營運中晶圓廠', w:28, wrap:true }, { k:'pipe', h:'建設／規劃中 phase', w:10, nf:'0' },
+    { k:'tot', h:`${qlab(i)} 晶圓產能\n（12 吋約當，比較口徑）`, w:16, nf:'#,##0.0' }, { k:'all', h:'全公司\n（12 吋約當）', w:13, nf:'#,##0.0' }, { k:'w12', h:'12 吋（原生）', w:11, nf:'#,##0.0' }, { k:'w8', h:'8 吋（原生）', w:11, nf:'#,##0.0' }, { k:'w6', h:'6 吋（原生）', w:10, nf:'#,##0.0' },
+    { k:'u', h:'最新利用率（%）', w:11, nf:'0.0' }, { k:'uq', h:'利用率時點', w:22, wrap:true }, { k:'adv', h:'最先進量產', w:24, wrap:true }, { k:'capex', h:'2026 資本支出', w:20, wrap:true }, { k:'focus', h:'擴產重點', w:44, wrap:true } ], cmpRows, { xSplit:1, hh:44 });
+  const qRows = [];
+  ORDER.forEach(id=>{ const co = COS[id];
+    const a = { co:co.name, basis:'全公司' }; QUARTERS.forEach(q=>{ a['q'+q] = r1(totalOf(co,q)); }); qRows.push(a);
+    if (co.cmpKeys){ const c = { co:co.name, basis:'比較口徑（只計代工）' }; QUARTERS.forEach(q=>{ c['q'+q] = r1(cmpTotal(co,q)); }); qRows.push(c); } });
+  const tq = { co:'合計', basis:'比較口徑', _tot:true }; QUARTERS.forEach(q=>{ tq['q'+q] = r1(ORDER.reduce((s,id)=>s+cmpTotal(COS[id],q),0)); }); qRows.push(tq);
+  xSheet(wb, '各公司逐季產能', '各公司逐季晶圓產能（12 吋約當，千片／月；不含先進封裝）', [{ k:'co', h:'公司', w:12 }, { k:'basis', h:'口徑', w:20 }, ...qCols()], qRows, { xSplit:2, hh:36 });
+  const yRows = [];
+  ORDER.forEach(id=>{ const co = COS[id];
+    const e = { co:co.name, basis:'年底（Q4）' }; YEARS.forEach(y=>{ e['y'+y] = r1(totalOf(co,y*4+3)); }); yRows.push(e);
+    const v = { co:co.name, basis:'全年產能（千片／年）' }; YEARS.forEach(y=>{ v['y'+y] = r1(yAvg(q=>totalOf(co,q), y)*12); }); yRows.push(v);
+    if (co.cmpKeys){ const c = { co:co.name, basis:'年底・比較口徑（只計代工）' }; YEARS.forEach(y=>{ c['y'+y] = r1(cmpTotal(co,y*4+3)); }); yRows.push(c); } });
+  xSheet(wb, '各公司年度產能', '各公司年度晶圓產能（12 吋約當）', [{ k:'co', h:'公司', w:12 }, { k:'basis', h:'口徑', w:24 }, ...yCols()], yRows, { xSplit:2, hh:36 });
+  const uRows = []; ORDER.forEach(id=>(COS[id].util||[]).forEach(u=>uRows.push({ co:cmpName(COS[id]), q:u[0], v:u[1], note:u[2]||'' })));
+  xSheet(wb, '利用率', '產能利用率（公司公布值；台積電、英特爾不公布季度利用率）', [{ k:'co', h:'公司', w:16 }, { k:'q', h:'季度', w:10 }, { k:'v', h:'利用率（%）', w:12, nf:'0.0' }, { k:'note', h:'註記', w:40, wrap:true }], uRows);
+  xSheet(wb, '廠區明細（八家）', `八家廠區與各期明細（產能欄位為 ${qlab(i)}）`, xPhaseCols(i,true), ORDER.flatMap(id=>xPhaseRows(COS[id],i)), { xSplit:3, hh:44 });
+  xSheet(wb, '逐季產能（原生，八家）', '八家各期逐季產能（原生晶圓尺寸，千片／月）', xQuarterCols(true), ORDER.flatMap(id=>xQuarterRows(COS[id])), { xSplit:4, hh:36 });
+  const rec = ORDER.flatMap(id=>xReconRows(COS[id])); if (rec.length) xSheet(wb, '官方總量對照', '本頁逐廠加總與官方或報導總量對照', reconCols(true), rec, { hh:36 });
+  xSheet(wb, '來源（八家）', '八家資料來源', srcCols(true), ORDER.flatMap(id=>xSrcRows(COS[id])));
+}
+
+async function saveBlob(filename, blob){
+  let dl = null;
+  try { if (window.claude && typeof window.claude.use === 'function') dl = await window.claude.use('downloads'); } catch(e){ dl = null; }
+  if (dl){
+    try { await dl.save({ filename, data:blob }); return 'saved'; }
+    catch(err){
+      const c = err && err.code;
+      if (c==='declined') return 'declined';
+      if (c==='rate_limited') return 'busy';
+      if (c==='rejected_extension' || c==='extension_not_enabled') return 'blocked';
+      if (c==='too_large' || c==='bad_request') throw new Error(err.message || c);
+      /* unavailable / not_granted / capability_*：改用一般下載 */
+    }
+  }
+  const url = URL.createObjectURL(blob); const a = document.createElement('a');
+  a.href = url; a.download = filename; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 5000);
+  return 'downloaded';
+}
+function xMsg(t, tone){ const m = $('#xMsg'); m.textContent = t; m.dataset.tone = tone || ''; }
+async function doExport(scope){
+  if (xBusy) return;
+  const isAll = scope==='all' || state.co==='compare'; const i = state.asof;
+  xBusy = true; $$('.xbtn').forEach(b=>{ b.setAttribute('aria-busy','true'); b.disabled = true; }); xMsg('正在產生 Excel…');
+  try {
+    const ExcelJS = await loadExcel();
+    const wb = new ExcelJS.Workbook(); wb.creator = '晶圓代工產能版圖（AI 自動收集資料）'; wb.created = new Date();
+    if (isAll) xAllBook(wb, i); else xCompanyBook(wb, CO(), i);
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const filename = `晶圓代工產能版圖_${isAll ? '八家' : CO().name}_${qlab(i)}_${todayISO()}.xlsx`;
+    const r = await saveBlob(filename, blob);
+    if (r==='declined') xMsg('已取消下載。');
+    else if (r==='busy') xMsg('已有一個下載確認視窗開著，請先處理它再試一次。', 'warn');
+    else if (r==='blocked') xMsg('這個檢視環境不允許下載 Excel 檔，請改到 GitHub Pages 網站下載。', 'warn');
+    else xMsg(`已產生 ${filename}`, 'ok');
+  } catch(err){ xMsg('匯出失敗：' + ((err && err.message) || err), 'warn'); }
+  finally { xBusy = false; $$('.xbtn').forEach(b=>{ b.removeAttribute('aria-busy'); b.disabled = false; }); }
+}
+function updateXport(){
+  const isCmp = state.co==='compare';
+  $('#xCo').textContent = isCmp ? '下載 Excel・八家全部' : `下載 Excel・${CO().name}`;
+  $('#xAll').hidden = isCmp;
+  $('#xHint').textContent = isCmp ? '八家比較、逐季與年度產能、利用率、所有廠區明細與來源' : '廠區明細、逐季產能、彙總、利用率、總量對照與來源';
+}
+
 /* ---------- wiring ---------- */
 document.documentElement.style.setProperty('--nq', NQ);
 document.documentElement.style.setProperty('--fw', ((IN - NOW_I)/NQ*100).toFixed(3)+'%');
@@ -3223,6 +3503,9 @@ $('#qPrev').addEventListener('click', ()=>{ stopPlay(); setAsof(state.asof - 1);
 $('#qNext').addEventListener('click', ()=>{ stopPlay(); setAsof(state.asof + 1); });
 $('#asofReset').addEventListener('click', ()=>{ stopPlay(); setAsof(NOW_I); });
 $('#qPlay').addEventListener('click', togglePlay);
+$('#xBtn').addEventListener('click', ()=>doExport('co'));
+$('#xAll').addEventListener('click', ()=>doExport('all'));
+['pointerenter','focusin'].forEach(ev=>$('#xport').addEventListener(ev, ()=>{ loadExcel().catch(()=>{}); }, { once:true }));
 $('#cnav').addEventListener('click', e=>{ const b = e.target.closest('button[data-co]'); if (b) go(b.dataset.co); });
 $('#cnav').addEventListener('keydown', e=>{
   if (e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
