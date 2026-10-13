@@ -734,6 +734,7 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
 const NOW_Q = '2026Q4';
 const SITE_META = { version: 'v3.3', updated: '2026-10-13', checked: '2026-10-12' };
 const SITE_CHANGELOG = [
+  { d: '2026-10-13', t: '格羅方德與台積電簽 20 億美元矽中介層協議：格羅方德 Malta Fab 8 新增中介層產能（推估滿載月約 1 萬片，2028 上半年放量），台積電頁新增外購合作卡（不計入）。Excel 同步。' },
   { d: '2026-10-13', t: '台積電 CoWoS 2027 年逐廠重新評估：2027 年底約 20.2 萬片（原 19.2 萬），25 萬片列為樂觀情境並說明需要的條件。' },
   { d: '2026-10-12', t: '每週更新：格羅方德德勒斯登 SPRINT 10/9 上樑、官方目標 2028 年底逾 100 萬片，擴建爬坡推估配合調整（Excel 同步）；英特爾 14A 時程依 Q2 法說更正為 2027H2 風險試產、2028 量產，補充 18A 良率約 80% 報導。其餘六家本週無影響產能的新消息（台積電 10/15 法說待確認）。' },
   { d: '2026-10-05', t: 'v3.3：新增格羅方德（GlobalFoundries，德勒斯登、Malta、新加坡、佛蒙特共 11 個據點，含已出售、擱置與取消的廠區），各據點產能採官網與 20-F 官方值，並與官方全公司產能對照；比較頁改為八家。IC 製造資料庫 Excel 的 GF 分頁新增逐廠產能表。' },
@@ -749,8 +750,9 @@ const SITE_CHANGELOG = [
 
 /* ---------------- 台積電 TSMC ---------------- */
 const TSMC = (() => {
-const META = { updated: '2026-10-13', checked: '2026-10-13', version: 'v1.7', nowQ: '2026Q4' };
+const META = { updated: '2026-10-13', checked: '2026-10-13', version: 'v1.8', nowQ: '2026Q4' };
 const CHANGELOG = [
+  { d: '2026-10-13', t: 'v1.8：新增「格羅方德 Malta 矽中介層（外購）」合作卡：2026/10/8 台積電與格羅方德簽 20 億美元、5 年協議，由格羅方德在紐約 Malta 為 CoWoS 生產矽中介層，2028 上半年放量。產能屬格羅方德（推估月約 1 萬片），不計入台積電；CoWoS 產能數字不變。' },
   { d: '2026-10-13', t: 'v1.7：CoWoS 2027 年逐廠重新評估（市場有 25 萬片之說）。依建照與進機時點調整：AP8 P2 為 2026 年初才取得建照的新建廠房，投產由 2027Q2 延到 2027 下半年、年底 4 萬改 2.5 萬；AP7 P2 依報導全面改做 CoWoS，年底 2 萬改 3 萬、滿載 4 萬；AP5B 滿載 2 萬提前到 2027 年底；AP6B 擴建（樓地板 +8.5 萬平方公尺）使 AP6 CoWoS 由 4.5 萬增至 5 萬；AP8 P1 由 4.5 萬增至 5 萬。2027 年底合計由 19.2 萬改為約 20.2 萬片，與設備商「至少 20 萬」一致；25 萬屬樂觀情境，需 AP8 P2 與 AP7 P3 同時提前，已在說明與觀察清單列出條件。2028 年底約 27.2 萬片（TrendForce 26 萬）。前段晶圓產能與校準不受影響。' },
   { d: '2026-10-05', t: 'v1.6：報導（Hoodline／BigGo 2026/9/30）稱台積電評估在德州達拉斯設第二個美國園區、最多 6 座先進晶圓廠、投資逾 2,650 億美元，董事會尚未核准、供應商未接獲通知；Musk 證實 Terafab 與台積電洽談合作。均未證實，僅列入觀察清單，不新增廠區；10/15 Q3 法說會再確認（含 2nm 年底月產能）。逐廠產能未變動。' },
   { d: '2026-10-01', t: 'v1.5：官方年產能校準改為逐季平滑（年中錨點、季間線性漸變），年產能仍為 2023 約 1,600 萬、2024 約 1,700 萬、2025／2026 各 1,750 萬片；原年度係數在 1Q25、1Q26 造成的 3–5% 假性下滑縮小至約 1%。IC 製造資料庫 Excel 逐廠表同步更新。' },
@@ -818,7 +820,9 @@ const SOURCES = {
   s54: ["Tom's Hardware：Musk 證實 Terafab 與台積電洽談合作（2026/10）", 'https://www.tomshardware.com/tech-industry/semiconductors/elon-musk-confirms-discussions-with-tsmc-about-terafab-chipmaking-collaboration-intel-is-the-only-other-named-partner-terafab-to-exclusively-supply-tesla-spacex-and-xai'],
   s55: ['DIGITIMES：台積電先進封裝擴產方向大改（AP8 新增 P2、AP7 P2／P3 改 CoWoS、美國封裝廠增至 4 座）（2026/1）', 'https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000745207_MT53FX0NLV1KJR8WHENZB'],
   s56: ['旺得富（工商時報）：台積電 CoWoS 拚 22 萬片、OSAT 同步擴軍（2026/10/8）', 'https://wantrich.chinatimes.com/news/20261008900006-420101'],
-  s57: ['abmedia：2027 年 CoWoS 至少 20 萬片、市場樂觀看 24–26 萬片', 'https://abmedia.io/tsmc-cowos-monthly-capacity-200k-2027']
+  s57: ['abmedia：2027 年 CoWoS 至少 20 萬片、市場樂觀看 24–26 萬片', 'https://abmedia.io/tsmc-cowos-monthly-capacity-200k-2027'],
+  s58: ['中央社：格芯將生產關鍵 AI 晶片零組件供台積電使用（矽中介層，20 億美元、5 年）（2026/10/8）', 'https://www.cna.com.tw/news/aopl/202610080370.aspx'],
+  s59: ['三立新聞：台積電釋單格芯 首度將先進封裝關鍵元件外包給對手（2026/10）', 'https://www.setn.com/news/1921248']
 };
 
 const SITES = [
@@ -1033,6 +1037,10 @@ const SITES = [
       cap:[{t:'2028Q4',k:'CoWoS',v:10},{t:'2029Q4',k:'CoWoS',v:20}] },
     { id:'AP2', st:'plan', nodes:'CoWoS 等', tech:['CoWoS'], mp:'2029–2030', ms:'許可申請中', full:'未計入', conf:'rep', cap:[] }
   ]},
+{ id:'GFINTP', code:'GF Malta', name:'格羅方德 Malta 矽中介層（外購）', kind:'partner', region:'US', loc:'美國紐約州 Malta（格羅方德 Fab 8 園區）', wafer:12, since:'2026/10 簽約', adv:'—', owner:'格羅方德（台積電為客戶）',
+  desc:'2026/10/8 台積電與格羅方德簽訂 20 億美元、初始 5 年的製造協議：格羅方德在 Malta 擴充產能，為台積電 CoWoS 生產矽中介層（含嵌入式深溝槽電容），2028 上半年放量，是美國第一個先進封裝用矽中介層來源。報導指這是台積電首度把先進封裝關鍵元件交給競爭對手生產，可紓解中介層瓶頸並支援亞利桑那封裝廠的在地供應。產能屬格羅方德，不計入台積電（詳見格羅方德頁）。',
+  warn:'官方未公布片數；格羅方德頁依合約金額回推滿載月約 1 萬片（0.8–1.3 萬），約占台積電 2028 年底 CoWoS 的 4%。CoWoS 封裝本身仍由台積電完成。', src:['s58','s59'],
+  phases:[{ id:'矽中介層代工', st:'build', nodes:'CoWoS 用矽中介層＋嵌入式深溝槽電容', tech:['CoWoS'], mp:'2028 上半年放量（官方）', ms:'2026/10/8 簽約；初始 5 年、可延長', full:'推估月約 1 萬片中介層晶圓（格羅方德產能，不計入）', conf:'off', cap:[] }] },
 { id:'L-BP', code:'白埔', name:'高雄白埔 先進封裝驗證基地', kind:'ap', region:'S', loc:'高雄 岡山／橋頭（白埔產業園區）', wafer:null, since:'2026 動工', adv:'—', owner:'台積電進駐 25 公頃',
   desc:'全台首創的先進封裝「Mini-Loop 實體驗證產線」，用於設備與材料協同驗證，並帶動 20 多家供應商進駐。總統於 2026/9/21 出席動土。', src:['s21','s5'],
   phases:[{ id:'全區', st:'build', nodes:'先進封裝設備／材料驗證線', tech:['Test'], mp:'—', ms:'2026/9/21 動土', full:'驗證用，非量產', conf:'off', cap:[] }] },
@@ -1133,6 +1141,7 @@ return {
   ],
   watch:[
     '2nm 2026 年底月產能：9–10 萬（TrendForce）或 12 萬片（經濟日報 2026/9/28）；10 月 Q3 法說會是否證實',
+    '格羅方德 Malta 矽中介層（2028 上半年放量）的實際片數，以及台積電是否再擴大外購中介層',
     'CoWoS 2027 年底：設備商 20 萬、法人 22 萬、樂觀 24–26 萬片；本頁逐廠推估約 20 萬。要到 25 萬，需 AP8 P2 在 2027 年內接近滿載、AP7 P3 提前改做 CoWoS 投產',
     'SoIC 2027 年目標由 2 萬上修至 5 萬片，但廠區分配尚未明朗',
     '嘉義 AP7 各期用途屢次調整（WMCM／SoIC／CoWoS／CoPoS）',
@@ -2061,8 +2070,9 @@ return {
 
 /* ---------------- 格羅方德 GlobalFoundries ---------------- */
 const GF = (() => {
-const META = { updated:'2026-10-12', checked:'2026-10-12', version:'v1.1' };
+const META = { updated:'2026-10-13', checked:'2026-10-13', version:'v1.2' };
 const CHANGELOG = [
+  { d:'2026-10-13', t:'v1.2：2026/10/8 格羅方德與台積電簽訂 20 億美元、初始 5 年的製造協議，在紐約 Malta 擴充產能，為台積電 CoWoS 生產矽中介層（含嵌入式深溝槽電容），2028 上半年開始放量，是美國第一個先進封裝用矽中介層來源。官方未公布片數與投資額；本頁以合約金額回推，在 Malta Fab 8 新增「台積電矽中介層」一期：2028Q2 0.3 萬、2028Q4 0.7 萬、2029Q2 滿載 1 萬片／月（推估），IC 製造資料庫 Excel 同步。' },
   { d:'2026-10-12', t:'v1.1：德勒斯登 Project SPRINT 2026/10/9 舉行上樑典禮，官方新聞稿明訂「2028 年底」年產能逾 100 萬片 300mm，並宣布在德勒斯登開發與生產 Physical AI 平台 FDX Fusion（7nm 級數位效能＋類比／RF／嵌入式記憶體，需德國聯邦核准 IPCEI 補助）。SPRINT 爬坡推估配合官方時點調整：滿載由 2028Q2 延到 2028Q4（2028Q2 由 9.2 改為 7.5 千片／月），IC 製造資料庫 Excel 同步。' },
   { d:'2026-10-05', t:'初版：德勒斯登 Fab 1、紐約 Malta Fab 8、新加坡 Fab 7（含 7H）與 8 吋 Fab 2／Fab 3/5、佛蒙特 Fab 9 逐廠盤點，另收錄 Malta 先進封裝與光子中心、新加坡 AMF 矽光子廠、中國在地代工夥伴、已出售的 Fab 10、擱置的法國 Crolles 合資廠與取消的成都廠；逐廠加總與 20-F 官方年產能對照。' }
 ];
@@ -2086,7 +2096,11 @@ const SOURCES = {
   g17:['eeNews Europe：ST 與 GF 擱置 Crolles 合資 FD-SOI 晶圓廠','https://www.eenewseurope.com/en/st-glofo-suspend-plan-for-joint-wafer-fab-say-reports/'],
   g18:['Wikipedia：GlobalFoundries（各廠沿革、Fab 10 出售、成都廠取消、AMF／MIPS 收購）','https://en.wikipedia.org/wiki/GlobalFoundries'],
   g19:['Semiconductor Today：GF 追加 30 億美元投資矽光子、先進封裝與 GaN（2025/6）','https://www.semiconductor-today.com/news_items/2025/jun/globalfoundries-300625.shtml'],
-  g20:['GF 新聞稿（via Finviz）：德勒斯登 SPRINT 上樑、2028 年底逾 100 萬片／年、FDX Fusion Physical AI 平台（2026/10/9）','https://finviz.com/news/400865/globalfoundries-marks-dresden-expansion-milestone-announces-next-generation-platform-for-physical-ai']
+  g20:['GF 新聞稿（via Finviz）：德勒斯登 SPRINT 上樑、2028 年底逾 100 萬片／年、FDX Fusion Physical AI 平台（2026/10/9）','https://finviz.com/news/400865/globalfoundries-marks-dresden-expansion-milestone-announces-next-generation-platform-for-physical-ai'],
+  g21:['中央社：格芯將生產關鍵 AI 晶片零組件供台積電使用（20 億美元、5 年、Malta、2028 上半年放量）（2026/10/8）','https://www.cna.com.tw/news/aopl/202610080370.aspx'],
+  g22:['鉅亨網：台積電 CoWoS 找來新幫手 格芯簽 20 億美元協議（矽中介層＋嵌入式深溝槽電容）（2026/10/8）','https://news.cnyes.com/news/id/6625992'],
+  g23:['The Register：TSMC taps GlobalFoundries for US silicon interposers in $2B deal（未公布片數、製程與投資額）（2026/10/8）','https://www.theregister.com/systems/2026/10/08/tsmc-taps-globalfoundries-to-bolster-us-silicon-interposer-production-in-2b-deal/5302061'],
+  g24:['The Deep Dive：GF 65PKG 中介層製程 2024/10 已在 Malta 通過量產驗證（2026/10）','https://thedeepdive.ca/tsmcs-2-billion-deal-with-rival-globalfoundries-builds-on-existing-us-interposer-production/']
 };
 const SITES = [
 { id:'GF1', code:'Fab 1', name:'德勒斯登 Fab 1（德國）', kind:'fab', region:'DE', loc:'德國 薩克森邦 德勒斯登', wafer:12, since:'2009（原 AMD Fab 30／36）', adv:'22FDX（22nm FD-SOI）', owner:'格羅方德', grp:'DD',
@@ -2099,13 +2113,16 @@ const SITES = [
       cap:[{t:'2027Q1',n:'W',v:3},{t:'2027Q3',n:'W',v:6},{t:'2028Q2',n:'W',v:7.5},{t:'2028Q4',n:'W',v:9.2}] }
   ]},
 { id:'GF8', code:'Fab 8', name:'紐約 Malta Fab 8（總部）', kind:'fab', region:'US', loc:'美國紐約州 Malta（Luther Forest 科技園區）', wafer:12, since:'2012', adv:'12LP+（12nm FinFET）', owner:'格羅方德', grp:'NY',
-  desc:'格羅方德總部與最先進的量產廠，2009 年動工、2012 年量產；官網列年產能 40 萬片（300mm 約當），生產 14／12nm FinFET、FDX、RF-SOI 與矽光子。2024 年 CHIPS 法案補助 15 億美元（另有紐約州 5.7 億美元），支持 Fab 8 擴建與園區內新建一座晶圓廠，兩項計畫在 10 年以上使 Malta 園區產能增為三倍；美國兩地合計投資計畫已上修至 160 億美元以上。2024 年第 4 季對 Malta 舊有產能提列減損。', src:['g5','g12','g13','g1','g15'],
-  warn:'擴建時程與規模視需求與補助里程碑而定；20-F 未公布 Fab 8 擴建與新廠的產能時程，本頁暫不計入。',
+  desc:'格羅方德總部與最先進的量產廠，2009 年動工、2012 年量產；官網列年產能 40 萬片（300mm 約當），生產 14／12nm FinFET、FDX、RF-SOI 與矽光子。2024 年 CHIPS 法案補助 15 億美元（另有紐約州 5.7 億美元），支持 Fab 8 擴建與園區內新建一座晶圓廠，兩項計畫在 10 年以上使 Malta 園區產能增為三倍；美國兩地合計投資計畫已上修至 160 億美元以上。2024 年第 4 季對 Malta 舊有產能提列減損。2026/10/8 與台積電簽訂 20 億美元、初始 5 年的製造協議，在 Malta 擴充產能為台積電 CoWoS 生產矽中介層（含嵌入式深溝槽電容），2028 上半年放量；格羅方德的 65PKG 中介層製程 2024/10 已在 Malta 通過量產驗證。', src:['g5','g12','g13','g1','g15','g21','g22','g23','g24'],
+  warn:'擴建時程與規模視需求與補助里程碑而定；20-F 未公布 Fab 8 擴建與新廠的產能時程，本頁暫不計入。台積電矽中介層的新增產能官方未公布片數，本頁依合約金額回推（見該期說明）。',
   phases:[
     { id:'既有產能', st:'op', nodes:'14／12nm FinFET、22FDX、RF-SOI、矽光子', tech:['FIN','FDX','RFSOI','SiPh'], mp:'2012 起', ms:'2026 法說：矽光子產能在既有廠房內擴充', full:'年 40 萬片＝月約 3.3 萬片（官方）', conf:'off',
       cap:[{t:'2023Q1',n:'W',v:33.3}] },
     { id:'Fab 8 擴建', st:'build', nodes:'特色製程（車用、IoT、國防）', tech:['FDX','RFSOI','SiPh'], mp:'未公布', ms:'2025 年達成 CHIPS 補助前兩個里程碑', full:'未公布（不計入）', conf:'off', cap:[] },
-    { id:'園區新廠', st:'plan', nodes:'未公布', tech:['CMOS'], mp:'未公布', ms:'CHIPS 補助項目之一；與 Fab 8 擴建合計 10 年以上使 Malta 產能增為三倍', full:'未計入', conf:'off', cap:[] }
+    { id:'園區新廠', st:'plan', nodes:'未公布', tech:['CMOS'], mp:'未公布', ms:'CHIPS 補助項目之一；與 Fab 8 擴建合計 10 年以上使 Malta 產能增為三倍', full:'未計入', conf:'off', cap:[] },
+    { id:'台積電矽中介層（新增）', st:'build', nodes:'CoWoS 用矽中介層（65PKG 級，含嵌入式深溝槽電容）', tech:['INTP','PKG'], mp:'2028 上半年放量（官方）', ms:'2026/10/8 與台積電簽約：20 億美元、初始 5 年、可延長；Malta 擴充產能（廠房位置與投資額未公布）', full:'月約 1 萬片（推估；區間 0.8–1.3 萬）', conf:'est',
+      warn:'官方只公布金額、年限與放量時點。合約 20 億美元、初始 5 年，2028 上半年放量；滿載年營收約 4 億美元。以格羅方德 2025 年平均每片約 3,000 美元（營收約 68 億美元÷出貨 230 萬片）回推約 13 萬片／年＝月約 1.1 萬片；單價若在 2,500–4,000 美元，區間為月 0.8–1.3 萬片。本頁取月 1 萬片（約占台積電 2028 年底 CoWoS 約 27 萬片的 4%）。中介層是晶圓製程（前段）產能，計入格羅方德晶圓產能；台積電端只把它當作外購料，不計入台積電 CoWoS 產能。',
+      cap:[{t:'2028Q2',n:'W',v:3},{t:'2028Q4',n:'W',v:7},{t:'2029Q2',n:'W',v:10}] }
   ]},
 { id:'GF7', code:'Fab 7／7H', name:'新加坡 Fab 7（12 吋，含 7H 擴建）', kind:'fab', region:'SG', loc:'新加坡 兀蘭（Woodlands）', wafer:12, since:'2005（Fab 7）／2023（7H）', adv:'40nm', owner:'格羅方德', grp:'SG7',
   desc:'原特許半導體（Chartered）的 12 吋廠，2010 年併入格羅方德；原 8 吋 Fab 6 改為 12 吋後併入 Fab 7。生產 130–40nm 特色 CMOS、RF-SOI、BCD、SiGe 與矽光子。7H 擴建投資約 40 億美元，2021/6 動工、2023/9/12 開幕、2024 下半年開始商業出貨，滿載後年增 45 萬片（月約 3.75 萬片）。2023 年開幕時新加坡現有 12 吋產能年 72 萬片（月 6 萬片），擴建後新加坡合計逾 150 萬片（300mm 約當）。', src:['g6','g8','g9','g2','g15'],
@@ -2159,13 +2176,13 @@ return {
   regions:['DE','US','SG','CN','FR'],
   groupsDef:[ {id:'grp', l:'依廠區', by:'grp', items:[['DD','德勒斯登 Fab 1'],['NY','Malta Fab 8'],['SG7','新加坡 Fab 7／7H'],['SG8','新加坡 8 吋'],['VT','佛蒙特 Fab 9']]}, {id:'region', l:'依地區', by:'region'}, {id:'wafer', l:'依尺寸', by:'wafer'} ],
   tableGroup:'grp',
-  techOrder:['FIN','FDX','CMOS','RFSOI','SiGe','BCD','SiPh','GaN','S8','PKG'],
-  techLabel:{ FIN:'14／12nm FinFET', FDX:'FD-SOI（22FDX）', CMOS:'特色 CMOS', RFSOI:'RF-SOI', SiGe:'SiGe', BCD:'BCD／電源', SiPh:'矽光子', GaN:'GaN', S8:'8 吋製程', PKG:'先進封裝' },
+  techOrder:['FIN','FDX','CMOS','RFSOI','SiGe','BCD','SiPh','GaN','INTP','S8','PKG'],
+  techLabel:{ INTP:'矽中介層（台積電 CoWoS）', FIN:'14／12nm FinFET', FDX:'FD-SOI（22FDX）', CMOS:'特色 CMOS', RFSOI:'RF-SOI', SiGe:'SiGe', BCD:'BCD／電源', SiPh:'矽光子', GaN:'GaN', S8:'8 吋製程', PKG:'先進封裝' },
   focus:'util', packaging:false,
   util:[['2023Q4',81,'2023 全年（20-F）'],['2024Q4',77,'2024 全年（20-F）'],['2025Q4',86,'2025 全年（20-F）'],['2026Q2',88,'法說：high 80s']],
   totalSub:'全部量產晶圓廠（8 吋以 ÷2.25 換算為 300mm 約當，與格羅方德官方口徑相同）；擴建爬坡為推估',
   chartsNote:'各據點產能取自格羅方德官網與 20-F（德勒斯登 95 萬、Malta 40 萬、佛蒙特 60 萬片 8 吋、新加坡 12 吋 72 萬＋7H 45 萬、8 吋 69.2 萬片／年）；7H 與德勒斯登擴建的爬坡為推估。',
-  cmp:{ fabs:'12吋 3（Fab 1、8、7）・8吋 4（Fab 2、3/5、9、AMF）；Fab 10 已售、Crolles 擱置', adv:'12LP+（12nm FinFET）', capex:'營收的 15–20%（2026）', focus:'德勒斯登 SPRINT、Malta 擴建與新廠、新加坡 7H、矽光子與 SiGe' },
+  cmp:{ fabs:'12吋 3（Fab 1、8、7）・8吋 4（Fab 2、3/5、9、AMF）；Fab 10 已售、Crolles 擱置', adv:'12LP+（12nm FinFET）', capex:'營收的 15–20%（2026）', focus:'德勒斯登 SPRINT、Malta 擴建與台積電矽中介層（2028）、新加坡 7H、矽光子與 SiGe' },
   RECON:[
     { l:'全公司裝機產能（官方）', when:'2023 年底', ref:218.2, refTxt:'2,618 千片／年（300mm 約當）', conf:'off', src:'g3', m:{q:'2023Q4'}, note:'官方「裝機產能」已扣除保養停機並依產品組合調整；本頁採各據點官網的名目產能' },
     { l:'全公司基礎產能（官方）', when:'2024 年底', ref:233.3, refTxt:'約 280 萬片／年', conf:'off', src:'g2', m:{q:'2024Q4'} },
@@ -2177,7 +2194,7 @@ return {
   notes:[
     '<span class="conf c-off">官方</span> 全公司產能取自 20-F：2023 年底裝機產能 2,618 千片／年、2024 年底基礎產能約 280 萬片、2025 年底約 280 萬片（300mm 約當）；利用率 2022 年 101%、2023 年 81%、2024 年 77%、2025 年 86%（出貨÷估計產能）。各據點年產能取自官網：德勒斯登 95 萬、Malta 40 萬、新加坡 150 萬（300mm 約當）、佛蒙特 60 萬片 200mm。',
     '<span class="conf c-rep">報導</span> 新加坡拆分取自 2023/9 7H 開幕時的公布值：12 吋 72 萬片、8 吋 69.2 萬片／年，7H 滿載年增 45 萬片。',
-    '<span class="conf c-est">推估</span> 7H（2024 下半年起）與德勒斯登 SPRINT（2026 年進機、2028 年底滿載）的季度爬坡；Malta 擴建、園區新廠、Vermont GaN 線、中國合作廠的產能未公布，不計入。',
+    '<span class="conf c-est">推估</span> 7H（2024 下半年起）與德勒斯登 SPRINT（2026 年進機、2028 年底滿載）的季度爬坡；Malta 台積電矽中介層（2028 上半年放量，依 20 億美元／5 年合約回推月約 1 萬片）。其餘 Malta 擴建、園區新廠、Vermont GaN 線、中國合作廠的產能未公布，不計入。',
     '換算：8 吋 ÷2.25＝300mm 約當，與格羅方德官方口徑相同（新加坡 72 萬＋45 萬＋69.2 萬÷2.25≈148 萬，對得上官方「逾 150 萬」）。',
     '本頁逐廠加總用的是官網名目產能，2023–2025 年與 20-F 官方總量差 −1%～＋3%（見「官方與報導總量對照」）。',
     '已出售或取消：Fab 3E（2019 年售予世界先進）、Fab 10（2023/2 售予安森美）、成都 Fab 11（2020 年取消）；法國 Crolles 合資廠報導已擱置。',
@@ -2185,6 +2202,7 @@ return {
   ],
   watch:[
     '德勒斯登 SPRINT 2026/10/9 上樑後的進機與爬坡（官方：2028 年底逾 100 萬片／年）；FDX Fusion 平台的 IPCEI 補助核准與量產時程',
+    'Malta 台積電矽中介層：實際片數、投資額與廠房（Fab 8 擴建或新廠），2028 上半年放量進度；合約是否擴大',
     'Malta Fab 8 擴建與園區新廠的產能與時程（10 年以上產能三倍）',
     '新加坡 7H 滿載與 300mm SiGe 平台驗證',
     '矽光子（AMF、Malta）與 SiGe（佛蒙特）擴產；資料中心光通訊需求',
