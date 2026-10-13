@@ -732,8 +732,9 @@ dialog.drawer::backdrop{background:rgba(8,12,16,.42)}
    選用：adv（先進節點圖設定）、cmpKeys（比較頁只計這些 key）、kpi（KPI 磚）、RECON（官方與報導總量對照）
    ===================================================================== */
 const NOW_Q = '2026Q4';
-const SITE_META = { version: 'v3.3', updated: '2026-10-12', checked: '2026-10-12' };
+const SITE_META = { version: 'v3.3', updated: '2026-10-13', checked: '2026-10-12' };
 const SITE_CHANGELOG = [
+  { d: '2026-10-13', t: '台積電 CoWoS 2027 年逐廠重新評估：2027 年底約 20.2 萬片（原 19.2 萬），25 萬片列為樂觀情境並說明需要的條件。' },
   { d: '2026-10-12', t: '每週更新：格羅方德德勒斯登 SPRINT 10/9 上樑、官方目標 2028 年底逾 100 萬片，擴建爬坡推估配合調整（Excel 同步）；英特爾 14A 時程依 Q2 法說更正為 2027H2 風險試產、2028 量產，補充 18A 良率約 80% 報導。其餘六家本週無影響產能的新消息（台積電 10/15 法說待確認）。' },
   { d: '2026-10-05', t: 'v3.3：新增格羅方德（GlobalFoundries，德勒斯登、Malta、新加坡、佛蒙特共 11 個據點，含已出售、擱置與取消的廠區），各據點產能採官網與 20-F 官方值，並與官方全公司產能對照；比較頁改為八家。IC 製造資料庫 Excel 的 GF 分頁新增逐廠產能表。' },
   { d: '2026-10-05', t: '每週更新：台積電德州達拉斯第二園區傳聞與 Musk Terafab 洽談（列入觀察）；世界先進 VSMC 第二期有望提前啟動、工期挑戰 18 個月。逐廠產能數字未變動；季度切換至 2026Q4。' },
@@ -748,8 +749,9 @@ const SITE_CHANGELOG = [
 
 /* ---------------- 台積電 TSMC ---------------- */
 const TSMC = (() => {
-const META = { updated: '2026-10-05', checked: '2026-10-12', version: 'v1.6', nowQ: '2026Q4' };
+const META = { updated: '2026-10-13', checked: '2026-10-13', version: 'v1.7', nowQ: '2026Q4' };
 const CHANGELOG = [
+  { d: '2026-10-13', t: 'v1.7：CoWoS 2027 年逐廠重新評估（市場有 25 萬片之說）。依建照與進機時點調整：AP8 P2 為 2026 年初才取得建照的新建廠房，投產由 2027Q2 延到 2027 下半年、年底 4 萬改 2.5 萬；AP7 P2 依報導全面改做 CoWoS，年底 2 萬改 3 萬、滿載 4 萬；AP5B 滿載 2 萬提前到 2027 年底；AP6B 擴建（樓地板 +8.5 萬平方公尺）使 AP6 CoWoS 由 4.5 萬增至 5 萬；AP8 P1 由 4.5 萬增至 5 萬。2027 年底合計由 19.2 萬改為約 20.2 萬片，與設備商「至少 20 萬」一致；25 萬屬樂觀情境，需 AP8 P2 與 AP7 P3 同時提前，已在說明與觀察清單列出條件。2028 年底約 27.2 萬片（TrendForce 26 萬）。前段晶圓產能與校準不受影響。' },
   { d: '2026-10-05', t: 'v1.6：報導（Hoodline／BigGo 2026/9/30）稱台積電評估在德州達拉斯設第二個美國園區、最多 6 座先進晶圓廠、投資逾 2,650 億美元，董事會尚未核准、供應商未接獲通知；Musk 證實 Terafab 與台積電洽談合作。均未證實，僅列入觀察清單，不新增廠區；10/15 Q3 法說會再確認（含 2nm 年底月產能）。逐廠產能未變動。' },
   { d: '2026-10-01', t: 'v1.5：官方年產能校準改為逐季平滑（年中錨點、季間線性漸變），年產能仍為 2023 約 1,600 萬、2024 約 1,700 萬、2025／2026 各 1,750 萬片；原年度係數在 1Q25、1Q26 造成的 3–5% 假性下滑縮小至約 1%。IC 製造資料庫 Excel 逐廠表同步更新。' },
   { d: '2026-09-29', t: 'v1.4：經濟日報（9/28）報導客戶追單 10–20%，2nm 家族 2026 年底月產能上看 12 萬片（新竹 2 座＋高雄 3 座同步放量），高於先前 9–10 萬片的說法；3nm 第 4 季近 18 萬片、2027 年 20–21 萬片與本頁一致。兩說並列於 F20／F22 與 N2 對照點，逐廠推估暫不調整（校準係數不變）。另補充 SEMICON Taiwan（2026/9）官方：全球約 20 座廠同時興建中。' },
@@ -813,7 +815,10 @@ const SOURCES = {
   s51: ['科技新報：台積電 2、3 奈米產能提升、亞利桑那新廠 2027 年加入（2026/9/21）', 'https://finance.technews.tw/2026/09/21/tsmcs-2nm-and-3nm-production-capacity-is-booming'],
   s52: ['TechTimes：TSMC 設備需求倍增、約 20 座廠同時興建（SEMICON Taiwan 2026，2026/9/4）', 'https://www.techtimes.com/articles/326625/20260904/tsmc-equipment-demand-doubled-fab-construction-workers-are-running-out.htm'],
   s53: ['Hoodline：台積電評估德州達拉斯第二個美國園區、傳最多 6 座先進晶圓廠（2026/9/30，報導；董事會未核准）', 'https://hoodline.com/2026/09/tsmc-eyes-dallas-for-six-new-chip-fabs-in-265-billion-texas-bet/'],
-  s54: ["Tom's Hardware：Musk 證實 Terafab 與台積電洽談合作（2026/10）", 'https://www.tomshardware.com/tech-industry/semiconductors/elon-musk-confirms-discussions-with-tsmc-about-terafab-chipmaking-collaboration-intel-is-the-only-other-named-partner-terafab-to-exclusively-supply-tesla-spacex-and-xai']
+  s54: ["Tom's Hardware：Musk 證實 Terafab 與台積電洽談合作（2026/10）", 'https://www.tomshardware.com/tech-industry/semiconductors/elon-musk-confirms-discussions-with-tsmc-about-terafab-chipmaking-collaboration-intel-is-the-only-other-named-partner-terafab-to-exclusively-supply-tesla-spacex-and-xai'],
+  s55: ['DIGITIMES：台積電先進封裝擴產方向大改（AP8 新增 P2、AP7 P2／P3 改 CoWoS、美國封裝廠增至 4 座）（2026/1）', 'https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000745207_MT53FX0NLV1KJR8WHENZB'],
+  s56: ['旺得富（工商時報）：台積電 CoWoS 拚 22 萬片、OSAT 同步擴軍（2026/10/8）', 'https://wantrich.chinatimes.com/news/20261008900006-420101'],
+  s57: ['abmedia：2027 年 CoWoS 至少 20 萬片、市場樂觀看 24–26 萬片', 'https://abmedia.io/tsmc-cowos-monthly-capacity-200k-2027']
 };
 
 const SITES = [
@@ -984,37 +989,40 @@ const SITES = [
   phases:[
     { id:'AP5A', st:'op', nodes:'CoWoS-S／L', tech:['CoWoS'], mp:'2023 起', ms:'—', full:'約 22（推估）', conf:'est',
       cap:[{t:'2023Q1',k:'CoWoS',v:3},{t:'2023Q4',k:'CoWoS',v:5},{t:'2024Q4',k:'CoWoS',v:12},{t:'2025Q4',k:'CoWoS',v:22}] },
-    { id:'AP5B', st:'ramp', nodes:'CoWoS', tech:['CoWoS'], mp:'2026H2 投產', ms:'CUP／FAB／OFFICE 均已取得使照（2026/5）', full:'約 15–20（推估）', conf:'est',
-      cap:[{t:'2026Q4',k:'CoWoS',v:8},{t:'2027Q2',k:'CoWoS',v:15},{t:'2028Q2',k:'CoWoS',v:20}] }
+    { id:'AP5B', st:'ramp', nodes:'CoWoS', tech:['CoWoS'], mp:'2026H2 投產', ms:'CUP／FAB／OFFICE 均已取得使照（2026/5）；2027 年全年裝機爬坡', full:'約 20（推估）', conf:'est',
+      cap:[{t:'2026Q4',k:'CoWoS',v:8},{t:'2027Q2',k:'CoWoS',v:15},{t:'2027Q4',k:'CoWoS',v:20}] }
   ]},
 { id:'AP6', code:'AP6', name:'先進封測六廠（竹南）', kind:'ap', region:'N', loc:'苗栗 竹南（竹科竹南園區）', wafer:null, since:'2023', adv:'—', owner:'台積電',
-  desc:'2023/6 啟用，是台積電第一座整合 SoIC、InFO、CoWoS 與先進測試的一站式 3DFabric 廠，年產能逾 100 萬片 12 吋約當（官方）。SoIC 月產能在 2026Q3 接近 1 萬片。', src:['s23','s27','s8','s5'],
+  desc:'2023/6 啟用，是台積電第一座整合 SoIC、InFO、CoWoS 與先進測試的一站式 3DFabric 廠，年產能逾 100 萬片 12 吋約當（官方）。SoIC 月產能在 2026Q3 接近 1 萬片。', src:['s23','s27','s8','s5','s56'],
   phases:[
-    { id:'AP6A', st:'op', nodes:'SoIC／CoWoS／InFO／Test', tech:['SoIC','CoWoS','InFO','Test'], mp:'2023/6 啟用', ms:'—', full:'CoWoS 約 40、SoIC 約 10（推估）', conf:'est',
-      cap:[{t:'2023Q3',k:'CoWoS',v:3},{t:'2023Q4',k:'CoWoS',v:5},{t:'2024Q4',k:'CoWoS',v:18},{t:'2025Q4',k:'CoWoS',v:38},{t:'2026Q4',k:'CoWoS',v:40},{t:'2027Q4',k:'CoWoS',v:45},
+    { id:'AP6A', st:'op', nodes:'SoIC／CoWoS／InFO／Test', tech:['SoIC','CoWoS','InFO','Test'], mp:'2023/6 啟用', ms:'—', full:'CoWoS 約 50（含 AP6B 擴建）、SoIC 約 12（推估）', conf:'est',
+      cap:[{t:'2023Q3',k:'CoWoS',v:3},{t:'2023Q4',k:'CoWoS',v:5},{t:'2024Q4',k:'CoWoS',v:18},{t:'2025Q4',k:'CoWoS',v:38},{t:'2026Q4',k:'CoWoS',v:40},{t:'2027Q2',k:'CoWoS',v:45},{t:'2027Q4',k:'CoWoS',v:50},
            {t:'2023Q4',k:'SoIC',v:2},{t:'2024Q4',k:'SoIC',v:4},{t:'2025Q4',k:'SoIC',v:8},{t:'2026Q3',k:'SoIC',v:10},{t:'2027Q2',k:'SoIC',v:12}] },
-    { id:'AP6B／C', st:'op', nodes:'SoIC／CoWoS 擴建', tech:['SoIC','CoWoS'], mp:'2025 起', ms:'AP6B 2024/12 取得使照，2026/4 變更設計再擴建；第三期已取得使照', full:'併入 AP6A 數字', conf:'rep', cap:[] }
+    { id:'AP6B／C', st:'op', nodes:'SoIC／CoWoS 擴建', tech:['SoIC','CoWoS'], mp:'2025 起', ms:'AP6B 2024/12 取得使照，2026/4/24 變更設計擴建（樓地板增加約 8.5 萬平方公尺）；第三期已取得使照', full:'併入 AP6A 數字（2027 年 CoWoS 由 4 萬增至約 5 萬，推估）', conf:'rep', cap:[] }
   ]},
 { id:'AP7', code:'AP7', name:'先進封測七廠（嘉義）', kind:'ap', region:'S', loc:'南科嘉義園區（一期、二期）', wafer:null, since:'2026', adv:'—', owner:'台積電',
-  desc:'將成為台積電最大的先進封裝基地，規劃多達 8 期，整合 WMCM、SoIC、CoWoS 與 CoPoS。各期用途歷經多次調整：P1 為 Apple 專用 WMCM；P2 原本主打 SoIC，報導指因 CoWoS 需求改為以 CoWoS 為主（另一說 P2 仍含約 1.2 萬片 SoIC）；二期 P3、P4 以 SoIC 為主。CoPoS 試產線的機台在 2026/2 起進駐，量產目標 2028–29 年。', warn:'各期編號與用途報導不一：2025 年底工商時報與 TrendForce 稱 P2 為 Apple WMCM、P1 以 SoIC 為主；2026 年的報導改稱 P1 為 WMCM、P2 由 SoIC 改以 CoWoS 為主。本頁採 2026 年的說法。', src:['s5','s8','s9','s10','s20','s27','s36'],
+  desc:'將成為台積電最大的先進封裝基地，規劃多達 8 期，整合 WMCM、SoIC、CoWoS 與 CoPoS。各期用途歷經多次調整：P1 為 Apple 專用 WMCM；P2 原本主打 SoIC，報導指因 CoWoS 需求改為以 CoWoS 為主（另一說 P2 仍含約 1.2 萬片 SoIC）；二期 P3、P4 以 SoIC 為主（DIGITIMES 2026/1 則稱 P2、P3 全數改做 CoWoS）。CoPoS 試產線的機台在 2026/2 起進駐，量產目標 2028–29 年。', warn:'各期編號與用途報導不一：2025 年底工商時報與 TrendForce 稱 P2 為 Apple WMCM、P1 以 SoIC 為主；2026 年的報導改稱 P1 為 WMCM、P2 由 SoIC 改以 CoWoS 為主。本頁採 2026 年的說法。', src:['s5','s8','s9','s10','s20','s27','s36','s55'],
   phases:[
     { id:'P1', st:'ramp', nodes:'WMCM（Apple）', tech:['WMCM'], mp:'2026 投產', ms:'已裝機試營運', full:'未公布（非 CoWoS）', conf:'rep', cap:[] },
-    { id:'P2', st:'build', nodes:'CoWoS＋SoIC', tech:['CoWoS','SoIC'], mp:'2026 年底起', ms:'2026/6 進機', full:'CoWoS 約 30、SoIC 約 12（推估）', conf:'est',
-      cap:[{t:'2026Q4',k:'CoWoS',v:5},{t:'2027Q2',k:'CoWoS',v:12},{t:'2027Q4',k:'CoWoS',v:20},{t:'2028Q4',k:'CoWoS',v:30},
+    { id:'P2', st:'build', nodes:'CoWoS（主力）＋SoIC', tech:['CoWoS','SoIC'], mp:'2026 年底起；2027 量產（報導）', ms:'2026/6 進機；報導 P2 由 SoIC 全面改做 CoWoS，是 2027 年 CoWoS 主要增量之一', full:'CoWoS 約 40、SoIC 約 12（推估）', conf:'est',
+      warn:'P2 是否仍保留 SoIC 說法不一（DIGITIMES 2026/1：全數改 CoWoS；另一說仍含約 1.2 萬片 SoIC）。本頁 CoWoS 2027 年底 3 萬、2028 年底 4 萬，SoIC 維持原推估。',
+      cap:[{t:'2026Q4',k:'CoWoS',v:5},{t:'2027Q2',k:'CoWoS',v:15},{t:'2027Q4',k:'CoWoS',v:30},{t:'2028Q4',k:'CoWoS',v:40},
            {t:'2026Q4',k:'SoIC',v:4},{t:'2027Q2',k:'SoIC',v:8},{t:'2027Q4',k:'SoIC',v:12}] },
-    { id:'P3（二期）', st:'build', nodes:'SoIC', tech:['SoIC'], mp:'2028（推估）', ms:'二期環評 2026/2 通過；P3 建照 2026/6/1 核發', full:'約 20–25（推估）', conf:'est',
+    { id:'P3（二期）', st:'build', nodes:'SoIC（報導可能改 CoWoS）', tech:['SoIC','CoWoS'], mp:'2028（推估）', ms:'二期環評 2026/2 通過；P3 建照 2026/6/1 核發、10/8 變更設計', full:'約 20–25（推估）', conf:'est',
+      warn:'用途說法不一：建照與方格子（2026/10）仍列 SoIC；DIGITIMES（2026/1）稱 P3 與 P2 一起改做 CoWoS。2026/6 才取得建照，依新建廠房工期，2027 年底前難有量產產能；本頁維持 2028 年起以 SoIC 計。',
       cap:[{t:'2028Q2',k:'SoIC',v:10},{t:'2028Q4',k:'SoIC',v:20},{t:'2029Q2',k:'SoIC',v:25}] },
     { id:'P4（二期）', st:'plan', nodes:'SoIC（CoPoS 另有規劃）', tech:['SoIC','CoPoS'], mp:'2029（推估）', ms:'FAB／CUP 建照 2026/7–9 核發；另有報導指 P4 用於 CoPoS，2028 年底出貨', full:'約 20（推估）', conf:'est',
       cap:[{t:'2029Q1',k:'SoIC',v:10},{t:'2029Q3',k:'SoIC',v:20}] },
     { id:'P5–P8', st:'plan', nodes:'SoIC／CoWoS／CoPoS', tech:['SoIC','CoWoS','CoPoS'], mp:'未定', ms:'P5 規劃中；另規劃嘉義二期約 6 座 3D 封裝廠', full:'未計入', conf:'rep', cap:[] }
   ]},
 { id:'AP8', code:'AP8', name:'先進封測八廠（台南）', kind:'ap', region:'S', loc:'南科台南園區（原群創廠房＋三期）', wafer:null, since:'2025', adv:'—', owner:'台積電',
-  desc:'2024/8/15 以 171.4 億元買下群創南科 4 廠（5.5 代 LCD 廠，建物面積約 31.7 萬平方公尺）後改建，樓地板面積約為 AP6 的 9 倍，主攻 CoWoS-L。P1 到 2026 年底月產能逾 4 萬片；P2、P3 位於南科三期。', src:['s5','s8','s26','s27','s36','s44'],
+  desc:'2024/8/15 以 171.4 億元買下群創南科 4 廠（5.5 代 LCD 廠，建物面積約 31.7 萬平方公尺）後改建，樓地板面積約為 AP6 的 9 倍，主攻 CoWoS-L。P1 到 2026 年底月產能逾 4 萬片；P2、P3 位於南科三期，都是 CoWoS 廠，2026/2–3 取得建照（共 5 張）。', src:['s5','s8','s26','s27','s36','s44','s55'],
   phases:[
-    { id:'P1', st:'ramp', nodes:'CoWoS-L', tech:['CoWoS'], mp:'2025H2 投產', ms:'2026 年底月產能逾 4 萬片', full:'約 40–45', conf:'rep',
-      cap:[{t:'2025Q3',k:'CoWoS',v:3},{t:'2025Q4',k:'CoWoS',v:10},{t:'2026Q2',k:'CoWoS',v:25},{t:'2026Q4',k:'CoWoS',v:45}] },
-    { id:'P2', st:'build', nodes:'CoWoS', tech:['CoWoS'], mp:'2027', ms:'建照已取得（4–5 月變更設計），趕工中', full:'約 30–40（推估）', conf:'est',
-      cap:[{t:'2027Q2',k:'CoWoS',v:15},{t:'2027Q4',k:'CoWoS',v:40}] },
+    { id:'P1', st:'ramp', nodes:'CoWoS-L', tech:['CoWoS'], mp:'2025H2 投產', ms:'2026 年底月產能逾 4 萬片；2027 年在既有廠房內小幅加裝（推估）', full:'約 45–50', conf:'rep',
+      cap:[{t:'2025Q3',k:'CoWoS',v:3},{t:'2025Q4',k:'CoWoS',v:10},{t:'2026Q2',k:'CoWoS',v:25},{t:'2026Q4',k:'CoWoS',v:45},{t:'2027Q4',k:'CoWoS',v:50}] },
+    { id:'P2', st:'build', nodes:'CoWoS', tech:['CoWoS'], mp:'2027 下半年起（推估）', ms:'2026/2–3 取得建照、4–5 月變更設計，趕工中', full:'約 40（推估）', conf:'est',
+      warn:'新建廠房：2026 年初才取得建照，即使比照 AP8 P1 的趕工速度，最快 2027 年中進機、下半年投產。本頁推估 2027 年底 2.5 萬、2028 年中 4 萬片（原推估 2027Q2 即有 1.5 萬、年底 4 萬，偏快）。',
+      cap:[{t:'2027Q3',k:'CoWoS',v:5},{t:'2027Q4',k:'CoWoS',v:25},{t:'2028Q2',k:'CoWoS',v:40}] },
     { id:'P3', st:'build', nodes:'CoWoS', tech:['CoWoS'], mp:'2028（推估）', ms:'2026/6/17 建照變更設計；已列入擴產藍圖', full:'約 30–35（推估）', conf:'est',
       cap:[{t:'2028Q2',k:'CoWoS',v:15},{t:'2028Q4',k:'CoWoS',v:35}] }
   ]},
@@ -1080,7 +1088,7 @@ const BENCH = {
   N3:  [['2025Q4',150,'逾 15 萬'],['2026Q4',180,'約 18 萬'],['2027Q2',210,'21 萬'],['2028Q4',300,'逾 30 萬']],
   N5:  [['2025Q4',165,'16–17 萬'],['2026Q4',140,'減 2–3 萬']],
   A14: [['2028Q4',65,'6–7 萬（F20＋F25 初期）']],
-  CoWoS: [[2023,13,'1.3 萬'],[2024,32.5,'3–3.5 萬'],[2025,75,'7–8 萬'],[2026,127.5,'12.5–13 萬（另有 14 萬之說）'],[2027,200,'至少 20 萬（另有 17 萬、24–26 萬）'],[2028,260,'26 萬']],
+  CoWoS: [[2023,13,'1.3 萬'],[2024,32.5,'3–3.5 萬'],[2025,75,'7–8 萬'],[2026,127.5,'12.5–13 萬（另有 14 萬之說）'],[2027,200,'至少 20 萬（設備商，DIGITIMES 2026/7）；法人 22 萬（2026/10）；樂觀 24–26 萬；另有 17 萬'],[2028,260,'26 萬']],
   SoIC:  [[2024,4,'4 千'],[2025,8,'8 千'],[2026,12.5,'1–1.5 萬'],[2027,50,'上修至 5 萬']]
 };
 const OFFICIAL_TOTAL = [['2023','約 1,600 萬片／年'],['2024','約 1,700 萬片／年'],['2025','1,700–1,800 萬片／年（20-F：逾 1,700 萬）'],['2026','預估 1,700–1,800 萬片（年報）']];
@@ -1117,6 +1125,7 @@ return {
     '官方總量校準（2026-09-25 建立，2026-10-01 改為逐季平滑）：未校準的逐廠加總比官方低 5–11%（2023 年 1,458 萬、2024 年 1,520 萬、2025 年 1,620 萬片）。本頁把非官方廠區（JASM、ESMC 除外）乘上校準係數，使年產能等於 20-F／年報：<b>2023 約 1,600 萬、2024 約 1,700 萬、2025 與 2026 取區間中值 1,750 萬片</b>（12 吋約當）。係數以各年年中為錨點（2023 ×1.092、2024 ×1.130、2025 ×1.085、2026 ×1.028），季與季之間線性漸變；原本採「年度係數」，每年 Q1 換係數時會造成約 3–5% 的假性下滑（台積電不公布季度產能，Q1 實際並未減產），已改掉。官方口徑為台積電及子公司所擁有及管理的晶圓廠，不含 SSMC 與封裝廠；12 吋＝2.25 片 8 吋、6 吋÷1.78＝8 吋約當，本頁換算相同。各期原始推估保存在資料的 cap0。',
     '「規劃中」但未公布節點與時程的基地（沙崙、龍潭三期、竹東、F22 P6/P8/P9、亞利桑那 P5 以後），只列在清單中，<b>不計入產能圖</b>。',
     '先進封裝產能以「CoWoS／SoIC 晶圓片數」計，不與前段晶圓產能相加；InFO、WMCM、CoPoS 只做文字標示。',
+    'CoWoS 2027 年底逐廠評估（2026-10-13）：AP2 0.5、AP5A 2.2、AP5B 2.0、AP6 5.0、AP7 P2 3.0、AP8 P1 5.0、AP8 P2 2.5 萬片，合計約 20.2 萬片，與設備商「至少 20 萬」一致、低於法人 22 萬與樂觀 25 萬。25 萬情境需同時做到：AP8 P2 年底 4–4.5 萬（+1.5–2 萬）、AP7 P2 4 萬（+1 萬）、AP7 P3 提前投產 0.5–1 萬、AP8 P1 與 AP6 各再加 0.5 萬；其中 AP8 P2（2026 年初才取得建照）與 AP7 P3（2026/6 取得建照）的工期是主要限制。本頁不含日月光、Amkor 等外包的 CoWoS 類產能。',
     'A16 屬 2nm 家族（與 N2P 同為 2nm-class），本頁併入「N2 家族」計算。',
     '不含轉投資公司：SSMC（持股 38.8%）、世界先進（20-F 為 27.6%；2026/5 出售 8.1% 後約 19%）、采鈺（67%，非晶圓代工）。',
     '官方（2026/7 Q2 法說會）：未來數年將在台灣興建 13 座先進製程與先進封裝廠；A14 2027 年預量產、2028 年量產；A13／A12 2029 年量產；2026 年資本支出 600–640 億美元。SEMICON Taiwan（2026/9）：台灣、美國、日本、德國約 20 座廠同時興建中，為過去每年 5–6 座的 4–5 倍。',
@@ -1124,7 +1133,7 @@ return {
   ],
   watch:[
     '2nm 2026 年底月產能：9–10 萬（TrendForce）或 12 萬片（經濟日報 2026/9/28）；10 月 Q3 法說會是否證實',
-    'CoWoS 2027 年底目標：各方說法從 17 萬、20 萬到 24–26 萬片不等',
+    'CoWoS 2027 年底：設備商 20 萬、法人 22 萬、樂觀 24–26 萬片；本頁逐廠推估約 20 萬。要到 25 萬，需 AP8 P2 在 2027 年內接近滿載、AP7 P3 提前改做 CoWoS 投產',
     'SoIC 2027 年目標由 2 萬上修至 5 萬片，但廠區分配尚未明朗',
     '嘉義 AP7 各期用途屢次調整（WMCM／SoIC／CoWoS／CoPoS）',
     '中科 F25 時程：官方為 2028 年量產；媒體報導最快 2027 年底試產',
